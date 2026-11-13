@@ -154,3 +154,6 @@ Both are Pipeline jobs, definition "Pipeline script from SCM", Git, your repo, b
 
 Run each job once by hand (it will fail on the empty parameters, which is fine) so Jenkins registers the parameters; after that the REST API can start them. Jenkins needs `git`, `zip`, `jq`, `terraform` and the AWS CLI, which `scripts/bootstrap-jenkins.sh` already installs.
 
+## 18. Cleanup of expired deployments
+Nothing new to create: the existing `pushpad-cleanup` job now has a third stage that destroys any deployment whose `ExpiresAt` tag has passed (and leftovers from failed runs). Run it once to confirm it finishes green.
+
