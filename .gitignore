@@ -4,3 +4,4 @@ node_modules
 *.zip
 version.json
 reports
+.terraform.lock.hcl
