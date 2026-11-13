@@ -1,0 +1,35 @@
+// PushPad cleanup job: every 5 minutes destroys previews whose branch was deleted or that are too old.
+pipeline {
+  agent any
+
+  triggers {
+    // Run roughly every 5 minutes.
+    cron('H/5 * * * *')
+  }
+
+  options {
+    disableConcurrentBuilds()
+    timeout(time: 30, unit: 'MINUTES')
+  }
+
+  environment {
+    AWS_DEFAULT_REGION = 'ap-south-1'
+    TF_IN_AUTOMATION   = '1'
+  }
+
+  stages {
+    // 1. Checkout: need the repo for scripts and for its remote URL (git ls-remote).
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    // 2. Destroy orphans: remove environments for deleted branches and previews older than 24h.
+    stage('Destroy orphaned previews') {
+      steps {
+        sh './scripts/cleanup.sh'
+      }
+    }
+  }
+}
