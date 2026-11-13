@@ -7,6 +7,7 @@ import { initPipeline } from './pipeline.js';
 import { initCursorGlow } from './cursor-glow.js';
 import { initCarousel } from './carousel.js';
 import { initFaq } from './faq.js';
+import { initPreloader } from './preloader.js';
 
 initReveal();
 initNavbar();
@@ -16,6 +17,7 @@ initPipeline();
 initCursorGlow();
 initCarousel();
 initFaq();
+initPreloader();
 
 // Footer year (set when the footer exists).
 const year = document.getElementById('year');
