@@ -1,0 +1,30 @@
+/* Base: fonts, reset, typography, focus, shared helpers */
+@font-face { font-family: "Orbitron"; font-weight: 700; font-display: swap; src: url("../assets/fonts/orbitron-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Orbitron"; font-weight: 900; font-display: swap; src: url("../assets/fonts/orbitron-latin-900-normal.woff2") format("woff2"); }
+@font-face { font-family: "Roboto Mono"; font-weight: 400; font-display: swap; src: url("../assets/fonts/roboto-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Roboto Mono"; font-weight: 500; font-display: swap; src: url("../assets/fonts/roboto-mono-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Roboto Mono"; font-weight: 700; font-display: swap; src: url("../assets/fonts/roboto-mono-latin-700-normal.woff2") format("woff2"); }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-mono); font-size: var(--fs-base); line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; }
+button, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+h1, h2, h3, p, ul, ol, dl, dd { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+
+/* Giant blocky display type: Orbitron 900 thickened with a stroke */
+.display { font-family: var(--font-display); font-weight: 900; text-transform: uppercase; letter-spacing: -.02em; line-height: .95; -webkit-text-stroke: .035em currentColor; }
+
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; box-shadow: 0 0 0 5px var(--orange); }
+.skip { position: absolute; left: -999px; top: 0; background: var(--ink); color: #fff; padding: 8px 16px; z-index: 200; }
+.skip:focus { left: 8px; top: 8px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Small label with the orange square bullet */
+.label { display: inline-flex; align-items: center; gap: 10px; font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: .08em; }
+.label::before { content: ""; width: 9px; height: 9px; background: var(--orange); flex-shrink: 0; }
+.muted { color: var(--muted); }
+.mono-num { font-variant-numeric: tabular-nums; }
