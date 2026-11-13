@@ -65,5 +65,15 @@ pipeline {
         '''
       }
     }
+
+    // 5. Upload to S3: put the zip in the artifacts bucket where the new EC2 will download it.
+    stage('Upload to S3') {
+      steps {
+        sh '''
+          . ./scripts/aws-env.sh
+          aws s3 cp "$ZIP_NAME" "s3://$ARTIFACTS_BUCKET/$ZIP_KEY"
+        '''
+      }
+    }
   }
 }
