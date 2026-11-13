@@ -1,5 +1,5 @@
 /* Pipeline: the 25% guide line fills orange as you scroll; each step sits on a 1:2:1 row */
-.steps { position: relative; background: var(--panel); }
+.steps { position: relative; }
 .pipe-fill { position: absolute; top: 0; left: calc(25% - 1px); width: 3px; height: calc(var(--p, 0) * 100%); background: var(--orange); z-index: 3; }
 .step { display: grid; grid-template-columns: 1fr 2fr 1fr; border-bottom: 1px solid var(--line); position: relative; min-height: 150px; }
 .step:last-child { border-bottom: 0; }
