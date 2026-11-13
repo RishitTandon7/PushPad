@@ -38,3 +38,17 @@
   .js .hero .sq { opacity: 1 !important; }
   .packet { opacity: 0; }
 }
+
+/* Scroll progress bar */
+.progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 300; pointer-events: none; }
+.progress i { display: block; height: 100%; background: var(--orange); transform: scaleX(0); transform-origin: left; }
+
+/* Grid lines draw themselves in as each band enters the viewport */
+.js .band, .js .band-head { border-bottom-color: transparent; }
+.js .band, .js .band-head { position: relative; }
+.js .band::after, .js .band-head::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--line); transform: scaleX(0); transform-origin: left; transition: transform .9s cubic-bezier(.7, 0, .2, 1); pointer-events: none; }
+.js .band.in-view::after, .js .band.in-view > .band-head::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) {
+  .progress { display: none; }
+  .js .band::after, .js .band-head::after { transform: scaleX(1); }
+}
