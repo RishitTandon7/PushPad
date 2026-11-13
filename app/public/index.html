@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/hero.css">
   <link rel="stylesheet" href="css/animations.css">
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -33,6 +34,64 @@
       </div>
     </header>
     <main id="main">
+      <section class="hero band" id="top" aria-labelledby="hero-title">
+        <h1 class="hero-title display" id="hero-title">PUSH<span class="us">_</span>BRANCH</h1>
+        <div class="hero-labels"><span class="label">Push a branch</span><span class="label">Get a server</span></div>
+        <div class="rail-btns" aria-label="Quick links">
+          <a class="icon-btn" href="#pipeline" aria-label="Pipeline"><img src="assets/icons/branch.svg" alt=""></a>
+          <a class="icon-btn" href="#live" aria-label="Live build"><img src="assets/icons/terminal.svg" alt=""></a>
+          <a class="icon-btn" href="#features" aria-label="Features"><img src="assets/icons/rocket.svg" alt=""></a>
+          <a class="icon-btn" href="#faq" aria-label="FAQ"><img src="assets/icons/shield.svg" alt=""></a>
+        </div>
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <p>Every Git branch gets its own live AWS environment, built by Terraform, triggered by Jenkins, destroyed on merge.</p>
+            <div><a class="btn" href="#live">See the live build</a></div>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <i class="sq" style="top:18px;left:18px"></i><i class="sq" style="top:18px;right:18px"></i>
+            <svg viewBox="0 0 400 400" fill="none" stroke="#161616" stroke-width="2" stroke-linejoin="round">
+              <path d="M200 0v70" stroke-dasharray="4 6"/>
+              <g><!-- bottom slab -->
+                <polygon points="200,250 290,290 200,330 110,290" fill="#fafafa"/>
+                <polygon points="110,290 200,330 200,364 110,324" fill="#d4d4d4"/>
+                <polygon points="200,330 290,290 290,324 200,364" fill="#bcbcbc"/>
+                <path d="M122 303l20 9M122 311l20 9" stroke-width="1.5"/>
+                <rect x="262" y="302" width="8" height="8" fill="#ff6a1a" stroke="none"/>
+              </g>
+              <g><!-- middle slab -->
+                <polygon points="200,160 290,200 200,240 110,200" fill="#fafafa"/>
+                <polygon points="110,200 200,240 200,274 110,234" fill="#d4d4d4"/>
+                <polygon points="200,240 290,200 290,234 200,274" fill="#bcbcbc"/>
+                <path d="M122 213l20 9M122 221l20 9" stroke-width="1.5"/>
+                <rect x="262" y="212" width="8" height="8" fill="#ff6a1a" stroke="none"/>
+                <polygon points="200,176 256,200 200,224 144,200" stroke="#ff6a1a" stroke-opacity=".9"/>
+                <polygon points="200,164 270,200 200,236 130,200" stroke="#ff6a1a" stroke-opacity=".4"/>
+              </g>
+              <g><!-- glowing orange core -->
+                <polygon points="200,149 230,166 200,183 170,166" fill="#ffb27d"/>
+                <polygon points="170,166 200,183 200,217 170,200" fill="#ff6a1a"/>
+                <polygon points="200,183 230,166 230,200 200,217" fill="#d94e00"/>
+              </g>
+              <g><!-- top slab -->
+                <polygon points="200,70 290,110 200,150 110,110" fill="#fafafa"/>
+                <polygon points="110,110 200,150 200,184 110,144" fill="#d4d4d4"/>
+                <polygon points="200,150 290,110 290,144 200,184" fill="#bcbcbc"/>
+                <path d="M122 123l20 9M122 131l20 9" stroke-width="1.5"/>
+                <rect x="262" y="122" width="8" height="8" fill="#ff6a1a" stroke="none"/>
+              </g>
+              <path d="M30 40h26M30 40v26M370 360h-26M370 360v-26"/>
+            </svg>
+          </div>
+          <div class="hero-side">
+            <div class="status-cell" id="status-cell" role="status">
+              <div class="row"><i class="dot"></i><span id="status-text">Connecting</span></div>
+              <b id="status-detail">Reading /version...</b>
+            </div>
+            <div class="hero-tile brackets"><span class="big">1:1</span><small>One server per branch</small></div>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
   <script type="module" src="js/main.js"></script>
