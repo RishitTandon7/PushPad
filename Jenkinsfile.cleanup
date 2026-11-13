@@ -1,5 +1,5 @@
 // PushPad cleanup job: every 5 minutes destroys branch previews that are orphaned or too old,
-// and short-term deployments whose 30 minutes are up.
+// and short-term deployments whose 10 minutes are up.
 pipeline {
   agent any
 

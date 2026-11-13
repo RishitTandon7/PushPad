@@ -179,7 +179,7 @@ function createService({ store, settings, jenkins, config, mock, baseUrl, now = 
       } else if (p.status === 'live') {
         next.url = p.url;
         next.liveAt = t;
-        next.expiresAt = new Date(now() + config.ttlMinutes * MIN).toISOString();   // the 30 minutes start when it goes live
+        next.expiresAt = new Date(now() + config.ttlMinutes * MIN).toISOString();   // the 10 minutes start when it goes live
         next.stages = d.stages.map((s) => ({ ...s, status: 'done', endedAt: s.endedAt || t }));
       } else if (p.status === 'failed') {
         next.error = d.error || clean(p.message || 'The deployment failed.');   // keep the stage's friendlier message

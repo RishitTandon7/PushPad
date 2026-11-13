@@ -136,6 +136,7 @@ resource "aws_instance" "app" {
     pushpad_mode      = var.env == "prod" ? "aws" : "mock" # previews simulate deployments; only prod talks to Jenkins and AWS
     deployments_table = var.deployments_table
     region            = var.region
+    max_active        = var.max_active_deployments
   })
   user_data_replace_on_change = true
 

@@ -85,7 +85,7 @@ pipeline {
       }
     }
 
-    // 7. Report URL: send the live URL to the control plane, which starts the 30-minute countdown.
+    // 7. Report URL: send the live URL to the control plane, which starts the 10-minute countdown.
     stage('Report URL') {
       steps {
         sh '''

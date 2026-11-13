@@ -101,7 +101,7 @@ Then terminate the Jenkins EC2 and release its Elastic IP. Buckets are versioned
 
 ---
 
-# Part 2: Quick Share (paste a repo, get a 30-minute link)
+# Part 2: Quick Share (paste a repo, get a 10-minute link)
 
 Do this after Part 1 works (Jenkins, buckets, the multibranch job and prod). It adds the control plane settings, two Jenkins jobs, and a few permissions.
 

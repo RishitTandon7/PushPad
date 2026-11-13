@@ -78,7 +78,7 @@
       <section class="hero band" id="top" aria-labelledby="hero-title">
         <h1 class="hero-title display" id="hero-title" data-text="PASTE_REPO">PASTE<span class="us">_</span>REPO</h1>
         <div class="hero-lede">
-          <p>Paste a GitHub repo. Get a live link for 30 minutes.</p>
+          <p>Paste a GitHub repo. Get a live link for 10 minutes.</p>
           <small>Share your code as a live site in 2 minutes. No setup, no env vars.</small>
         </div>
         <div class="deploy-zone" id="deploy-zone" data-view="form">
@@ -125,7 +125,7 @@
               </div>
               <div class="ring" role="timer" aria-label="Time left">
                 <svg viewBox="0 0 112 112" aria-hidden="true"><circle class="track-c" cx="56" cy="56" r="50"/><circle class="prog" id="ring-prog" cx="56" cy="56" r="50" stroke-dasharray="314.16" stroke-dashoffset="0"/></svg>
-                <span class="ring-text mono-num" id="ring-text">30:00</span>
+                <span class="ring-text mono-num" id="ring-text">10:00</span>
               </div>
             </div>
             <div class="run-error" id="run-error" role="alert" hidden>
@@ -136,7 +136,7 @@
             <div class="run-ended" id="run-ended" hidden><span id="run-ended-text"></span> <button class="copy-btn" type="button" data-new-deploy>Deploy another</button></div>
           </div>
         </div>
-        <p class="hero-facts"><b>~<span data-count="2">2</span> min</b> to live &middot; <b><span data-count="30">30</span> min</b> lifetime &middot; static + Node apps</p>
+        <p class="hero-facts"><b>~<span data-count="2">2</span> min</b> to live &middot; <b><span data-count="10">10</span> min</b> lifetime &middot; static + Node apps</p>
         <div class="examples">
           <span>Try an example:</span>
           <button class="example-chip" type="button" data-repo="https://github.com/RishitTandon7/pushpad" data-branch="main" data-subdir="examples/static-site">Static site</button>
@@ -150,7 +150,7 @@
           <li class="fstep"><span class="n">01</span><img src="assets/icons/branch.svg" alt=""><h3>Paste</h3><p>Paste a public GitHub repo URL and press Deploy.</p><span class="chip">GitHub</span></li>
           <li class="fstep"><span class="n">02</span><img src="assets/icons/shield.svg" alt=""><h3>Build</h3><p>Your source is cloned and checked. It is zipped, never run on our build server.</p><span class="chip">Jenkins</span></li>
           <li class="fstep"><span class="n">03</span><img src="assets/icons/rocket.svg" alt=""><h3>Live</h3><p>A small server starts just for you, and you get a link to share.</p><span class="chip">Terraform</span></li>
-          <li class="fstep"><span class="n">04</span><img src="assets/icons/clock.svg" alt=""><h3>Auto-delete</h3><p>After 30 minutes the server is destroyed. Nothing is left running.</p><span class="chip">AWS</span></li>
+          <li class="fstep"><span class="n">04</span><img src="assets/icons/clock.svg" alt=""><h3>Auto-delete</h3><p>After 10 minutes the server is destroyed. Nothing is left running.</p><span class="chip">AWS</span></li>
         </ol>
         <p class="tech-line">Under the hood: Jenkins clones and zips the source, Terraform creates one small EC2 per deployment, and a cleanup job destroys it when time is up.</p>
       </section>
@@ -164,7 +164,7 @@
           <article class="plan raised" data-tilt>
             <span class="tag orange">Available now</span>
             <h3>Quick Share</h3>
-            <p class="lead">Free &middot; 30 minutes</p>
+            <p class="lead">Free &middot; 10 minutes</p>
             <ul>
               <li>Public GitHub repos</li>
               <li>Static sites and Node apps</li>
@@ -201,9 +201,9 @@
   <aside class="drawer" id="faq-drawer" role="dialog" aria-modal="true" aria-labelledby="faq-title" aria-hidden="true">
     <div class="drawer-head"><h2 id="faq-title">FAQ</h2><button class="icon-btn" id="drawer-close" type="button" aria-label="Close FAQ"><img src="assets/icons/close.svg" alt=""></button></div>
     <div class="drawer-body faq">
-      <div class="faq-item"><h3><button class="faq-q" id="q1" aria-expanded="true" aria-controls="a1"><span class="qn">01</span><span class="qt">What is PushPad?</span><span class="qi" aria-hidden="true"></span></button></h3><div class="faq-a" id="a1" role="region" aria-labelledby="q1"><div><p>A way to share code as a live website. Paste a public GitHub repo, and PushPad builds a small server on AWS just for it and gives you a link that works for 30 minutes.</p></div></div></div>
+      <div class="faq-item"><h3><button class="faq-q" id="q1" aria-expanded="true" aria-controls="a1"><span class="qn">01</span><span class="qt">What is PushPad?</span><span class="qi" aria-hidden="true"></span></button></h3><div class="faq-a" id="a1" role="region" aria-labelledby="q1"><div><p>A way to share code as a live website. Paste a public GitHub repo, and PushPad builds a small server on AWS just for it and gives you a link that works for 10 minutes.</p></div></div></div>
       <div class="faq-item"><h3><button class="faq-q" id="q2" aria-expanded="false" aria-controls="a2"><span class="qn">02</span><span class="qt">What can I deploy?</span><span class="qi" aria-hidden="true"></span></button></h3><div class="faq-a" id="a2" role="region" aria-labelledby="q2"><div><p>Public GitHub repos that are either a static site (an index.html) or a Node app (a package.json with a start script that listens on the PORT it is given). Nothing else is built or compiled.</p></div></div></div>
-      <div class="faq-item"><h3><button class="faq-q" id="q3" aria-expanded="false" aria-controls="a3"><span class="qn">03</span><span class="qt">How long does my site live, and what are the limits?</span><span class="qi" aria-hidden="true"></span></button></h3><div class="faq-a" id="a3" role="region" aria-labelledby="q3"><div><p>30 minutes after it goes live, then the server is deleted. The free tier allows 3 active deployments across everyone, 1 per person at a time, and 3 deploys per hour per person.</p></div></div></div>
+      <div class="faq-item"><h3><button class="faq-q" id="q3" aria-expanded="false" aria-controls="a3"><span class="qn">03</span><span class="qt">How long does my site live, and what are the limits?</span><span class="qi" aria-hidden="true"></span></button></h3><div class="faq-a" id="a3" role="region" aria-labelledby="q3"><div><p>10 minutes after it goes live, then the server is deleted. The free tier allows a small number of active deployments across everyone (the demo account allows 1), 1 per person at a time, and 3 deploys per hour per person.</p></div></div></div>
       <div class="faq-item"><h3><button class="faq-q" id="q4" aria-expanded="false" aria-controls="a4"><span class="qn">04</span><span class="qt">Is it safe to run my code here?</span><span class="qi" aria-hidden="true"></span></button></h3><div class="faq-a" id="a4" role="region" aria-labelledby="q4"><div><p>Your code never runs on the build server. It runs on its own small AWS server with no SSH, no access to other deployments, and no secrets. That server can only read its own zip file and can only talk to the web.</p></div></div></div>
       <div class="faq-item"><h3><button class="faq-q" id="q5" aria-expanded="false" aria-controls="a5"><span class="qn">05</span><span class="qt">Why no environment variables or private repos?</span><span class="qi" aria-hidden="true"></span></button></h3><div class="faq-a" id="a5" role="region" aria-labelledby="q5"><div><p>This free version keeps things simple and safe. Environment variables, private repos through GitHub login, longer deployments and custom subdomains are planned for a Pro plan.</p></div></div></div>
       <div class="faq-item"><h3><button class="faq-q" id="q6" aria-expanded="false" aria-controls="a6"><span class="qn">06</span><span class="qt">How is this different from ngrok or Vercel?</span><span class="qi" aria-hidden="true"></span></button></h3><div class="faq-a" id="a6" role="region" aria-labelledby="q6"><div><p>ngrok tunnels your laptop, so it stops when your laptop does. PushPad builds a real cloud server that keeps running on its own. It is like Vercel preview deployments, but self-hosted on AWS with Jenkins and Terraform, and short-lived by design.</p></div></div></div>

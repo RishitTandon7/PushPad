@@ -8,7 +8,7 @@ describe('create', () => {
     const env = makeEnv();
     const { deployment, manageToken } = await env.service.create({ repoUrl: REPO, ip: '1.1.1.1' });
     expect(deployment).toMatchObject({ repo: 'octocat/Hello-World', branch: 'main', status: 'queued' });
-    expect(deployment.expiresAt).toBe(new Date(env.clock.t + 30 * MIN).toISOString());
+    expect(deployment.expiresAt).toBe(new Date(env.clock.t + 10 * MIN).toISOString());
     expect(deployment).not.toHaveProperty('ipHash');
     expect(deployment).not.toHaveProperty('tokenHash');
     expect(manageToken).toBeTruthy();
@@ -103,7 +103,7 @@ describe('manage token and early delete', () => {
 describe('callback state transitions', () => {
   const stageCb = (id, stage, status, extra = {}) => ({ deployId: id, stage, status, ...extra });
 
-  test('stages light up in order and the final url makes it live for 30 minutes', async () => {
+  test('stages light up in order and the final url makes it live for 10 minutes', async () => {
     const env = makeEnv();
     const { deployment } = await env.service.create({ repoUrl: REPO, ip: '1.1.1.1' });
     const id = deployment.id;
@@ -117,7 +117,7 @@ describe('callback state transitions', () => {
     expect(d.status).toBe('live');
     expect(d.url).toBe('http://203.0.113.7');
     expect(d.stages.every((s) => s.status === 'done')).toBe(true);
-    expect(d.expiresAt).toBe(new Date(env.clock.t + 30 * MIN).toISOString());
+    expect(d.expiresAt).toBe(new Date(env.clock.t + 10 * MIN).toISOString());
   });
 
   test('a failed stage fails the deployment with a cleaned message', async () => {
@@ -148,7 +148,7 @@ describe('expiry', () => {
     const env = makeEnv();
     const { deployment } = await env.service.create({ repoUrl: REPO, ip: '1.1.1.1' });
     await goLive(env.service, deployment.id);
-    env.clock.t += 29 * MIN;
+    env.clock.t += 9 * MIN;
     expect((await env.service.get(deployment.id)).status).toBe('live');
     env.clock.t += 2 * MIN;
     const d = await env.service.get(deployment.id);
