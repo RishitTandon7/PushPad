@@ -141,3 +141,6 @@ aws ssm put-parameter --region ap-south-1 --name /pushpad/public-base-url  --typ
 
 `public-base-url` is the prod URL printed by the pipeline; Jenkins posts its progress callbacks there. To turn the access code off, set `REQUIRE_ACCESS_CODE=false` for the app (the limits then are the only gate).
 
+## 16. Let the prod server reach Jenkins
+The control plane calls Jenkins on port 8080 from the prod instance. In the Jenkins security group add an inbound rule: TCP 8080 from `<prod-elastic-ip>/32`. (Callbacks go the other way, from Jenkins to prod port 80, which is already open.)
+
