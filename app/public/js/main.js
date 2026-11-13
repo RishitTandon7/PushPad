@@ -12,6 +12,7 @@ import { initDeploy } from './deploy.js';
 import { initTilt } from './tilt.js';
 import { initParallax } from './parallax.js';
 import { initLight } from './light.js';
+import { initDeployments } from './deployments.js';
 import { initPreloader } from './preloader.js';
 import { initHeroAnim } from './hero-anim.js';
 
@@ -29,6 +30,7 @@ initDeploy();
 initTilt();
 initParallax();
 initLight();
+initDeployments();
 initPreloader();
 
 // Footer year (set when the footer exists).

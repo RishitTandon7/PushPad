@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="css/runview.css">
   <link rel="stylesheet" href="css/depth.css">
   <link rel="stylesheet" href="css/pipeline.css">
+  <link rel="stylesheet" href="css/deployments.css">
   <link rel="stylesheet" href="css/faq.css">
   <link rel="stylesheet" href="css/footer.css">
   <link rel="stylesheet" href="css/preloader.css">
@@ -150,6 +151,10 @@
           <li class="fstep"><span class="n">04</span><img src="assets/icons/clock.svg" alt=""><h3>Auto-delete</h3><p>After 30 minutes the server is destroyed. Nothing is left running.</p><span class="chip">AWS</span></li>
         </ol>
         <p class="tech-line">Under the hood: Jenkins clones and zips the source, Terraform creates one small EC2 per deployment, and a cleanup job destroys it when time is up.</p>
+      </section>
+      <section class="band" id="deployments" aria-labelledby="dep-h">
+        <div class="band-head"><span class="label" data-scramble>02 / Deployments</span><h2 class="display" id="dep-h">Recent deployments</h2></div>
+        <div class="dep-strip" id="dep-strip" aria-live="polite"><p class="dep-empty">Loading...</p></div>
       </section>
       <section class="band" id="faq" aria-labelledby="faq-h">
         <div class="band-head"><span class="label" data-scramble>06 / FAQ</span><h2 class="display" id="faq-h">Questions</h2></div>
