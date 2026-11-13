@@ -119,5 +119,38 @@ pipeline {
         }
       }
     }
+
+    // 9. Health Check: wait for /health and confirm /version shows this build; on prod failure roll back.
+    stage('Health Check') {
+      steps {
+        script {
+          def rc = sh(script: './scripts/health-check.sh "$APP_URL" "$BUILD_NUMBER"', returnStatus: true)
+          if (rc == 0) {
+            if (env.ENV_TYPE == 'prod') {
+              // Record this build as the new known-good prod version.
+              sh '''
+                . ./scripts/aws-env.sh
+                printf '%s' "$ZIP_KEY" | aws s3 cp - "s3://$ARTIFACTS_BUCKET/prod/current.txt"
+              '''
+            }
+          } else if (env.ENV_TYPE == 'prod') {
+            // Automatic rollback: re-apply the previous healthy zip, then fail the build loudly.
+            dir('infra') {
+              sh '''
+                . ../scripts/aws-env.sh
+                PREV="$(aws s3 cp "s3://$ARTIFACTS_BUCKET/prod/previous.txt" - || true)"
+                if [ -z "$PREV" ]; then echo "No previous prod version to roll back to"; exit 0; fi
+                terraform apply -auto-approve -input=false \
+                  -var "app_version=$PREV" -var "branch=$BRANCH_NAME" -var "env=$ENV_TYPE" \
+                  -var "artifacts_bucket=$ARTIFACTS_BUCKET"
+              '''
+            }
+            error("Build ${env.BUILD_NUMBER} failed its health check. PROD was rolled back to the previous version.")
+          } else {
+            error("Build ${env.BUILD_NUMBER} failed its health check at ${env.APP_URL}")
+          }
+        }
+      }
+    }
   }
 }
