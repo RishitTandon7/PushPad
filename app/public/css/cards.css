@@ -1,5 +1,5 @@
 /* Cards: tag label, big centered name, 2x2 stat cells and an arrow cell */
-.cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-3); padding: var(--sp-4) var(--rail); }
+.cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-2); padding: var(--sp-3) var(--rail); }
 .card { position: relative; background: var(--panel); border: 1px solid var(--line); display: flex; flex-direction: column; transition: transform .2s, border-color .2s; }
 .card:hover { transform: translateY(-4px); border-color: var(--ink); }
 .card-name { flex: 1; min-height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: var(--sp-4) var(--sp-2) var(--sp-3); text-align: center; }
@@ -18,3 +18,17 @@
 /* Cursor-follow marker: a small orange square tracks the pointer inside the card */
 .card::after { content: ""; position: absolute; left: var(--mx, 50%); top: var(--my, 50%); width: 8px; height: 8px; margin: -4px 0 0 -4px; background: var(--orange); opacity: 0; pointer-events: none; transition: opacity .15s; }
 .card:hover::after { opacity: 1; }
+
+/* Features merged with comparison: compact cards with a three-cell PushPad / by hand / ngrok strip */
+.cards-grid .card-name { min-height: 130px; padding: 38px var(--sp-2) var(--sp-2); gap: 10px; }
+.cards-grid .card-name img { width: 34px; height: 34px; }
+.vs { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+.vs > div { padding: 10px 12px; border-right: 1px solid var(--line); min-width: 0; }
+.vs > div:last-child { border-right: 0; }
+.vs .us { background: #fff2ea; }
+.vs b { display: flex; align-items: center; gap: 8px; font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: .04em; }
+.vs b::before { content: ""; width: 9px; height: 9px; flex-shrink: 0; }
+.vs .yes::before { background: var(--green); }
+.vs .no::before { background: var(--red); }
+.vs .part::before { background: var(--amber); }
+.vs span { display: block; font-size: var(--fs-xs); color: var(--muted); }
