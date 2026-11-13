@@ -46,3 +46,4 @@
 .copy-btn, .link-btn { border: 1px solid var(--ink); background: var(--surface-1); color: var(--ink); padding: 11px 18px; font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: .06em; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; transition: background .15s, color .15s, transform .1s; }
 .copy-btn:hover, .link-btn:hover { background: var(--ink); color: #fff; }
 .copy-btn:active, .link-btn:active { transform: translateY(2px); }
+.run-log { --bk: var(--orange); }
