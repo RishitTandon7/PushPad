@@ -2,7 +2,7 @@
 
 **Share your code as a live site in 2 minutes. No setup, no env vars.**
 
-Paste a public GitHub repo, click Deploy, watch the pipeline run, and get a link that works for 30 minutes. Then the server is deleted. Think Vercel preview deployments, self-hosted on your own AWS with Jenkins and Terraform.
+Paste a public GitHub repo, click Deploy, watch the pipeline run, and get a link that works for 10 minutes. Then the server is deleted. Think Vercel preview deployments, self-hosted on your own AWS with Jenkins and Terraform.
 
 Tools: Git/GitHub, Jenkins, Terraform, AWS. No Docker, Kubernetes or Ansible. Region: set by one variable (default us-east-1).
 
@@ -10,7 +10,7 @@ PushPad does two jobs with the same pipeline ideas:
 
 | Mode | What it does | Entry point |
 |---|---|---|
-| **Quick Share** (the product) | Deploys any visitor's public repo for 30 minutes | `Jenkinsfile.deploy`, `Jenkinsfile.destroy` |
+| **Quick Share** (the product) | Deploys any visitor's public repo for 10 minutes | `Jenkinsfile.deploy`, `Jenkinsfile.destroy` |
 | **Branch previews** (the original) | Every branch of PushPad's own repo gets a temporary EC2, `main` goes to prod with approval and rollback | `Jenkinsfile`, `Jenkinsfile.cleanup` |
 
 ## Architecture
@@ -43,7 +43,7 @@ The control plane is the existing Express app (`app/`). It serves the website an
 | 4 | Upload to S3 | `deployments/<id>/app.zip` |
 | 5 | Terraform apply | Workspace `d-<id>`: one small EC2, IAM role limited to its own S3 folder |
 | 6 | Health check | Waits for the site to answer on port 80 |
-| 7 | Report URL | Control plane starts the 30-minute countdown |
+| 7 | Report URL | Control plane starts the 10-minute countdown |
 
 Every stage reports to `POST /api/internal/jenkins/callback`, and the UI shows those real updates (polled every 2 seconds). `Jenkinsfile.destroy` removes a deployment early; the cleanup job removes expired ones.
 
@@ -66,7 +66,7 @@ All limits live in one file, `app/config/limits.json`, read by both the app and 
 
 | Limit | Value |
 |---|---|
-| Lifetime | 30 minutes after going live (the server also shuts itself down) |
+| Lifetime | 10 minutes after going live (the server also shuts itself down) |
 | Active deployments, platform-wide | 3 |
 | Active per client | 1 |
 | Deploys per client per hour | 3 |
@@ -126,7 +126,7 @@ docs/             SETUP.md (do first), DEMO.md (3-minute demo)
 ## Cost notes
 
 - Always on: one Jenkins EC2 and one prod EC2 (plus its Elastic IP while attached). DynamoDB is on-demand and tiny. S3 is a few MB.
-- Deployments are small instances that live at most 30 minutes, capped at 3 at a time (about 3 instance-hours a day at full load).
+- Deployments are small instances that live at most 10 minutes, capped at 3 at a time (about 3 instance-hours a day at full load).
 - Instance type is a Terraform variable (default `t3.micro`; **`t2.micro` may be the free-tier type on older accounts**).
 - Set the budget alarm first, and run `scripts/destroy-all.sh` after the review.
 

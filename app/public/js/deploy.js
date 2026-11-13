@@ -20,7 +20,7 @@ const MESSAGES = {
   internal_error: 'Something went wrong on our side. Try again.',
 };
 
-let platform = { ttlMinutes: 30, requireAccessCode: false };
+let platform = { ttlMinutes: 10, requireAccessCode: false };
 let active = null;        // { id, token }
 let pollTimer = null;
 let tickTimer = null;
@@ -128,7 +128,7 @@ function tick() {
   const end = running ? now : new Date(last.liveAt || last.createdAt).getTime();
   $('run-timer').textContent = running ? fmt(now - new Date(last.createdAt).getTime()) : $('run-timer').textContent;
   if (last.status === 'live') {
-    const total = (platform.ttlMinutes || 30) * 60 * 1000;
+    const total = (platform.ttlMinutes || 10) * 60 * 1000;
     const remaining = Math.max(0, new Date(last.expiresAt).getTime() - now);
     $('ring-text').textContent = fmt(remaining);
     const circ = 2 * Math.PI * 50;

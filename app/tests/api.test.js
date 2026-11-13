@@ -118,7 +118,7 @@ describe('error hygiene', () => {
   test('platform info exposes limits and the access-code flag, no secrets', async () => {
     const { app } = makeEnv({ config: { requireAccessCode: true } });
     const res = await request(app).get('/api/platform');
-    expect(res.body).toMatchObject({ ttlMinutes: 30, maxActive: 3, requireAccessCode: true });
+    expect(res.body).toMatchObject({ ttlMinutes: 10, maxActive: 3, requireAccessCode: true });
     expect(JSON.stringify(res.body)).not.toMatch(/letmein|s3cret/);
   });
 });

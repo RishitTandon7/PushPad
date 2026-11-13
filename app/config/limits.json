@@ -1,5 +1,5 @@
 {
-  "ttlMinutes": 30,
+  "ttlMinutes": 10,
   "maxActive": 3,
   "maxActivePerIp": 1,
   "maxDeploysPerIpPerHour": 3,

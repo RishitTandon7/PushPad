@@ -16,7 +16,7 @@ if terraform -chdir="$tf_dir" workspace list | tr -d '* ' | grep -qx "$ws"; then
   # Variables are required by Terraform but unused by destroy, so dummy values are fine.
   terraform -chdir="$tf_dir" destroy -auto-approve -input=false -no-color -lock-timeout=60s \
     -var "deploy_id=${DEPLOY_ID}" -var "artifact_url=s3://${ARTIFACTS_BUCKET}/deployments/${DEPLOY_ID}/app.zip" \
-    -var "app_type=static" -var "ttl_minutes=30" > "$WORK/destroy.log" 2>&1 || { tail -n 5 "$WORK/destroy.log" || true; fail "Could not destroy the server."; }
+    -var "app_type=static" -var "ttl_minutes=10" > "$WORK/destroy.log" 2>&1 || { tail -n 5 "$WORK/destroy.log" || true; fail "Could not destroy the server."; }
   terraform -chdir="$tf_dir" workspace select default > /dev/null
   terraform -chdir="$tf_dir" workspace delete "$ws" > /dev/null
 fi

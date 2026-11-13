@@ -4,7 +4,7 @@ Before you start: prod is deployed and the Part 2 setup in `docs/SETUP.md` is do
 
 ## 1. The pitch (15 s)
 **Show:** the home page, then the EC2 console with no deployment instances.
-**Say:** "PushPad turns a GitHub repo into a live site for 30 minutes. Right now only Jenkins and prod are running, so there are no deployment servers."
+**Say:** "PushPad turns a GitHub repo into a live site for 10 minutes. Right now only Jenkins and prod are running, so there are no deployment servers."
 
 ## 2. Paste a repo and deploy (30 s)
 **Do:** paste `https://github.com/<you>/pushpad`, press **Options**, set Folder to `examples/static-site` (or press the **Static site** chip), enter the access code, press **Deploy**.
@@ -20,7 +20,7 @@ Before you start: prod is deployed and the Part 2 setup in `docs/SETUP.md` is do
 **Say:** "That is a real cloud server on its own public address, running as a non-root user, with no SSH and no secrets."
 
 ## 5. The countdown (15 s)
-**Show:** the 30:00 ring counting down.
+**Show:** the 10:00 ring counting down.
 **Say:** "It is deleted automatically at zero. The server also shuts itself down as a backup if the cleanup job were ever down."
 
 ## 6. Delete it early (30 s)

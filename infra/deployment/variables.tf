@@ -31,7 +31,7 @@ variable "app_type" {
 # How long the deployment may live; the server also shuts itself down after this (plus a small margin).
 variable "ttl_minutes" {
   type    = number
-  default = 30
+  default = 10
 }
 
 # Small and cheap; the control plane can raise it for a future paid plan.
