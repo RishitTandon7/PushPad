@@ -2,7 +2,7 @@
 .hero { position: relative; }
 .hero-title { --t: clamp(2.3rem, 9.2vw, 9.2rem); overflow: hidden; text-align: center; white-space: nowrap; font-size: var(--t); padding: .1em 0 .08em; border-bottom: 1px solid var(--line); }
 .hero-title .us { display: inline-block; font-size: 0; width: calc(var(--t) * .5); height: calc(var(--t) * .13); background: var(--orange); margin: 0 calc(var(--t) * .04); vertical-align: baseline; }
-.hero-lede { padding: 18px var(--rail); font-size: clamp(1rem, 1.5vw, 1.3rem); line-height: 1.55; max-width: 78ch; border-bottom: 1px solid var(--line); }
+.hero-lede { background: var(--bg); padding: 18px var(--rail); font-size: clamp(1rem, 1.5vw, 1.3rem); line-height: 1.55; max-width: 78ch; border-bottom: 1px solid var(--line); }
 .hero-grid { display: grid; grid-template-columns: 1fr 2fr 1fr; min-height: 400px; position: relative; }
 .hero-copy { padding: var(--sp-4) var(--rail); display: flex; flex-direction: column; justify-content: space-between; gap: var(--sp-3); }
 .hero-btns { display: flex; flex-direction: column; gap: var(--sp-2); align-items: flex-start; }
