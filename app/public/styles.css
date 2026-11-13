@@ -106,3 +106,6 @@ code { font-family: var(--mono); color: var(--accent-2); }
 .card p { margin: 0 0 1rem; color: var(--muted); }
 .tag { display: inline-block; font-family: var(--mono); font-size: .75rem; padding: .2rem .7rem; border: 1px solid var(--accent); border-radius: 999px; color: var(--accent-2); }
 
+/* §5 features: reuse cards, a little extra spacing at the end */
+#features .card p { margin-bottom: 0; }
+
