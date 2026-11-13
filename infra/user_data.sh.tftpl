@@ -1,0 +1,30 @@
+#!/bin/bash
+# Boot script: install Node, fetch the prebuilt zip, run it as a systemd service.
+set -euxo pipefail
+
+dnf install -y nodejs unzip
+
+# Download this build from S3 using the instance role (no keys).
+mkdir -p /opt/app
+aws s3 cp "s3://${artifacts_bucket}/${app_version}" /tmp/app.zip
+unzip -o /tmp/app.zip -d /opt/app
+
+# Runs as root so it can bind port 80 (simplest option for a demo; node_modules already in the zip).
+cat > /etc/systemd/system/pushpad.service <<UNIT
+[Unit]
+Description=PushPad app
+After=network-online.target
+
+[Service]
+Environment=PORT=80
+WorkingDirectory=/opt/app/app
+ExecStart=/usr/bin/node server.js
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
+UNIT
+
+systemctl daemon-reload
+systemctl enable --now pushpad
