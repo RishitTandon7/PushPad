@@ -27,5 +27,15 @@ pipeline {
         echo "Branch '${env.BRANCH_NAME}' -> workspace '${env.WS}' (${env.ENV_TYPE})"
       }
     }
+
+    // 2. Install and Lint: reproducible install from the lockfile, then ESLint.
+    stage('Install and Lint') {
+      steps {
+        dir('app') {
+          sh 'npm ci'
+          sh 'npm run lint'
+        }
+      }
+    }
   }
 }
