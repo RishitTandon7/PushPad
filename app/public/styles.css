@@ -89,3 +89,11 @@ code { font-family: var(--mono); color: var(--accent-2); }
 .pill.offline .dot { background: var(--red); }
 @keyframes pulse { 50% { opacity: .35; } }
 
+/* §3 tool row */
+.tools { text-align: center; padding: 2rem 1.25rem 1rem; }
+.eyebrow { color: var(--muted); text-transform: uppercase; letter-spacing: .2em; font-size: .75rem; }
+.tool-row { list-style: none; padding: 0; margin: 1rem 0 0; display: flex; flex-wrap: wrap; gap: 1rem 2.5rem; justify-content: center; }
+.tool-row li { display: flex; align-items: center; gap: .6rem; font-weight: 700; letter-spacing: .06em; color: var(--muted); transition: color .2s, transform .2s; }
+.tool-row li:hover { color: var(--text); transform: translateY(-2px); }
+.tool-row svg { width: 26px; height: 26px; stroke: var(--accent-2); fill: var(--accent-2); stroke-width: 1.6; }
+
