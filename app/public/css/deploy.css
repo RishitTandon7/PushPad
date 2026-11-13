@@ -1,0 +1,15 @@
+/* Deploy your own project: four numbered steps with copyable command blocks */
+.deploy-grid { display: grid; grid-template-columns: 1fr 1fr; background: var(--panel); }
+.dstep { position: relative; padding: var(--sp-3) var(--rail) var(--sp-3); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.dstep:nth-child(2n) { border-right: 0; }
+.dstep .n { font-family: var(--font-display); font-weight: 900; font-size: 2rem; line-height: 1; -webkit-text-stroke: .03em currentColor; }
+.dstep h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; text-transform: uppercase; }
+.dstep p { color: var(--muted); max-width: 60ch; }
+.dstep a { text-decoration-color: var(--orange); text-underline-offset: 4px; text-decoration-thickness: 2px; }
+.cmd { position: relative; margin-top: auto; background: var(--bg); border: 1px solid var(--line-strong); }
+.cmd pre { margin: 0; padding: 12px 84px 12px 14px; overflow-x: auto; font-size: var(--fs-sm); line-height: 1.7; }
+.cmd code { font-family: var(--font-mono); color: var(--ink); }
+.cmd .copy-btn { position: absolute; top: 8px; right: 8px; border: 1px solid var(--ink); background: var(--panel); color: var(--ink); padding: 2px 10px; font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .06em; }
+.cmd .copy-btn:hover { background: var(--ink); color: #fff; }
+.note { padding: 14px var(--rail); font-size: var(--fs-xs); color: var(--muted); }
+.dstep code { color: var(--ink); background: var(--bg); padding: 0 4px; }
