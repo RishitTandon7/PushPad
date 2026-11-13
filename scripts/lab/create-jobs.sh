@@ -4,15 +4,16 @@
 set -euo pipefail
 : "${JENKINS_URL:?}" "${JENKINS_USER:?}" "${JENKINS_PASSWORD:?}"
 OWNER="${REPO_OWNER:-RishitTandon7}"; REPO="${REPO_NAME:-PushPad}"
-JAR="$(mktemp)"; trap 'rm -f "$JAR"' EXIT
+winp() { if command -v cygpath >/dev/null; then cygpath -m "$1"; else echo "$1"; fi; }
+JAR="$(winp "$(mktemp)")"; trap 'rm -f "$JAR"' EXIT
 AUTH=(-u "$JENKINS_USER:$JENKINS_PASSWORD" -b "$JAR" -c "$JAR")
 CRUMB="$(curl -fsS "${AUTH[@]}" "$JENKINS_URL/crumbIssuer/api/json" | python -c 'import json,sys;d=json.load(sys.stdin);print(d["crumbRequestField"]+":"+d["crumb"])')"
 
 put_job() {  # name, xml file
-  if curl -fsS -o /dev/null "${AUTH[@]}" "$JENKINS_URL/job/$1/api/json"; then
-    curl -fsS -o /dev/null "${AUTH[@]}" -H "$CRUMB" -H 'Content-Type: application/xml' --data-binary "@$2" "$JENKINS_URL/job/$1/config.xml"; echo "updated $1"
+  if curl -sS -f "${AUTH[@]}" "$JENKINS_URL/job/$1/api/json" >/dev/null 2>&1; then
+    curl -fsS "${AUTH[@]}" -H "$CRUMB" -H 'Content-Type: application/xml' --data-binary "@$(winp "$2")" "$JENKINS_URL/job/$1/config.xml" >/dev/null; echo "updated $1"
   else
-    curl -fsS -o /dev/null "${AUTH[@]}" -H "$CRUMB" -H 'Content-Type: application/xml' --data-binary "@$2" "$JENKINS_URL/createItem?name=$1"; echo "created $1"
+    curl -fsS "${AUTH[@]}" -H "$CRUMB" -H 'Content-Type: application/xml' --data-binary "@$(winp "$2")" "$JENKINS_URL/createItem?name=$1" >/dev/null; echo "created $1"
   fi
 }
 
