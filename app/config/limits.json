@@ -1,0 +1,13 @@
+{
+  "ttlMinutes": 30,
+  "maxActive": 3,
+  "maxActivePerIp": 1,
+  "maxDeploysPerIpPerHour": 3,
+  "maxZipMb": 50,
+  "cloneTimeoutSeconds": 60,
+  "packageTimeoutSeconds": 120,
+  "applyTimeoutMinutes": 10,
+  "healthTimeoutSeconds": 180,
+  "requireAccessCode": true,
+  "instanceType": "t3.micro"
+}
