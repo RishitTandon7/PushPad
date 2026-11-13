@@ -13,3 +13,6 @@
 .fstep h3 { font-family: var(--font-display); font-weight: 700; font-size: clamp(.9rem, 1.2vw, 1.1rem); text-transform: uppercase; }
 .fstep p { color: var(--muted); font-size: var(--fs-sm); line-height: 1.5; flex: 1; }
 .fstep.on .chip { background: var(--ink); color: #fff; }
+
+/* One short line for technical visitors under the four steps */
+.tech-line { padding: var(--sp-2) var(--rail); border-top: 1px solid var(--line); font-size: var(--fs-sm); color: var(--muted); }
