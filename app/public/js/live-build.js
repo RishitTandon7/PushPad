@@ -1,5 +1,6 @@
 // Live build: poll /version every 10s, update the hero status cell and the terminal panel, type out a pipeline log.
 import { getVersion } from './api.js';
+import { copyWithFeedback } from './clipboard.js';
 
 const $ = (id) => document.getElementById(id);
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -100,15 +101,7 @@ async function poll() {
 // Copy the full commit hash to the clipboard.
 function initCopy() {
   const btn = $('copy-commit');
-  btn.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(lastCommit);
-      btn.textContent = 'Copied';
-    } catch {
-      btn.textContent = 'Copy failed';
-    }
-    setTimeout(() => { btn.textContent = 'Copy'; }, 1500);
-  });
+  btn.addEventListener('click', () => copyWithFeedback(btn, lastCommit));
 }
 
 export function initLiveBuild() {
