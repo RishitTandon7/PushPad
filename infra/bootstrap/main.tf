@@ -23,3 +23,8 @@ locals {
   state_bucket     = "pushpad-tfstate-${data.aws_caller_identity.me.account_id}"
   artifacts_bucket = "pushpad-artifacts-${data.aws_caller_identity.me.account_id}"
 }
+
+# Bucket that stores Terraform state for every workspace.
+resource "aws_s3_bucket" "state" {
+  bucket = local.state_bucket
+}
