@@ -2,8 +2,8 @@
 import { getVersion } from './api.js';
 
 const LINES = ['git push', 'webhook received', 'tests passed', 'terraform apply', 'health check ok'];
-const MIN_MS = 1300;   // shortest time the animation plays
-const CAP_MS = 3000;   // never wait longer than this for readiness
+const MIN_MS = 1100;   // shortest time the animation plays
+const CAP_MS = 2100;   // stop waiting for readiness here, so the whole preloader ends by about 3s
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const root = document.documentElement;
@@ -65,10 +65,10 @@ export async function initPreloader() {
     draw(total);
     fill.style.transform = 'scaleX(1)';
     count.textContent = '100';
-    await wait(220);
+    await wait(150);
     el.classList.add('out');
     openHero();
-    await wait(850);
+    await wait(800);
     done(el);
   };
 
@@ -87,5 +87,5 @@ export async function initPreloader() {
   requestAnimationFrame(frame);
 
   // Absolute safety net, even if animation frames are throttled (background tab).
-  setTimeout(finish, CAP_MS + 500);
+  setTimeout(finish, 2600);
 }
