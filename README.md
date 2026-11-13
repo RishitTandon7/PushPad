@@ -111,3 +111,15 @@ Mock mode simulates a full deployment through every stage, so the whole UI works
 
 Previews run the app in mock mode; only prod talks to Jenkins and DynamoDB.
 
+## Repo layout
+
+```
+app/              Express control plane: server.js, routes/, lib/, config/limits.json, public/ (the site), tests/
+infra/            branch previews and prod (Terraform), bootstrap/ (buckets + DynamoDB table)
+infra/deployment/ one EC2 per Quick Share deployment (the provider contract)
+scripts/          branch-preview helpers, bootstrap-jenkins.sh, destroy-all.sh, deploy/ (Quick Share pipeline steps)
+Jenkinsfile*      branch pipeline, cleanup, deploy, destroy
+examples/         static-site and node-app samples for the demo chips
+docs/             SETUP.md (do first), DEMO.md (3-minute demo)
+```
+
