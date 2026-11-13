@@ -31,3 +31,15 @@
   --shell: 1440px;       /* max page width */
   --rail: 32px;          /* page side padding inside the shell */
 }
+
+/* Three tonal levels: page, panel, raised panel (the deploy bar and the live URL card sit highest) */
+:root {
+  --surface-0: #e4e4e4;
+  --surface-1: #f4f4f4;
+  --surface-2: #fcfcfc;
+  --edge-light: rgba(255, 255, 255, .95);
+  --edge-dark: rgba(0, 0, 0, .18);
+  /* 1px light top edge, 1px darker bottom edge, one soft wide shadow underneath */
+  --shadow-raised: inset 0 1px 0 var(--edge-light), inset 0 -1px 0 var(--edge-dark), 0 30px 60px -26px rgba(22, 22, 22, .3);
+  --ease: cubic-bezier(.2, .8, .2, 1);
+}
