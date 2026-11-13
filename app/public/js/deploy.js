@@ -162,6 +162,7 @@ function startRun(d) {
   tick();
   tickTimer = setInterval(tick, 1000);
   pollTimer = setInterval(refresh, 2000);
+  setTimeout(refresh, 600);                              // first update quickly, then every 2s
 }
 
 function reset() {
