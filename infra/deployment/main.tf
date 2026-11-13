@@ -19,3 +19,38 @@ locals {
   bucket         = local.artifact_parts[0]
   prefix         = "deployments/${var.deploy_id}"
 }
+
+# Firewall: HTTP in, nothing else. No SSH, and outbound is limited to web traffic (DNS and metadata are not filtered by security groups).
+resource "aws_security_group" "site" {
+  name_prefix = "${local.name}-"
+  description = "PushPad deployment ${var.deploy_id}"
+  vpc_id      = data.aws_vpc.default.id
+
+  ingress {
+    description = "HTTP"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    description = "HTTP out (package mirrors)"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    description = "HTTPS out (S3, npm, dnf)"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
