@@ -98,5 +98,26 @@ pipeline {
         }
       }
     }
+
+    // 8. Terraform Apply: create/replace the environment with the new build; remember the prod rollback target.
+    stage('Terraform Apply') {
+      steps {
+        dir('infra') {
+          sh '''
+            . ../scripts/aws-env.sh
+            if [ "$ENV_TYPE" = "prod" ]; then
+              # Save the last healthy prod build as the rollback target (ignore on first deploy).
+              aws s3 cp "s3://$ARTIFACTS_BUCKET/prod/current.txt" "s3://$ARTIFACTS_BUCKET/prod/previous.txt" || true
+            fi
+            terraform apply -auto-approve -input=false \
+              -var "app_version=$ZIP_KEY" -var "branch=$BRANCH_NAME" -var "env=$ENV_TYPE" \
+              -var "artifacts_bucket=$ARTIFACTS_BUCKET"
+          '''
+          script {
+            env.APP_URL = sh(script: 'terraform output -raw url', returnStdout: true).trim()
+          }
+        }
+      }
+    }
   }
 }
