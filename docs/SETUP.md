@@ -157,3 +157,6 @@ Run each job once by hand (it will fail on the empty parameters, which is fine) 
 ## 18. Cleanup of expired deployments
 Nothing new to create: the existing `pushpad-cleanup` job now has a third stage that destroys any deployment whose `ExpiresAt` tag has passed (and leftovers from failed runs). Run it once to confirm it finishes green.
 
+## 19. Try it
+Open the prod URL, paste `https://github.com/<you>/pushpad`, open Options, set the folder to `examples/static-site`, enter the access code, and press Deploy. After about two minutes you get a link. Press Delete now, then check in the EC2 console that the instance is gone.
+
