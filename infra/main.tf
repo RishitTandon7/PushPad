@@ -81,6 +81,31 @@ resource "aws_iam_role_policy" "read_artifacts" {
   })
 }
 
+# Who is running Terraform: used to build the DynamoDB table ARN without hardcoding the account ID.
+data "aws_caller_identity" "me" {}
+
+# Prod only (the control plane): read and write the deployments table, and read /pushpad/* settings from Parameter Store.
+resource "aws_iam_role_policy" "control_plane" {
+  count = var.env == "prod" ? 1 : 0
+  name  = "control-plane"
+  role  = aws_iam_role.app.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = ["dynamodb:GetItem", "dynamodb:PutItem", "dynamodb:UpdateItem", "dynamodb:DeleteItem", "dynamodb:Scan", "dynamodb:Query"]
+        Resource = "arn:aws:dynamodb:${var.region}:${data.aws_caller_identity.me.account_id}:table/${var.deployments_table}"
+      },
+      {
+        Effect   = "Allow"
+        Action   = ["ssm:GetParameter", "ssm:GetParameters"]
+        Resource = "arn:aws:ssm:${var.region}:${data.aws_caller_identity.me.account_id}:parameter/pushpad/*"
+      }
+    ]
+  })
+}
+
 # Instance profile attaches the role to the EC2 instance.
 resource "aws_iam_instance_profile" "app" {
   name_prefix = "${local.name}-"
@@ -96,8 +121,11 @@ resource "aws_instance" "app" {
   associate_public_ip_address = true
 
   user_data = templatefile("${path.module}/user_data.sh.tftpl", {
-    artifacts_bucket = var.artifacts_bucket
-    app_version      = var.app_version
+    artifacts_bucket  = var.artifacts_bucket
+    app_version       = var.app_version
+    pushpad_mode      = var.env == "prod" ? "aws" : "mock" # previews simulate deployments; only prod talks to Jenkins and AWS
+    deployments_table = var.deployments_table
+    region            = var.region
   })
   user_data_replace_on_change = true
 
