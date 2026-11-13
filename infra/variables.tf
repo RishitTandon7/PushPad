@@ -38,11 +38,23 @@ variable "ssh_cidr" {
 # AWS region for all resources.
 variable "region" {
   type    = string
-  default = "ap-south-1"
+  default = "us-east-1"
 }
 
 # DynamoDB table (created in infra/bootstrap) where the control plane keeps deployment records.
 variable "deployments_table" {
   type    = string
   default = "pushpad-deployments"
+}
+
+# Lab mode: reuse an existing instance profile instead of creating IAM roles and policies.
+variable "use_existing_iam" {
+  type    = bool
+  default = true
+}
+
+# Name of the existing instance profile used when use_existing_iam is true.
+variable "existing_instance_profile" {
+  type    = string
+  default = "LabInstanceProfile"
 }

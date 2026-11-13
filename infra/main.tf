@@ -13,6 +13,7 @@ data "aws_vpc" "default" {
 }
 
 locals {
+  instance_profile = var.use_existing_iam ? data.aws_iam_instance_profile.existing[0].name : aws_iam_instance_profile.app[0].name
   # Workspace name doubles as the resource name prefix (e.g. pushpad-feature-new-roll).
   name = "pushpad-${terraform.workspace}"
 }
@@ -54,8 +55,9 @@ resource "aws_security_group" "app" {
   }
 }
 
-# IAM role EC2 can assume: replaces access keys on the server.
+# IAM role EC2 can assume: replaces access keys on the server (skipped in the lab, where an existing profile is used).
 resource "aws_iam_role" "app" {
+  count       = var.use_existing_iam ? 0 : 1
   name_prefix = "${local.name}-"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -69,8 +71,9 @@ resource "aws_iam_role" "app" {
 
 # Least privilege: the instance may only read the build zips.
 resource "aws_iam_role_policy" "read_artifacts" {
-  name = "read-artifacts"
-  role = aws_iam_role.app.id
+  count = var.use_existing_iam ? 0 : 1
+  name  = "read-artifacts"
+  role  = aws_iam_role.app[0].id
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
@@ -86,9 +89,9 @@ data "aws_caller_identity" "me" {}
 
 # Prod only (the control plane): read and write the deployments table, and read /pushpad/* settings from Parameter Store.
 resource "aws_iam_role_policy" "control_plane" {
-  count = var.env == "prod" ? 1 : 0
+  count = var.env == "prod" && !var.use_existing_iam ? 1 : 0
   name  = "control-plane"
-  role  = aws_iam_role.app.id
+  role  = aws_iam_role.app[0].id
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -106,10 +109,17 @@ resource "aws_iam_role_policy" "control_plane" {
   })
 }
 
+# Lab mode: look up the instance profile that already exists in the account (cannot create IAM there).
+data "aws_iam_instance_profile" "existing" {
+  count = var.use_existing_iam ? 1 : 0
+  name  = var.existing_instance_profile
+}
+
 # Instance profile attaches the role to the EC2 instance.
 resource "aws_iam_instance_profile" "app" {
+  count       = var.use_existing_iam ? 0 : 1
   name_prefix = "${local.name}-"
-  role        = aws_iam_role.app.name
+  role        = aws_iam_role.app[0].name
 }
 
 # The server itself: boots from user_data, so changing the build replaces the instance (immutable infra).
@@ -117,7 +127,7 @@ resource "aws_instance" "app" {
   ami                         = data.aws_ssm_parameter.al2023.value
   instance_type               = var.instance_type
   vpc_security_group_ids      = [aws_security_group.app.id]
-  iam_instance_profile        = aws_iam_instance_profile.app.name
+  iam_instance_profile        = local.instance_profile
   associate_public_ip_address = true
 
   user_data = templatefile("${path.module}/user_data.sh.tftpl", {

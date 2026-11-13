@@ -1,6 +1,6 @@
 # PushPad setup (do these in order)
 
-Region for everything: **ap-south-1 (Mumbai)**.
+Region for everything: **us-east-1 (N. Virginia)**.
 
 ## 1. AWS budget alarm (2 minutes)
 Billing console > Budgets > Create budget > Cost budget, monthly, e.g. **$5**, alert at 80% to your email.
@@ -15,7 +15,7 @@ No access keys are used anywhere; Jenkins gets credentials from this role.
   "Statement": [
     { "Sid": "Identity", "Effect": "Allow", "Action": "sts:GetCallerIdentity", "Resource": "*" },
     { "Sid": "AmiLookup", "Effect": "Allow", "Action": "ssm:GetParameter",
-      "Resource": "arn:aws:ssm:ap-south-1::parameter/aws/service/ami-amazon-linux-latest/*" },
+      "Resource": "arn:aws:ssm:us-east-1::parameter/aws/service/ami-amazon-linux-latest/*" },
     { "Sid": "Buckets", "Effect": "Allow",
       "Action": ["s3:*"],
       "Resource": ["arn:aws:s3:::pushpad-*", "arn:aws:s3:::pushpad-*/*"] },
@@ -110,7 +110,7 @@ Add one statement to the `pushpad-jenkins` policy from step 2, so the pipeline c
 
 ```json
 { "Sid": "PushPadSettings", "Effect": "Allow", "Action": ["ssm:GetParameter"],
-  "Resource": "arn:aws:ssm:ap-south-1:*:parameter/pushpad/*" }
+  "Resource": "arn:aws:ssm:us-east-1:*:parameter/pushpad/*" }
 ```
 
 Everything else the deployment pipeline needs is already covered: EC2, security groups and IAM roles named `pushpad-*` (deployments are named `pushpad-d-<id>`), S3 on `pushpad-*` buckets, and `ec2:Describe*` for the cleanup job. The prod instance gets DynamoDB and `/pushpad/*` read access from Terraform (`aws_iam_role_policy.control_plane` in `infra/main.tf`); you do not add that by hand.
@@ -131,12 +131,12 @@ Jenkins > your user (top right) > Configure > API Token > Add new Token. Copy it
 Run these on any machine with AWS access (replace the values in angle brackets; never commit them):
 
 ```bash
-aws ssm put-parameter --region ap-south-1 --name /pushpad/jenkins-url      --type String       --overwrite --value "http://<jenkins-ip>:8080"
-aws ssm put-parameter --region ap-south-1 --name /pushpad/jenkins-user     --type String       --overwrite --value "<your-jenkins-user>"
-aws ssm put-parameter --region ap-south-1 --name /pushpad/jenkins-token    --type SecureString --overwrite --value "<api-token-from-step-14>"
-aws ssm put-parameter --region ap-south-1 --name /pushpad/callback-secret  --type SecureString --overwrite --value "$(openssl rand -hex 24)"
-aws ssm put-parameter --region ap-south-1 --name /pushpad/access-code      --type SecureString --overwrite --value "<a-code-you-share-with-testers>"
-aws ssm put-parameter --region ap-south-1 --name /pushpad/public-base-url  --type String       --overwrite --value "http://<prod-elastic-ip>"
+aws ssm put-parameter --region us-east-1 --name /pushpad/jenkins-url      --type String       --overwrite --value "http://<jenkins-ip>:8080"
+aws ssm put-parameter --region us-east-1 --name /pushpad/jenkins-user     --type String       --overwrite --value "<your-jenkins-user>"
+aws ssm put-parameter --region us-east-1 --name /pushpad/jenkins-token    --type SecureString --overwrite --value "<api-token-from-step-14>"
+aws ssm put-parameter --region us-east-1 --name /pushpad/callback-secret  --type SecureString --overwrite --value "$(openssl rand -hex 24)"
+aws ssm put-parameter --region us-east-1 --name /pushpad/access-code      --type SecureString --overwrite --value "<a-code-you-share-with-testers>"
+aws ssm put-parameter --region us-east-1 --name /pushpad/public-base-url  --type String       --overwrite --value "http://<prod-elastic-ip>"
 ```
 
 `public-base-url` is the prod URL printed by the pipeline; Jenkins posts its progress callbacks there. To turn the access code off, set `REQUIRE_ACCESS_CODE=false` for the app (the limits then are the only gate).

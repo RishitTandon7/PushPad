@@ -1,3 +1,4 @@
+# The region comes from AWS_DEFAULT_REGION at init time, so it is never hardcoded here.
 # Remote state in S3 with native lockfile locking (Terraform >= 1.10); no DynamoDB needed.
 # The bucket name is NOT hardcoded: terraform init -backend-config="bucket=<name>".
 terraform {
@@ -7,7 +8,6 @@ terraform {
   }
   backend "s3" {
     key          = "pushpad/terraform.tfstate"
-    region       = "ap-south-1"
     encrypt      = true
     use_lockfile = true
   }

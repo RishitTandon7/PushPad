@@ -13,7 +13,8 @@ data "aws_vpc" "default" {
 }
 
 locals {
-  name = "pushpad-d-${var.deploy_id}"
+  instance_profile = var.use_existing_iam ? data.aws_iam_instance_profile.existing[0].name : aws_iam_instance_profile.site[0].name
+  name             = "pushpad-d-${var.deploy_id}"
   # Split s3://bucket/key into its parts so the role can be limited to this deployment's own folder.
   artifact_parts = regex("^s3://([^/]+)/(.+)$", var.artifact_url)
   bucket         = local.artifact_parts[0]
@@ -55,8 +56,9 @@ resource "aws_security_group" "site" {
   }
 }
 
-# Role the instance assumes, so no access keys exist on the server.
+# Role the instance assumes, so no access keys exist on the server (skipped in the lab).
 resource "aws_iam_role" "site" {
+  count       = var.use_existing_iam ? 0 : 1
   name_prefix = "${local.name}-"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -70,8 +72,9 @@ resource "aws_iam_role" "site" {
 
 # Least privilege: read ONLY this deployment's own folder in the artifacts bucket.
 resource "aws_iam_role_policy" "read_own_prefix" {
-  name = "read-own-artifact"
-  role = aws_iam_role.site.id
+  count = var.use_existing_iam ? 0 : 1
+  name  = "read-own-artifact"
+  role  = aws_iam_role.site[0].id
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
@@ -82,10 +85,17 @@ resource "aws_iam_role_policy" "read_own_prefix" {
   })
 }
 
+# Lab mode: look up the instance profile that already exists in the account.
+data "aws_iam_instance_profile" "existing" {
+  count = var.use_existing_iam ? 1 : 0
+  name  = var.existing_instance_profile
+}
+
 # Attaches the role to the instance.
 resource "aws_iam_instance_profile" "site" {
+  count       = var.use_existing_iam ? 0 : 1
   name_prefix = "${local.name}-"
-  role        = aws_iam_role.site.name
+  role        = aws_iam_role.site[0].name
 }
 
 # The server for one deployment: it downloads the zip, runs it as a non-root user on port 80, and terminates itself when time is up.
@@ -93,7 +103,7 @@ resource "aws_instance" "site" {
   ami                         = data.aws_ssm_parameter.al2023.value
   instance_type               = var.instance_type
   vpc_security_group_ids      = [aws_security_group.site.id]
-  iam_instance_profile        = aws_iam_instance_profile.site.name
+  iam_instance_profile        = local.instance_profile
   associate_public_ip_address = true
 
   # Safety net: a shutdown inside the instance terminates it, even if the cleanup job is down.

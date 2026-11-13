@@ -15,7 +15,7 @@ module.exports = {
   requireAccessCode: asBool(env.REQUIRE_ACCESS_CODE, limits.requireAccessCode),
   mock,
   awsMode: env.PUSHPAD_MODE === 'aws',
-  region: env.AWS_REGION || 'ap-south-1',
+  region: env.AWS_REGION || 'us-east-1',
   table: env.DEPLOYMENTS_TABLE || '',
   jenkinsDeployJob: env.JENKINS_DEPLOY_JOB || 'pushpad-deploy',
   jenkinsDestroyJob: env.JENKINS_DESTROY_JOB || 'pushpad-destroy',

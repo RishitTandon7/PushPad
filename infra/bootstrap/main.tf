@@ -13,7 +13,7 @@ provider "aws" {
 variable "region" {
   description = "AWS region for everything"
   type        = string
-  default     = "ap-south-1"
+  default     = "us-east-1"
 }
 
 # Account ID makes bucket names globally unique without hardcoding it.

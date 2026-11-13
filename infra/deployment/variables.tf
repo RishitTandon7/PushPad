@@ -43,5 +43,17 @@ variable "instance_type" {
 # AWS region for the deployment.
 variable "region" {
   type    = string
-  default = "ap-south-1"
+  default = "us-east-1"
+}
+
+# Lab mode: reuse an existing instance profile instead of creating IAM roles and policies.
+variable "use_existing_iam" {
+  type    = bool
+  default = true
+}
+
+# Name of the existing instance profile used when use_existing_iam is true.
+variable "existing_instance_profile" {
+  type    = string
+  default = "LabInstanceProfile"
 }

@@ -1,3 +1,4 @@
+# The region comes from AWS_DEFAULT_REGION at init time, so it is never hardcoded here.
 # Remote state for short-term deployments, kept separate from the branch-preview state in infra/.
 # One workspace per deployment (d-<id>); the bucket is passed with -backend-config="bucket=<name>".
 terraform {
@@ -7,7 +8,6 @@ terraform {
   }
   backend "s3" {
     key          = "pushpad/deployments.tfstate"
-    region       = "ap-south-1"
     encrypt      = true
     use_lockfile = true
   }

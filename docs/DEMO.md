@@ -1,6 +1,6 @@
 # PushPad demo script (about 3 minutes)
 
-Before you start: prod is deployed and the Part 2 setup in `docs/SETUP.md` is done. Open three tabs: the PushPad site, the AWS EC2 console (ap-south-1, filter `tag:ManagedBy = pushpad-deploy`), and Jenkins. Have your phone ready and know the access code.
+Before you start: prod is deployed and the Part 2 setup in `docs/SETUP.md` is done. Open three tabs: the PushPad site, the AWS EC2 console (us-east-1, filter `tag:ManagedBy = pushpad-deploy`), and Jenkins. Have your phone ready and know the access code.
 
 ## 1. The pitch (15 s)
 **Show:** the home page, then the EC2 console with no deployment instances.

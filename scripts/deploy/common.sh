@@ -5,7 +5,9 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-export AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION:-ap-south-1}"
+export AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION:-us-east-1}"
+export AWS_REGION="$AWS_DEFAULT_REGION"
+export TF_VAR_region="$AWS_DEFAULT_REGION"
 WORK="${WORKSPACE:-$PWD}/.deploy"        # scratch folder for this build
 mkdir -p "$WORK"
 
