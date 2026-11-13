@@ -134,7 +134,7 @@ describe('mock mode full run', () => {
       return d.status === 'live' ? d : null;
     });
     expect(live.stages.map((s) => s.status)).toEqual(Array(6).fill('done'));
-    expect(live.url).toMatch(new RegExp('^http://127\.0\.0\.1:\d+/mock/' + id + '$'));
+    expect(live.url).toMatch(new RegExp('^http://127\\.0\\.0\\.1:\\d+/mock/' + id + '$'));
     expect(live.logs.length).toBeGreaterThan(5);
 
     const site = await request(env.app).get('/mock/' + id);
