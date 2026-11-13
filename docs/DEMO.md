@@ -1,60 +1,38 @@
 # PushPad demo script (about 3 minutes)
 
-Before you start: Jenkins job `pushpad` and `pushpad-cleanup` exist, `main` has been deployed once, and you have the repo cloned locally. Keep three tabs open: AWS EC2 console (ap-south-1), Jenkins, and a terminal.
+Before you start: prod is deployed and the Part 2 setup in `docs/SETUP.md` is done. Open three tabs: the PushPad site, the AWS EC2 console (ap-south-1, filter `tag:ManagedBy = pushpad-deploy`), and Jenkins. Have your phone ready and know the access code.
 
-## 1. Show the empty state (20 s)
-**Do:** EC2 console, Instances.
-**Say:** "Only two servers exist: Jenkins and production. No preview servers yet."
+## 1. The pitch (15 s)
+**Show:** the home page, then the EC2 console with no deployment instances.
+**Say:** "PushPad turns a GitHub repo into a live site for 30 minutes. Right now only Jenkins and prod are running, so there are no deployment servers."
 
-## 2. Create a branch and change a dish price (20 s)
-```bash
-git checkout -b feature/new-roll
-sed -i 's/"price": 960/"price": 1040/' app/menu.json     # Dragon Roll price change
-git commit -am "feat: raise dragon roll price"
-git push -u origin feature/new-roll
-```
-**Say:** "I changed one price on a new branch and pushed it. That is all I do."
+## 2. Paste a repo and deploy (30 s)
+**Do:** paste `https://github.com/<you>/pushpad`, press **Options**, set Folder to `examples/static-site` (or press the **Static site** chip), enter the access code, press **Deploy**.
+**Say:** "No account, no config. The page switches to the live pipeline."
 
-## 3. Jenkins picks it up (40 s)
-**Do:** Jenkins > pushpad > feature%2Fnew-roll, open the running build (Stage View or Console).
-**Say:** "Jenkins scanned the repo and found the branch. Stages: lint, test, package the app into a zip with its dependencies, upload to S3, Terraform init, select a workspace named after the branch, apply. Terraform now creates an EC2."
-**Do:** switch to the EC2 console and refresh: a new instance `pushpad-feature-new-roll` appears with tags Branch, Env=preview.
+## 3. Watch the real stages (60 s)
+**Show:** the six stage cells lighting up, the log, and the timer. Flip to Jenkins to show the same build running.
+**Say:** "Clone, detect the project type, zip the source, upload to S3, Terraform creates one small EC2, then a health check. These updates are real callbacks from Jenkins, not an animation. Notice Jenkins only zips the code: it never runs it."
+**Do:** switch to the EC2 console and refresh: a new `pushpad-d-<id>` instance appears with tags `DeployId` and `ExpiresAt`.
 
-## 4. Open the preview (20 s)
-**Do:** click the URL in the build description (or Console, "LIVE:") and open it. Scroll to **Live build**: branch `feature/new-roll`, build number, commit, PREVIEW badge. Scroll to the menu carousel: Dragon Roll shows ₹1,040.
-**Say:** "That page is served by the new server. The status panel reads /version, which the pipeline wrote."
+## 4. Open it on your phone (30 s)
+**Do:** when the orange pulse runs along the grid, the live URL card appears. Press **Share** (or Copy) and open the link on your phone.
+**Say:** "That is a real cloud server on its own public address, running as a non-root user, with no SSH and no secrets."
 
-## 5. Show the test stage blocking bad code (30 s)
-```bash
-sed -i 's/"price": 1040/"price": -1/' app/menu.json
-git commit -am "test: break the menu on purpose"
-git push
-```
-**Do:** open the new build: it fails red in the **Test** stage and nothing is deployed.
-**Say:** "A negative price fails the menu test, so the pipeline stops before it can touch AWS. The preview from before is still healthy."
-```bash
-git reset --hard HEAD~1 && git push --force-with-lease    # undo the bad commit
-```
+## 5. The countdown (15 s)
+**Show:** the 30:00 ring counting down.
+**Say:** "It is deleted automatically at zero. The server also shuts itself down as a backup if the cleanup job were ever down."
 
-## 6. Delete the branch, environment disappears (30 s)
-```bash
-git checkout main
-git push origin --delete feature/new-roll
-git branch -D feature/new-roll
-```
-**Do:** run the `pushpad-cleanup` job now (it also runs every 5 minutes). Console shows `Destroyed environment for deleted branch feature/new-roll`; EC2 shows the instance terminating.
-**Say:** "Cleanup compares Terraform workspaces with the branches on GitHub and destroys the ones with no branch. The same job also removes previews older than 24 hours to protect the bill."
+## 6. Delete it early (30 s)
+**Do:** press **Delete now**. Show Jenkins running `pushpad-destroy`, then refresh the EC2 console: the instance is terminating and then gone.
+**Say:** "Deleting needs a one-time manage token that only this browser holds. The destroy job removes the server, the Terraform workspace and the S3 files."
 
-## 7. Main deploys to prod (30 s)
-```bash
-git checkout main
-sed -i 's/"price": 960/"price": 1040/' app/menu.json
-git commit -am "feat: raise dragon roll price"
-git push origin main
-```
-**Do:** the build pauses at **Deploy build N to PROD?**; click Deploy. After the health check, open the prod URL (an Elastic IP, so it never changes).
-**Say:** "Production needs a human approval. If the health check fails, the pipeline re-applies the previous known-good build automatically and fails the build."
+## 7. Show a failure and the limits (optional, 20 s)
+**Do:** paste a repo with no `index.html` or `start` script and press Deploy: the Detect stage fails with a plain message. Then open the **FAQ** drawer to show the limits (3 active, 1 per person, 3 per hour).
+**Say:** "Bad input fails early and clearly, and nothing is left running."
 
 ## Backup lines
-- "Why not Docker?": the course scope is Jenkins, Terraform and AWS; each environment is an immutable EC2 built from a zip.
-- If a build is slow, explain the stages while the EC2 boots (about 1 to 2 minutes).
+- "Why not Docker?": each deployment is its own immutable EC2, built by Terraform, which is the point of the course project.
+- "Is this safe?": untrusted code only ever runs on its own isolated instance, never on Jenkins.
+- If the build is slow, talk through the architecture diagram in the README while the EC2 boots (about 1 to 2 minutes).
+- No AWS handy? Run `cd app && npm start` and use mock mode: access code `demo`, the same UI and stages, and a repo named `fail` to show the error state.
