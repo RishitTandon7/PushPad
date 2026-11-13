@@ -40,3 +40,9 @@ variable "region" {
   type    = string
   default = "ap-south-1"
 }
+
+# DynamoDB table (created in infra/bootstrap) where the control plane keeps deployment records.
+variable "deployments_table" {
+  type    = string
+  default = "pushpad-deployments"
+}
