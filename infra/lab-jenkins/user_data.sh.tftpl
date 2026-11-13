@@ -1,0 +1,10 @@
+#!/bin/bash
+# First boot of the lab Jenkins host: clone the repo, then run the repo's bootstrap scripts.
+exec > >(tee -a /var/log/pushpad-bootstrap.log) 2>&1
+set -eu
+export AWS_DEFAULT_REGION="${region}"
+dnf install -y git
+if [ ! -d /opt/pushpad/.git ]; then git clone "${repo_url}" /opt/pushpad; fi
+cd /opt/pushpad
+./scripts/bootstrap-jenkins.sh
+./scripts/lab/jenkins-setup.sh
