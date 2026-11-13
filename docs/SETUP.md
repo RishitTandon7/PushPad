@@ -124,3 +124,6 @@ cd infra/bootstrap && terraform apply     # adds table "pushpad-deployments" (on
 
 Then deploy `main` once more (Jenkins `pushpad` job, approve the prod step) so the prod instance picks up the new role policy and environment (`PUSHPAD_MODE=aws`, `DEPLOYMENTS_TABLE`).
 
+## 14. Create a Jenkins API token
+Jenkins > your user (top right) > Configure > API Token > Add new Token. Copy it once. The control plane uses it to start the deploy and destroy jobs through the REST API.
+
