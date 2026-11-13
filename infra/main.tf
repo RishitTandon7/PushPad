@@ -116,3 +116,17 @@ resource "aws_instance" "app" {
     ignore_changes = [tags["CreatedAt"]]
   }
 }
+
+# Prod only: a fixed public IP so the prod URL never changes.
+resource "aws_eip" "prod" {
+  count  = var.env == "prod" ? 1 : 0
+  domain = "vpc"
+  tags   = { Name = local.name, ManagedBy = "pushpad" }
+}
+
+# Attach the Elastic IP to the current prod instance.
+resource "aws_eip_association" "prod" {
+  count         = var.env == "prod" ? 1 : 0
+  instance_id   = aws_instance.app.id
+  allocation_id = aws_eip.prod[0].id
+}
