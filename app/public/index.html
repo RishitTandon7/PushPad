@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="css/marquee.css">
   <link rel="stylesheet" href="css/stats.css">
   <link rel="stylesheet" href="css/pipeline.css">
+  <link rel="stylesheet" href="css/cards.css">
   <link rel="stylesheet" href="css/animations.css">
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -123,6 +124,17 @@
           <li class="step"><div class="step-num"><span class="n">05</span><img src="assets/icons/server.svg" alt=""></div><div class="step-body"><h3>Terraform Apply</h3><p>A fresh EC2 boots from the zip in its own workspace.</p></div><div class="step-tag"><span class="chip">Terraform</span></div></li>
           <li class="step"><div class="step-num"><span class="n">06</span><img src="assets/icons/terminal.svg" alt=""></div><div class="step-body"><h3>Health Check</h3><p>Jenkins checks /health and /version, then shares the URL.</p></div><div class="step-tag"><span class="chip">Jenkins</span></div></li>
         </ol>
+      </section>
+      <section class="band" id="features" aria-labelledby="feat-h">
+        <div class="band-head"><span class="label">02 / Features</span><h2 class="display reveal" id="feat-h">Features</h2><p class="reveal">Everything a real platform does, small enough to explain.</p></div>
+        <ul class="cards-grid">
+          <li class="card reveal"><span class="tag">Preview</span><div class="card-name"><img src="assets/icons/branch.svg" alt=""><h3>Branch previews</h3><p>One temporary EC2 and URL per branch.</p></div><div class="card-stats"><div class="cell"><b>1</b><span>EC2 per branch</span></div><div class="cell"><b>~2 min</b><span>Time to URL</span></div><div class="cell"><b>30</b><span>Max name chars</span></div><div class="cell"><b>:80</b><span>HTTP port</span></div><a class="arrow-cell" href="#pipeline" aria-label="See the pipeline"><img src="assets/icons/arrow.svg" alt=""></a></div></li>
+          <li class="card reveal"><span class="tag">Cleanup</span><div class="card-name"><img src="assets/icons/clock.svg" alt=""><h3>Auto-destroy on merge</h3><p>Delete the branch and its server disappears.</p></div><div class="card-stats"><div class="cell"><b>5 min</b><span>Cleanup cycle</span></div><div class="cell"><b>0</b><span>Leftover servers</span></div><div class="cell"><b>git</b><span>ls-remote check</span></div><div class="cell"><b>S3</b><span>Zips deleted too</span></div><a class="arrow-cell" href="#faq" aria-label="Read the FAQ"><img src="assets/icons/arrow.svg" alt=""></a></div></li>
+          <li class="card reveal"><span class="tag dark">Prod</span><div class="card-name"><img src="assets/icons/lock.svg" alt=""><h3>Prod approval gate</h3><p>Main waits for a human click.</p></div><div class="card-stats"><div class="cell"><b>1</b><span>Click to deploy</span></div><div class="cell"><b>30 min</b><span>Approval timeout</span></div><div class="cell"><b>main</b><span>Only branch</span></div><div class="cell"><b>EIP</b><span>Fixed prod URL</span></div><a class="arrow-cell" href="#pipeline" aria-label="See the pipeline"><img src="assets/icons/arrow.svg" alt=""></a></div></li>
+          <li class="card reveal"><span class="tag dark">Safety</span><div class="card-name"><img src="assets/icons/rollback.svg" alt=""><h3>Auto rollback</h3><p>A failed health check restores the last good build.</p></div><div class="card-stats"><div class="cell"><b>3 min</b><span>Health window</span></div><div class="cell"><b>2</b><span>Pointer files</span></div><div class="cell"><b>1</b><span>Re-apply</span></div><div class="cell"><b>0</b><span>Manual steps</span></div><a class="arrow-cell" href="#compare" aria-label="See the comparison"><img src="assets/icons/arrow.svg" alt=""></a></div></li>
+          <li class="card reveal"><span class="tag">State</span><div class="card-name"><img src="assets/icons/server.svg" alt=""><h3>Remote state with locking</h3><p>Terraform state in S3, one apply at a time.</p></div><div class="card-stats"><div class="cell"><b>S3</b><span>State backend</span></div><div class="cell"><b>1</b><span>Workspace per branch</span></div><div class="cell"><b>lock</b><span>Native lockfile</span></div><div class="cell"><b>AES</b><span>Encrypted</span></div><a class="arrow-cell" href="#faq" aria-label="Read the FAQ"><img src="assets/icons/arrow.svg" alt=""></a></div></li>
+          <li class="card reveal"><span class="tag orange">Cost</span><div class="card-name"><img src="assets/icons/clock.svg" alt=""><h3>Cost guard</h3><p>Old previews are destroyed automatically.</p></div><div class="card-stats"><div class="cell"><b>24h</b><span>Max preview age</span></div><div class="cell"><b>2</b><span>Always-on EC2</span></div><div class="cell"><b>t3</b><span>Micro default</span></div><div class="cell"><b>alarm</b><span>Budget alert</span></div><a class="arrow-cell" href="#faq" aria-label="Read the FAQ"><img src="assets/icons/arrow.svg" alt=""></a></div></li>
+        </ul>
       </section>
     </main>
   </div>
