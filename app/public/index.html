@@ -16,7 +16,6 @@
   <link rel="stylesheet" href="css/toolrow.css">
   <link rel="stylesheet" href="css/pipeline.css">
   <link rel="stylesheet" href="css/cards.css">
-  <link rel="stylesheet" href="css/deploy.css">
   <link rel="stylesheet" href="css/faq.css">
   <link rel="stylesheet" href="css/cta.css">
   <link rel="stylesheet" href="css/footer.css">
@@ -146,22 +145,6 @@
           <li class="fstep"><span class="n">05</span><img src="assets/icons/server.svg" alt=""><h3>Create server</h3><p>A fresh server boots from the zip.</p><span class="chip">Terraform</span></li>
           <li class="fstep"><span class="n">06</span><img src="assets/icons/terminal.svg" alt=""><h3>Check and share</h3><p>Jenkins confirms it works and prints the URL.</p><span class="chip">Jenkins</span></li>
         </ol>
-      </section>
-      <section class="band" id="deploy" aria-labelledby="deploy-h">
-        <div class="band-head"><span class="label" data-scramble>04 / Deploy</span><h2 class="display" id="deploy-h">Deploy your own project</h2></div>
-        <ol class="deploy-grid">
-          <li class="dstep reveal"><span class="n">01</span><h3>Get the code</h3><p>Fork or clone the PushPad repo.</p>
-            <div class="cmd"><pre><code>git clone https://github.com/RishitTandon7/pushpad.git</code></pre><button class="copy-btn" type="button" aria-label="Copy command">Copy</button></div></li>
-          <li class="dstep reveal"><span class="n">02</span><h3>Add your app</h3><p>Put your app in the <code>app/</code> folder. Any Node app works if it has <code>npm start</code> and a <code>/health</code> route.</p>
-            <div class="cmd"><pre><code>cd pushpad/app
-npm start</code></pre><button class="copy-btn" type="button" aria-label="Copy command">Copy</button></div></li>
-          <li class="dstep reveal"><span class="n">03</span><h3>One-time setup</h3><p>Create the Jenkins server and AWS pieces once, following <a href="https://github.com/RishitTandon7/pushpad/blob/main/docs/SETUP.md" rel="noopener">docs/SETUP.md</a>.</p>
-            <div class="cmd"><pre><code>sudo ./scripts/bootstrap-jenkins.sh</code></pre><button class="copy-btn" type="button" aria-label="Copy command">Copy</button></div></li>
-          <li class="dstep reveal"><span class="n">04</span><h3>Push a branch</h3><p>Create a branch and push it. Open the URL Jenkins prints.</p>
-            <div class="cmd"><pre><code>git checkout -b my-feature
-git push -u origin my-feature</code></pre><button class="copy-btn" type="button" aria-label="Copy command">Copy</button></div></li>
-        </ol>
-        <p class="note">PushPad is self-hosted. It deploys branches of the repo it is connected to; it is not a public hosting service.</p>
       </section>
       <section class="band" id="why" aria-labelledby="why-h">
         <div class="band-head"><span class="label" data-scramble>05 / Why PushPad</span><h2 class="display" id="why-h">Features and comparison</h2><p>What each feature does, next to deploying by hand and using an ngrok tunnel.</p></div>
