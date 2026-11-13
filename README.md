@@ -149,3 +149,6 @@ docs/             SETUP.md (do first), DEMO.md (3-minute demo)
 - **Honest limits**: capacity checks are not atomic under heavy concurrency, and scanning DynamoDB is fine for a handful of records but would need an index at scale.
 - **Rollback and approval** for the PushPad prod pipeline, and failing early with lint and tests.
 
+## Verification
+
+`npm run lint` and `npm test` in `app/` (unit tests for validation, limits, rate limit, manage token, callback auth, state transitions, expiry, and a full mock-mode run); `terraform fmt -check` and `validate` for `infra/`, `infra/bootstrap/` and `infra/deployment/`; `shellcheck` for every script. Nothing was applied to AWS from the development machine: see the handover notes for what is untested.
