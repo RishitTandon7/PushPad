@@ -67,3 +67,17 @@ resource "aws_iam_role" "site" {
     }]
   })
 }
+
+# Least privilege: read ONLY this deployment's own folder in the artifacts bucket.
+resource "aws_iam_role_policy" "read_own_prefix" {
+  name = "read-own-artifact"
+  role = aws_iam_role.site.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect   = "Allow"
+      Action   = ["s3:GetObject"]
+      Resource = "arn:aws:s3:::${local.bucket}/${local.prefix}/*"
+    }]
+  })
+}
