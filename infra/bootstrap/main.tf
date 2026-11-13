@@ -77,3 +77,21 @@ resource "aws_s3_bucket_public_access_block" "artifacts" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
+
+# Table where the control plane stores short-term deployment records (on-demand billing, nothing to size).
+resource "aws_dynamodb_table" "deployments" {
+  name         = "pushpad-deployments"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "id"
+
+  attribute {
+    name = "id"
+    type = "S"
+  }
+
+  # DynamoDB deletes old records on its own a week after a deployment expires.
+  ttl {
+    attribute_name = "ttl"
+    enabled        = true
+  }
+}
