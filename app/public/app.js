@@ -100,3 +100,50 @@ window.PushPad = {
   setInterval(poll, 10000);
 })();
 
+/* §7 carousel: render /api/menu with generated SVG placeholders */
+(async function menuCarousel() {
+  const track = document.getElementById('track');
+
+  // Original SVG "plate" whose colours come from the image key, so no image files are needed.
+  function dishSVG(key) {
+    let h = 0;
+    for (const c of String(key)) h = (h * 31 + c.charCodeAt(0)) % 360;
+    return `<svg viewBox="0 0 200 130" role="img" aria-label="${String(key).replace(/[^a-z0-9 ]/gi, '')} illustration">
+      <ellipse cx="100" cy="100" rx="78" ry="14" fill="hsl(${h} 30% 18%)"/>
+      <rect x="45" y="55" width="110" height="42" rx="21" fill="#f4f1ea"/>
+      <rect x="40" y="38" width="120" height="30" rx="15" fill="hsl(${h} 75% 62%)"/>
+      <rect x="85" y="35" width="14" height="66" rx="3" fill="hsl(150 25% 14%)" opacity=".85"/>
+    </svg>`;
+  }
+
+  try {
+    const dishes = await window.PushPad.getJSON('/api/menu');
+    track.textContent = '';
+    dishes.forEach((d) => {
+      const li = document.createElement('li');
+      li.className = 'dish';
+      li.innerHTML = dishSVG(d.image);
+      const h3 = document.createElement('h3');
+      h3.textContent = d.name;
+      const row = document.createElement('div');
+      row.className = 'row';
+      const price = document.createElement('span');
+      price.className = 'price';
+      price.textContent = '$' + Number(d.price).toFixed(2);
+      const veg = document.createElement('span');
+      veg.className = 'veg' + (d.veg ? '' : ' non');
+      veg.textContent = d.veg ? 'VEG' : 'NON-VEG';
+      row.append(price, veg);
+      li.append(h3, row);
+      track.append(li);
+    });
+  } catch {
+    track.innerHTML = '<li class="muted">Offline: could not load the menu.</li>';
+  }
+
+  // Arrow buttons scroll by roughly one card.
+  const step = () => Math.max(240, track.clientWidth * 0.8);
+  document.getElementById('car-prev').addEventListener('click', () => track.scrollBy({ left: -step() }));
+  document.getElementById('car-next').addEventListener('click', () => track.scrollBy({ left: step() }));
+})();
+

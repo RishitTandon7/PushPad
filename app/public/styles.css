@@ -126,3 +126,18 @@ code { font-family: var(--mono); color: var(--accent-2); }
 .term-foot { margin: 0; padding: .8rem 1.4rem 1.2rem; color: var(--muted); font-size: .8rem; }
 .terminal.offline .term-body dd { color: var(--red); }
 
+/* §7 carousel */
+.carousel { display: flex; align-items: center; gap: .6rem; }
+.track { list-style: none; margin: 0; padding: .5rem .25rem 1.2rem; display: flex; gap: 1.2rem; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; flex: 1; scrollbar-color: var(--accent) transparent; }
+.dish { flex: 0 0 220px; scroll-snap-align: start; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 1rem; text-align: left; transition: transform .25s, box-shadow .25s, border-color .25s; }
+.dish:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: var(--glow); }
+.dish svg { width: 100%; height: auto; display: block; border-radius: 12px; background: #0b0b14; }
+.dish h3 { margin: .8rem 0 .3rem; font-size: 1.05rem; }
+.dish .row { display: flex; justify-content: space-between; align-items: center; }
+.price { font-family: var(--mono); font-weight: 800; color: var(--accent-2); font-size: 1.15rem; }
+.veg { font-size: .7rem; font-weight: 700; padding: .15rem .55rem; border-radius: 999px; border: 1px solid var(--green); color: var(--green); }
+.veg.non { border-color: var(--red); color: var(--red); }
+.car-btn { flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--panel); color: var(--text); font-size: 1.6rem; line-height: 1; cursor: pointer; transition: box-shadow .2s, border-color .2s; }
+.car-btn:hover { border-color: var(--accent); box-shadow: var(--glow); }
+@media (max-width: 600px) { .car-btn { display: none; } }
+
