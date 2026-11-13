@@ -1,7 +1,7 @@
 /* Hero: giant headline row, label row, then a 1:2:1 grid with copy, illustration and status */
 .hero { position: relative; }
-.hero-title { overflow: hidden; text-align: center; white-space: nowrap; font-size: clamp(2.4rem, 9.6vw, 9.6rem); padding: .12em 0 .1em; border-bottom: 1px solid var(--line); }
-.hero-title .us { color: var(--orange); -webkit-text-stroke-color: var(--orange); }
+.hero-title { --t: clamp(2.3rem, 9.2vw, 9.2rem); overflow: hidden; text-align: center; white-space: nowrap; font-size: var(--t); padding: .12em 0 .1em; border-bottom: 1px solid var(--line); }
+.hero-title .us { display: inline-block; font-size: 0; width: calc(var(--t) * .5); height: calc(var(--t) * .13); background: var(--orange); margin: 0 calc(var(--t) * .04); vertical-align: baseline; }
 .hero-labels { display: flex; gap: var(--sp-4); padding: 14px var(--rail); border-bottom: 1px solid var(--line); position: relative; }
 .hero-grid { position: relative; display: grid; grid-template-columns: 1fr 2fr 1fr; min-height: 520px; }
 .hero-copy { padding: var(--sp-4) var(--rail); display: flex; flex-direction: column; justify-content: space-between; gap: var(--sp-4); }
@@ -9,7 +9,7 @@
 .hero-art { position: relative; display: grid; place-items: center; padding: var(--sp-2); }
 .hero-art svg { width: min(100%, 470px); height: auto; }
 .hero-side { display: flex; flex-direction: column; justify-content: space-between; padding-bottom: 0; }
-.status-cell { margin: var(--sp-3); padding: var(--sp-2); border: 1px solid var(--line-strong); background: var(--panel); font-size: var(--fs-sm); }
+.status-cell { margin: var(--sp-3) 68px var(--sp-3) var(--sp-3); padding: var(--sp-2); border: 1px solid var(--line-strong); background: var(--panel); font-size: var(--fs-sm); }
 .status-cell .row { display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: .05em; }
 .status-cell b { display: block; margin-top: 8px; font-size: var(--fs-base); word-break: break-word; }
 .dot { width: 10px; height: 10px; background: var(--muted); flex-shrink: 0; }
