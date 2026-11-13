@@ -147,3 +147,11 @@ window.PushPad = {
   document.getElementById('car-next').addEventListener('click', () => track.scrollBy({ left: step() }));
 })();
 
+/* §8 FAQ accordion: keep only one answer open at a time */
+(function faq() {
+  const items = document.querySelectorAll('.faq details');
+  items.forEach((d) => d.addEventListener('toggle', () => {
+    if (d.open) items.forEach((o) => { if (o !== d) o.open = false; });
+  }));
+})();
+

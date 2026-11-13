@@ -141,3 +141,13 @@ code { font-family: var(--mono); color: var(--accent-2); }
 .car-btn:hover { border-color: var(--accent); box-shadow: var(--glow); }
 @media (max-width: 600px) { .car-btn { display: none; } }
 
+/* §8 FAQ accordion */
+.faq { text-align: left; display: grid; gap: .8rem; }
+.faq details { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 0 1.2rem; transition: border-color .2s, box-shadow .2s; }
+.faq details[open], .faq details:hover { border-color: var(--accent); box-shadow: var(--glow); }
+.faq summary { cursor: pointer; padding: 1.1rem 0; font-weight: 700; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--accent-2); font-size: 1.4rem; line-height: 1; transition: transform .2s; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq p { margin: 0 0 1.2rem; color: var(--muted); }
+

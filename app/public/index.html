@@ -111,6 +111,19 @@
     </div>
   </section>
 
+  <!-- §8 -->
+  <section class="section narrow" id="faq">
+    <h2 class="reveal">FAQ</h2>
+    <div class="faq reveal">
+      <details open><summary>What is PushPad?</summary><p>A self-hosted mini Vercel. Pushing a Git branch makes Jenkins build it and Terraform create a real EC2 server with its own URL.</p></details>
+      <details><summary>How is it different from ngrok?</summary><p>ngrok tunnels your laptop to the internet. PushPad builds real cloud servers that keep running without your laptop.</p></details>
+      <details><summary>How are previews destroyed?</summary><p>A cleanup job runs every 5 minutes, compares Terraform workspaces with the branches on GitHub, and destroys any workspace whose branch is gone.</p></details>
+      <details><summary>What does it cost?</summary><p>Almost nothing: one EC2 for Jenkins, one for prod, and previews that live minutes. Previews older than 24 hours are removed automatically.</p></details>
+      <details><summary>How does rollback work?</summary><p>Before each prod deploy the last good build is saved. If the new build fails its health check, Terraform re-applies the saved build and the pipeline fails loudly.</p></details>
+      <details><summary>Can it deploy non-website apps?</summary><p>Yes. Anything that runs on Linux and can be zipped can be started by the same systemd service, for example an API or a worker.</p></details>
+    </div>
+  </section>
+
   </main>
   <!-- §END -->
   <script src="app.js"></script>
