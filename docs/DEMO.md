@@ -9,7 +9,7 @@ Before you start: Jenkins job `pushpad` and `pushpad-cleanup` exist, `main` has 
 ## 2. Create a branch and change a dish price (20 s)
 ```bash
 git checkout -b feature/new-roll
-sed -i 's/"price": 12.0/"price": 13.5/' app/menu.json     # Dragon Roll price change
+sed -i 's/"price": 960/"price": 1040/' app/menu.json     # Dragon Roll price change
 git commit -am "feat: raise dragon roll price"
 git push -u origin feature/new-roll
 ```
@@ -21,12 +21,12 @@ git push -u origin feature/new-roll
 **Do:** switch to the EC2 console and refresh: a new instance `pushpad-feature-new-roll` appears with tags Branch, Env=preview.
 
 ## 4. Open the preview (20 s)
-**Do:** click the URL in the build description (or Console, "LIVE:") and open it. Scroll to **Live build**: branch `feature/new-roll`, build number, commit, PREVIEW badge. Scroll to the menu carousel: Dragon Roll shows $13.50.
+**Do:** click the URL in the build description (or Console, "LIVE:") and open it. Scroll to **Live build**: branch `feature/new-roll`, build number, commit, PREVIEW badge. Scroll to the menu carousel: Dragon Roll shows ₹1,040.
 **Say:** "That page is served by the new server. The status panel reads /version, which the pipeline wrote."
 
 ## 5. Show the test stage blocking bad code (30 s)
 ```bash
-sed -i 's/"price": 13.5/"price": -1/' app/menu.json
+sed -i 's/"price": 1040/"price": -1/' app/menu.json
 git commit -am "test: break the menu on purpose"
 git push
 ```
@@ -48,7 +48,7 @@ git branch -D feature/new-roll
 ## 7. Main deploys to prod (30 s)
 ```bash
 git checkout main
-sed -i 's/"price": 12.0/"price": 13.5/' app/menu.json
+sed -i 's/"price": 960/"price": 1040/' app/menu.json
 git commit -am "feat: raise dragon roll price"
 git push origin main
 ```
