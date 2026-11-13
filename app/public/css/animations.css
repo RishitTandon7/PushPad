@@ -8,6 +8,7 @@
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+  .preloader.pl-reduced { transition-duration: .3s !important; }
   .js .reveal { opacity: 1; transform: none; }
   .marquee { overflow-x: auto; }
 }
