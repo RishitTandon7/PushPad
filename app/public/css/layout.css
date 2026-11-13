@@ -24,11 +24,13 @@
 .icon-btn:hover img { filter: invert(1); }
 
 /* Chamfered buttons: one cut corner via clip-path */
-.btn { position: relative; display: inline-flex; align-items: center; justify-content: center; padding: 14px 28px; background: var(--orange); color: var(--ink); font-weight: 500; text-transform: uppercase; letter-spacing: .06em; font-size: var(--fs-sm); text-decoration: none; border: 0; clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%); transition: background .15s, color .15s; }
-.btn:hover { background: var(--ink); color: #fff; }
+.btn { position: relative; display: inline-flex; align-items: center; justify-content: center; padding: 14px 28px; background: var(--orange); color: var(--ink); font-weight: 500; text-transform: uppercase; letter-spacing: .06em; font-size: var(--fs-sm); text-decoration: none; border: 0; clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%); transition: color .15s, transform .1s; isolation: isolate; }
+.btn::after { content: ""; position: absolute; inset: 0; background: var(--ink); transform: scaleX(0); transform-origin: left; transition: transform .3s cubic-bezier(.7, 0, .2, 1); z-index: -1; }
+.btn:hover, .btn:focus-visible { color: #fff; }
+.btn:hover::after, .btn:focus-visible::after { transform: scaleX(1); }
+.btn:active { transform: translateY(2px); }
 .btn-ghost { background: var(--orange); isolation: isolate; }
 .btn-ghost::before { content: ""; position: absolute; inset: 2px; background: var(--panel); z-index: -1; clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--cut) + 1px), calc(100% - var(--cut) + 1px) 100%, 0 100%); transition: background .15s; }
-.btn-ghost:hover::before { background: var(--ink); }
 .btn-sm { padding: 10px 20px; }
 
 /* Tag stuck to the top-left corner of a card */
