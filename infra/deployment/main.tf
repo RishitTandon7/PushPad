@@ -54,3 +54,16 @@ resource "aws_security_group" "site" {
     create_before_destroy = true
   }
 }
+
+# Role the instance assumes, so no access keys exist on the server.
+resource "aws_iam_role" "site" {
+  name_prefix = "${local.name}-"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect    = "Allow"
+      Action    = "sts:AssumeRole"
+      Principal = { Service = "ec2.amazonaws.com" }
+    }]
+  })
+}
