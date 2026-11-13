@@ -1,5 +1,6 @@
 // Carousel: render /api/menu as stat cards; arrows, drag/swipe and keyboard scrolling.
 import { getMenu, rupees } from './api.js';
+import { decorateCards } from './card-fx.js';
 
 // Original SVG "plate" whose colours come from the image key, so no image files are needed.
 function dishSVG(key) {
@@ -63,6 +64,7 @@ export async function initCarousel() {
     track.append(li);
   } else {
     dishes.forEach((d) => track.append(buildCard(d)));
+    decorateCards(track);
   }
 
   const step = () => Math.max(260, track.clientWidth * 0.8);

@@ -8,6 +8,10 @@ import { initCursorGlow } from './cursor-glow.js';
 import { initCarousel } from './carousel.js';
 import { initFaq } from './faq.js';
 import { initCopy } from './copy.js';
+import { initGridLines } from './gridlines.js';
+import { initScramble } from './scramble.js';
+import { initCardFx } from './card-fx.js';
+import { initScrollProgress } from './scroll-progress.js';
 import { initPreloader } from './preloader.js';
 import { initHeroAnim } from './hero-anim.js';
 
@@ -21,6 +25,10 @@ initCarousel();
 initFaq();
 initHeroAnim();
 initCopy();
+initGridLines();
+initScramble();
+initCardFx();
+initScrollProgress();
 initPreloader();
 
 // Footer year (set when the footer exists).
