@@ -31,3 +31,20 @@ window.PushPad = {
   items.forEach((el) => io.observe(el));
 })();
 
+/* §1 navbar: mobile hamburger */
+(function hamburger() {
+  const burger = document.getElementById('burger');
+  const menu = document.getElementById('menu');
+  burger.addEventListener('click', () => {
+    const open = menu.classList.toggle('open');
+    burger.setAttribute('aria-expanded', String(open));
+  });
+  // Close the menu after choosing a link.
+  menu.addEventListener('click', (e) => {
+    if (e.target.tagName === 'A') {
+      menu.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    }
+  });
+})();
+
