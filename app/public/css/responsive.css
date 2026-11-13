@@ -1,0 +1,46 @@
+/* Responsive: collapse the 1:2:1 grid, drawer navigation, single-column cards (360px to 1440px+) */
+@media (max-width: 1100px) {
+  .cards-grid { grid-template-columns: repeat(2, 1fr); }
+  .term { grid-template-columns: 1fr; }
+  .nav-links { gap: 8px; font-size: var(--fs-sm); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-grid > div:nth-child(2) { border-right: 0; }
+  .footer-grid > div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+}
+@media (max-width: 860px) {
+  :root { --rail: 20px; }
+  .shell::before, .shell::after { display: none; }
+  .burger { display: block; margin-left: auto; }
+  .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; background: var(--bg); border-bottom: 1px solid var(--line-strong); padding: var(--sp-2) var(--rail) var(--sp-3); }
+  .nav-links.open { display: flex; }
+  .nav-links a:not(.btn) { padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .nav-links .btn { margin-top: var(--sp-2); align-self: flex-start; }
+  .hero-grid { grid-template-columns: 1fr; min-height: 0; }
+  .hero-copy { order: 1; border-bottom: 1px solid var(--line); }
+  .hero-art { order: 0; border-bottom: 1px solid var(--line); }
+  .hero-side { order: 2; }
+  .rail-btns { display: none; }
+  .stats { grid-template-columns: 1fr 1fr; }
+  .stat:nth-child(2) { border-right: 0; }
+  .stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  .pipe-fill { left: 20px; }
+  .step { grid-template-columns: 1fr; padding-left: 44px; }
+  .step::before { left: 14px; top: 34px; }
+  .step-num, .step-body, .step-tag { padding: 10px var(--rail); justify-content: flex-start; }
+  .step-num img { margin-left: 12px; margin-right: 0; width: 32px; height: 32px; }
+  .cta { grid-template-columns: 1fr; }
+  .cta-btns { flex-direction: row; flex-wrap: wrap; padding-top: 0; padding-bottom: var(--sp-4); }
+  .faq-q { grid-template-columns: 56px 1fr 44px; }
+  .faq-q .qn { padding: 0 0 0 var(--rail); font-size: 1rem; }
+  .faq-q .qt { padding: 14px 10px; font-size: var(--fs-base); }
+  .faq-q .qi { margin-right: var(--rail); }
+  .faq-a p { padding: 0 var(--rail) var(--sp-3) 56px; }
+  .live-data dt { width: 90px; }
+}
+@media (max-width: 600px) {
+  .cards-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-grid > div { border-right: 0; border-bottom: 1px solid var(--line); }
+  .term { padding: var(--sp-3); }
+  .hero-labels { flex-wrap: wrap; gap: 8px var(--sp-3); }
+}
