@@ -138,3 +138,14 @@ docs/             SETUP.md (do first), DEMO.md (3-minute demo)
 - Custom subdomains
 - Oracle Cloud provider as a second `infra/deployment-*` module
 
+## Interview talking points
+
+- **Control plane vs data plane**: the API and UI orchestrate; Jenkins and Terraform do the work; each deployment is its own immutable server.
+- **State**: nothing on the instance disk, so replacing prod is safe. DynamoDB holds records, S3 holds state and artifacts, SSM holds secrets.
+- **Workspaces and locking**: one Terraform workspace per deployment (`d-<id>`) and per branch; native S3 lockfile stops concurrent applies.
+- **Least privilege**: instance roles, no keys; each deployment role reads only its own S3 prefix; IMDSv2 hop limit 1; no SSH.
+- **Running untrusted code safely**: it never touches the build server, runs as a non-root user on an isolated instance, and the server destroys itself.
+- **Cost control**: TTL, self-terminating instances, capacity and rate limits, cleanup job, budget alarm.
+- **Honest limits**: capacity checks are not atomic under heavy concurrency, and scanning DynamoDB is fine for a handful of records but would need an index at scale.
+- **Rollback and approval** for the PushPad prod pipeline, and failing early with lint and tests.
+
