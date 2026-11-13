@@ -53,3 +53,36 @@ resource "aws_security_group" "app" {
     create_before_destroy = true
   }
 }
+
+# IAM role EC2 can assume: replaces access keys on the server.
+resource "aws_iam_role" "app" {
+  name_prefix = "${local.name}-"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect    = "Allow"
+      Action    = "sts:AssumeRole"
+      Principal = { Service = "ec2.amazonaws.com" }
+    }]
+  })
+}
+
+# Least privilege: the instance may only read the build zips.
+resource "aws_iam_role_policy" "read_artifacts" {
+  name = "read-artifacts"
+  role = aws_iam_role.app.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect   = "Allow"
+      Action   = ["s3:GetObject"]
+      Resource = "arn:aws:s3:::${var.artifacts_bucket}/*"
+    }]
+  })
+}
+
+# Instance profile attaches the role to the EC2 instance.
+resource "aws_iam_instance_profile" "app" {
+  name_prefix = "${local.name}-"
+  role        = aws_iam_role.app.name
+}
