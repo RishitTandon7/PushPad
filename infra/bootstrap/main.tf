@@ -28,3 +28,11 @@ locals {
 resource "aws_s3_bucket" "state" {
   bucket = local.state_bucket
 }
+
+# Versioning lets us recover an older state file if one is corrupted.
+resource "aws_s3_bucket_versioning" "state" {
+  bucket = aws_s3_bucket.state.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
