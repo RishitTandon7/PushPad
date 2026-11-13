@@ -18,3 +18,5 @@ initCarousel();
 initFaq();
 
 // Footer year (set when the footer exists).
+const year = document.getElementById('year');
+if (year) year.textContent = new Date().getFullYear();
