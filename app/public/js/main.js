@@ -6,7 +6,6 @@ import { initPipeline } from './pipeline.js';
 import { initFaq } from './faq.js';
 import { initGridLines } from './gridlines.js';
 import { initScramble } from './scramble.js';
-import { initCardFx } from './card-fx.js';
 import { initScrollProgress } from './scroll-progress.js';
 import { initDeploy } from './deploy.js';
 import { initTilt } from './tilt.js';
@@ -14,6 +13,7 @@ import { initParallax } from './parallax.js';
 import { initLight } from './light.js';
 import { initDeployments } from './deployments.js';
 import { initFooterVersion } from './footer-version.js';
+import { initDrawer } from './drawer.js';
 import { initPreloader } from './preloader.js';
 import { initHeroAnim } from './hero-anim.js';
 
@@ -25,7 +25,6 @@ initFaq();
 initHeroAnim();
 initGridLines();
 initScramble();
-initCardFx();
 initScrollProgress();
 initDeploy();
 initTilt();
@@ -33,6 +32,7 @@ initParallax();
 initLight();
 initDeployments();
 initFooterVersion();
+initDrawer();
 initPreloader();
 
 // Footer year (set when the footer exists).
