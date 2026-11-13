@@ -130,3 +130,11 @@ docs/             SETUP.md (do first), DEMO.md (3-minute demo)
 - Instance type is a Terraform variable (default `t3.micro`; **`t2.micro` may be the free-tier type on older accounts**).
 - Set the budget alarm first, and run `scripts/destroy-all.sh` after the review.
 
+## Roadmap
+
+- GitHub login to pick repos, including private ones
+- Longer deployments (a paid plan)
+- Environment variables, stored encrypted and injected at boot
+- Custom subdomains
+- Oracle Cloud provider as a second `infra/deployment-*` module
+
