@@ -2,7 +2,7 @@
 .faq { background: var(--panel); }
 .faq-item { border-bottom: 1px solid var(--line); }
 .faq-item:last-child { border-bottom: 0; }
-.faq-q { width: 100%; display: grid; grid-template-columns: 1fr 2fr 1fr; align-items: center; text-align: left; background: none; border: 0; padding: 0; min-height: 76px; }
+.faq-q { width: 100%; display: grid; grid-template-columns: 1fr 2fr 1fr; align-items: center; text-align: left; background: none; border: 0; padding: 0; min-height: 64px; }
 .faq-q .qn { padding: 0 var(--rail); font-family: var(--font-display); font-weight: 900; font-size: 1.4rem; }
 .faq-q .qt { padding: 14px var(--sp-4); font-weight: 500; font-size: var(--fs-lg); }
 .faq-q .qi { justify-self: end; margin-right: var(--rail); width: 36px; height: 36px; border: 1px solid var(--ink); position: relative; transition: background .15s; }
