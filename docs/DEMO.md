@@ -48,7 +48,8 @@ git branch -D feature/new-roll
 ## 7. Main deploys to prod (30 s)
 ```bash
 git checkout main
-git merge --no-ff -m "feat: new roll" origin/main   # or merge your PR on GitHub
+sed -i 's/"price": 12.0/"price": 13.5/' app/menu.json
+git commit -am "feat: raise dragon roll price"
 git push origin main
 ```
 **Do:** the build pauses at **Deploy build N to PROD?**; click Deploy. After the health check, open the prod URL (an Elastic IP, so it never changes).
