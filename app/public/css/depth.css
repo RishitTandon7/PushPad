@@ -1,0 +1,31 @@
+/* Depth: sub-grid, grain, cursor light, raised panels, tilt highlight and the layered headline. Transform/opacity only. */
+.subgrid { position: fixed; left: 0; right: 0; top: -60px; bottom: -60px; z-index: -1; pointer-events: none; background-image: linear-gradient(rgba(22, 22, 22, .045) 1px, transparent 1px), linear-gradient(90deg, rgba(22, 22, 22, .045) 1px, transparent 1px); background-size: 14px 14px; will-change: transform; }
+body::after { content: ""; position: fixed; inset: 0; z-index: 500; pointer-events: none; background: url("../assets/grain.svg"); opacity: .045; }
+
+/* A very faint orange light follows the cursor; multiply tints the grid lines it passes over */
+.light { position: fixed; left: 0; top: 0; width: 560px; height: 560px; margin: -280px 0 0 -280px; z-index: 2; pointer-events: none; border-radius: 50%; opacity: 0; mix-blend-mode: multiply; background: radial-gradient(circle, rgba(255, 106, 26, .2), rgba(255, 106, 26, 0) 66%); will-change: transform; transition: opacity .5s linear; }
+.light.on { opacity: 1; }
+
+/* Raised surfaces: only the deploy bar, the live URL card and the main plan sit this high */
+.raised { position: relative; background: var(--surface-2); border: 1px solid var(--line); box-shadow: var(--shadow-raised); }
+[data-tilt] { transition: transform .25s var(--ease); will-change: transform; }
+[data-tilt].tilting { transition: transform .06s linear; }
+.hl { position: absolute; top: 0; bottom: 0; left: 0; width: 1px; background: rgba(255, 255, 255, .95); opacity: 0; pointer-events: none; z-index: 4; transition: opacity .2s linear; }
+[data-tilt].tilting .hl { opacity: .9; }
+
+/* Foreground details drift a little faster than the grid; coordinate labels are tiny mono tags */
+.fg { will-change: transform; }
+.coord { position: absolute; font-size: .62rem; letter-spacing: .12em; color: var(--muted); text-transform: uppercase; pointer-events: none; }
+
+/* Giant headline: a faint outlined copy sits behind the solid one and shifts on scroll */
+.hero-title { position: relative; isolation: isolate; }
+.hero-title::before { content: attr(data-text); position: absolute; inset: 0; z-index: -1; padding: inherit; text-align: center; color: transparent; -webkit-text-stroke: 1.5px var(--orange); opacity: 0; transform: translate(calc(14px + var(--hx, 0px)), calc(10px + var(--hy, 0px))); transition: opacity .6s linear .6s; }
+.hero-in .hero-title::before { opacity: .5; }
+
+@media (prefers-reduced-motion: reduce) {
+  .light { display: none; }
+  .subgrid, .fg { transform: none !important; }
+  [data-tilt] { transform: none !important; }
+  .hero-title::before { transform: translate(14px, 10px); opacity: .5; }
+}
+@media (hover: none) { .light { display: none; } }
