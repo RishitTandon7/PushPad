@@ -37,7 +37,7 @@ function createService({ store, settings, jenkins, config, mock, baseUrl, now = 
 
   const runMock = async (fn) => { fn().catch(() => {}); };
 
-  async function create({ repoUrl, branch, subdir, accessCode, ip }) {
+  async function create({ repoUrl, branch, subdir, accessCode, ip, origin }) {
     const { owner, repo, repoUrl: canonical } = v.parseRepoUrl(repoUrl);
     const b = v.parseBranch(branch);
     const dir = v.parseSubdir(subdir);
@@ -79,8 +79,8 @@ function createService({ store, settings, jenkins, config, mock, baseUrl, now = 
 
     try {
       if (config.mock) {
-        const origin = await baseOrigin();
-        runMock(() => mock.simulateDeploy(item, applyCallback, { stepMs: config.mockStepMs, baseUrl: origin }));
+        const site = origin || await baseOrigin();
+        runMock(() => mock.simulateDeploy(item, applyCallback, { stepMs: config.mockStepMs, baseUrl: site }));
       } else {
         await jenkins.triggerDeploy(item);
       }

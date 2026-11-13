@@ -1,6 +1,12 @@
 // Public deployment API: create, read, list and delete (with the manage token).
 const express = require('express');
 
+// Where mock-mode sites are served from: this server's own address (the Host header, only if it looks like a host).
+function originOf(req) {
+  const host = req.get('host') || '';
+  return /^[A-Za-z0-9.:-]{1,100}$/.test(host) ? req.protocol + '://' + host : undefined;
+}
+
 function deploymentRoutes({ service }) {
   const router = express.Router();
 
@@ -13,6 +19,7 @@ function deploymentRoutes({ service }) {
         subdir: body.subdir,
         accessCode: body.accessCode,
         ip: req.ip,
+        origin: originOf(req),
       });
       res.status(201).json(out);        // manageToken is returned exactly once, here
     } catch (err) { next(err); }
