@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="css/stats.css">
   <link rel="stylesheet" href="css/pipeline.css">
   <link rel="stylesheet" href="css/cards.css">
+  <link rel="stylesheet" href="css/live-build.css">
   <link rel="stylesheet" href="css/animations.css">
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -135,6 +136,22 @@
           <li class="card reveal"><span class="tag">State</span><div class="card-name"><img src="assets/icons/server.svg" alt=""><h3>Remote state with locking</h3><p>Terraform state in S3, one apply at a time.</p></div><div class="card-stats"><div class="cell"><b>S3</b><span>State backend</span></div><div class="cell"><b>1</b><span>Workspace per branch</span></div><div class="cell"><b>lock</b><span>Native lockfile</span></div><div class="cell"><b>AES</b><span>Encrypted</span></div><a class="arrow-cell" href="#faq" aria-label="Read the FAQ"><img src="assets/icons/arrow.svg" alt=""></a></div></li>
           <li class="card reveal"><span class="tag orange">Cost</span><div class="card-name"><img src="assets/icons/clock.svg" alt=""><h3>Cost guard</h3><p>Old previews are destroyed automatically.</p></div><div class="card-stats"><div class="cell"><b>24h</b><span>Max preview age</span></div><div class="cell"><b>2</b><span>Always-on EC2</span></div><div class="cell"><b>t3</b><span>Micro default</span></div><div class="cell"><b>alarm</b><span>Budget alert</span></div><a class="arrow-cell" href="#faq" aria-label="Read the FAQ"><img src="assets/icons/arrow.svg" alt=""></a></div></li>
         </ul>
+      </section>
+      <section class="band" id="live" aria-labelledby="live-h">
+        <div class="band-head"><span class="label">03 / Live build</span><h2 class="display reveal" id="live-h">Live build</h2><p class="reveal">This page reads <code>/version</code> from the server it is running on.</p></div>
+        <div class="live-wrap reveal">
+          <div class="term brackets" id="terminal">
+            <div class="term-bar"><span>pushpad@live</span><b>/version</b><em class="env-badge" id="env-badge">...</em></div>
+            <dl class="live-data" aria-live="polite">
+              <div><dt>branch</dt><dd id="lv-branch">-</dd></div>
+              <div><dt>build</dt><dd id="lv-build">-</dd></div>
+              <div><dt>commit</dt><dd><span id="lv-commit-text">-</span><button class="copy-btn" id="copy-commit" type="button">Copy</button></dd></div>
+              <div><dt>deployed</dt><dd id="lv-deployed">-</dd></div>
+            </dl>
+            <pre class="log" id="lv-log" aria-label="Pipeline log" tabindex="0"></pre>
+            <p class="term-foot" id="lv-foot">Waiting for first response...</p>
+          </div>
+        </div>
       </section>
     </main>
   </div>
