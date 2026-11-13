@@ -45,21 +45,27 @@ cat > "$X1" <<XML
   </triggers>
 </org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject>
 XML
-cat > "$X2" <<XML
+# Pipeline-from-SCM job: name, Jenkinsfile path, description. JOBS_BRANCH picks which branch the pipeline files come from (default main).
+scm_job() {
+  cat > "$X2" <<XML
 <?xml version='1.1' encoding='UTF-8'?>
 <flow-definition plugin="workflow-job">
-  <description>Destroys orphaned previews and expired deployments every 5 minutes</description>
+  <description>$3</description>
   <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps">
     <scm class="hudson.plugins.git.GitSCM" plugin="git">
       <configVersion>2</configVersion>
       <userRemoteConfigs><hudson.plugins.git.UserRemoteConfig><url>https://github.com/$OWNER/$REPO.git</url></hudson.plugins.git.UserRemoteConfig></userRemoteConfigs>
-      <branches><hudson.plugins.git.BranchSpec><name>*/main</name></hudson.plugins.git.BranchSpec></branches>
+      <branches><hudson.plugins.git.BranchSpec><name>*/${JOBS_BRANCH:-main}</name></hudson.plugins.git.BranchSpec></branches>
     </scm>
-    <scriptPath>Jenkinsfile.cleanup</scriptPath>
+    <scriptPath>$2</scriptPath>
     <lightweight>true</lightweight>
   </definition>
 </flow-definition>
 XML
+  put_job "$1" "$X2"
+}
 put_job pushpad "$X1"
-put_job pushpad-cleanup "$X2"
+scm_job pushpad-cleanup Jenkinsfile.cleanup "Destroys orphaned previews and expired deployments every 5 minutes"
+scm_job pushpad-deploy Jenkinsfile.deploy "Quick Share: deploys a pasted public repo (started by the control plane)"
+scm_job pushpad-destroy Jenkinsfile.destroy "Quick Share: destroys one deployment early"
 rm -f "$X1" "$X2"
