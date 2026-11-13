@@ -88,5 +88,15 @@ pipeline {
         }
       }
     }
+
+    // 7. Approval: only main (prod) waits for a human to click Deploy.
+    stage('Approval') {
+      when { branch 'main' }
+      steps {
+        timeout(time: 30, unit: 'MINUTES') {
+          input message: "Deploy build ${env.BUILD_NUMBER} to PROD?", ok: 'Deploy'
+        }
+      }
+    }
   }
 }
