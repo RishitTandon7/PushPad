@@ -94,3 +94,20 @@ cd app && npm ci && npm start     # http://localhost:3000 , access code "demo"
 
 Mock mode simulates a full deployment through every stage, so the whole UI works. A repo whose name contains `fail` fails at the Detect stage, to show the error state. Useful variables: `MOCK_STEP_MS` (speed), `ACCESS_CODE`, `REQUIRE_ACCESS_CODE=false`, `PORT`.
 
+## Branch previews (the original pipeline)
+
+| # | Stage | What happens |
+|---|---|---|
+| 1 | Checkout | Map the branch to a workspace (`scripts/workspace-name.sh`) |
+| 2 | Install and Lint | `npm ci`, ESLint |
+| 3 | Test | Jest, JUnit results |
+| 4 | Package | Write `version.json`, production dependencies only, zip |
+| 5 | Upload to S3 | Zip to the artifacts bucket |
+| 6 | Terraform Init | Remote state, select or create the workspace |
+| 7 | Approval | Only on `main` |
+| 8 | Terraform Apply | New EC2 from the zip |
+| 9 | Health Check | `/health` and `/version` must show this build; prod rolls back on failure |
+| 10 | Notify | URL, build description, optional Telegram |
+
+Previews run the app in mock mode; only prod talks to Jenkins and DynamoDB.
+
