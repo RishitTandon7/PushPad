@@ -123,3 +123,10 @@ examples/         static-site and node-app samples for the demo chips
 docs/             SETUP.md (do first), DEMO.md (3-minute demo)
 ```
 
+## Cost notes
+
+- Always on: one Jenkins EC2 and one prod EC2 (plus its Elastic IP while attached). DynamoDB is on-demand and tiny. S3 is a few MB.
+- Deployments are small instances that live at most 30 minutes, capped at 3 at a time (about 3 instance-hours a day at full load).
+- Instance type is a Terraform variable (default `t3.micro`; **`t2.micro` may be the free-tier type on older accounts**).
+- Set the budget alarm first, and run `scripts/destroy-all.sh` after the review.
+
