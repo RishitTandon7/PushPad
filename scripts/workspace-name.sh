@@ -11,5 +11,7 @@ if [ "$branch" = "main" ]; then
 fi
 
 name=$(printf '%s' "$branch" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//' | cut -c1-30 | sed -E 's/-+$//')
+# Branches literally named prod/default must not collide with reserved workspaces.
+case "$name" in prod | default) name="${name}-branch" ;; esac
 # A branch made only of symbols would give an empty name; fall back to a safe word.
 echo "${name:-branch}"
