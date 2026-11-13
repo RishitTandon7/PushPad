@@ -105,3 +105,13 @@ Then terminate the Jenkins EC2 and release its Elastic IP. Buckets are versioned
 
 Do this after Part 1 works (Jenkins, buckets, the multibranch job and prod). It adds the control plane settings, two Jenkins jobs, and a few permissions.
 
+## 12. Extra IAM permissions for the Jenkins role
+Add one statement to the `pushpad-jenkins` policy from step 2, so the pipeline can read its settings from Parameter Store:
+
+```json
+{ "Sid": "PushPadSettings", "Effect": "Allow", "Action": ["ssm:GetParameter"],
+  "Resource": "arn:aws:ssm:ap-south-1:*:parameter/pushpad/*" }
+```
+
+Everything else the deployment pipeline needs is already covered: EC2, security groups and IAM roles named `pushpad-*` (deployments are named `pushpad-d-<id>`), S3 on `pushpad-*` buckets, and `ec2:Describe*` for the cleanup job. The prod instance gets DynamoDB and `/pushpad/*` read access from Terraform (`aws_iam_role_policy.control_plane` in `infra/main.tf`); you do not add that by hand.
+
