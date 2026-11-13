@@ -41,6 +41,7 @@ j.setAuthorizationStrategy(auth)
 j.setNumExecutors(2)
 j.save()
 GROOVY
+cp "$(dirname "$0")/20-github-ratelimit.groovy" "$JH/init.groovy.d/20-github-ratelimit.groovy"
 chown -R jenkins:jenkins "$JH/init.groovy.d"
 
 # Plugins from the setup guide (pipeline, git, github, multibranch, junit, credentials binding) plus helpers.
