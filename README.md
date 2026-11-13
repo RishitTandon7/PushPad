@@ -60,3 +60,25 @@ Every stage reports to `POST /api/internal/jenkins/callback`, and the UI shows t
 
 Only a SHA-256 hash of the manage token is stored. Client IPs are stored only as hashes.
 
+## Free-tier limits and safety
+
+All limits live in one file, `app/config/limits.json`, read by both the app and the Jenkins scripts.
+
+| Limit | Value |
+|---|---|
+| Lifetime | 30 minutes after going live (the server also shuts itself down) |
+| Active deployments, platform-wide | 3 |
+| Active per client | 1 |
+| Deploys per client per hour | 3 |
+| Zip size | 50 MB |
+| Timeouts | clone 60 s, package 120 s, apply 10 min, health 3 min |
+| Access code | `REQUIRE_ACCESS_CODE` (default on); the code comes from SSM, and the UI shows the field only when it is needed |
+
+Safety model:
+
+- **Input**: only `https://github.com/<owner>/<repo>` is accepted; branch and folder names are checked; every value is quoted in every shell command, and the scripts re-validate it.
+- **Untrusted code**: never runs on Jenkins. It runs only on its own EC2, as a non-root user that may only bind low ports, with no env vars passed in.
+- **Instance**: IAM role reads only `deployments/<id>/*`; IMDSv2 only with hop limit 1; inbound port 80 only; no SSH; outbound limited to 80/443; tags `DeployId` and `ExpiresAt`.
+- **Cost**: self-terminating instance (`shutdown` after the TTL plus a margin), the cleanup job, and the budget alarm.
+- **Hygiene**: users never see secrets or internal errors; all repo-derived text is escaped in the UI.
+
