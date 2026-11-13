@@ -7,3 +7,8 @@ output "state_bucket" {
 output "artifacts_bucket" {
   value = aws_s3_bucket.artifacts.id
 }
+
+# Table name the control plane uses (also the default of var.deployments_table).
+output "deployments_table" {
+  value = aws_dynamodb_table.deployments.name
+}
