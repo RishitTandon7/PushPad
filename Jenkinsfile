@@ -37,5 +37,19 @@ pipeline {
         }
       }
     }
+
+    // 3. Test: Jest must pass (a bad menu.json fails here) and results are published to Jenkins.
+    stage('Test') {
+      steps {
+        dir('app') {
+          sh 'npm test'
+        }
+      }
+      post {
+        always {
+          junit allowEmptyResults: true, testResults: 'app/reports/junit.xml'
+        }
+      }
+    }
   }
 }
