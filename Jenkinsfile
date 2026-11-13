@@ -51,5 +51,19 @@ pipeline {
         }
       }
     }
+
+    // 4. Package: stamp version.json, keep production deps only, zip app/ so boot needs no npm install.
+    stage('Package') {
+      steps {
+        sh '''
+          jq -n --arg branch "$BRANCH_NAME" --argjson build "$BUILD_NUMBER" --arg commit "$COMMIT" \
+                --arg deployedAt "$(date -u +%Y-%m-%dT%H:%M:%SZ)" --arg env "$ENV_TYPE" \
+                '{branch: $branch, build: $build, commit: $commit, deployedAt: $deployedAt, env: $env}' \
+                > app/version.json
+          (cd app && npm ci --omit=dev)
+          zip -qr "$ZIP_NAME" app -x 'app/tests/*' 'app/reports/*'
+        '''
+      }
+    }
   }
 }
