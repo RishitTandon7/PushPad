@@ -1,0 +1,78 @@
+#!/bin/bash
+# Boot script for one short-lived deployment: fetch the zip, run it as a non-root user on port 80.
+set -euxo pipefail
+
+# Safety net: shut down (which terminates the instance) shortly after the deployment should be gone.
+shutdown -h +${shutdown_minutes}
+
+dnf install -y nodejs unzip
+
+# A dedicated user with no login shell: user code never runs as root.
+useradd --system --create-home --home-dir /opt/site --shell /sbin/nologin site
+mkdir -p /opt/site/app
+aws s3 cp "${artifact_url}" /tmp/app.zip --only-show-errors
+unzip -q /tmp/app.zip -d /opt/site/app
+rm -f /tmp/app.zip
+chown -R site:site /opt/site
+
+%{ if app_type == "node" ~}
+# Node app: install production dependencies here, on the deployment instance (never on Jenkins).
+cd /opt/site/app
+if [ -f package-lock.json ]; then
+  runuser -u site -- env HOME=/opt/site npm ci --omit=dev --no-audit --no-fund
+else
+  runuser -u site -- env HOME=/opt/site npm install --omit=dev --no-audit --no-fund
+fi
+START="/usr/bin/npm start"
+%{ else ~}
+# Static site: a tiny file server (no dependencies) that only serves files inside the site folder.
+cat > /opt/static-server.js <<'JS'
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+const root = path.resolve(process.argv[2]);
+const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.gif': 'image/gif', '.ico': 'image/x-icon', '.webp': 'image/webp', '.woff2': 'font/woff2', '.txt': 'text/plain; charset=utf-8' };
+http.createServer((req, res) => {
+  let pathname;
+  try { pathname = decodeURIComponent(new URL(req.url, 'http://x').pathname); } catch (e) { res.writeHead(400); return res.end(); }
+  let file = path.resolve(path.join(root, pathname));
+  if (file !== root && !file.startsWith(root + path.sep)) { res.writeHead(403); return res.end(); }
+  fs.stat(file, (err, stat) => {
+    if (!err && stat.isDirectory()) file = path.join(file, 'index.html');
+    fs.readFile(file, (readErr, data) => {
+      if (readErr) { res.writeHead(404, { 'Content-Type': 'text/plain' }); return res.end('Not found'); }
+      res.writeHead(200, { 'Content-Type': types[path.extname(file).toLowerCase()] || 'application/octet-stream', 'X-Content-Type-Options': 'nosniff' });
+      res.end(data);
+    });
+  });
+}).listen(80);
+JS
+START="/usr/bin/node /opt/static-server.js /opt/site/app"
+%{ endif ~}
+
+# systemd service: non-root user that may only bind low ports (CAP_NET_BIND_SERVICE), with a locked-down environment.
+cat > /etc/systemd/system/site.service <<UNIT
+[Unit]
+Description=PushPad deployment
+After=network-online.target
+
+[Service]
+User=site
+WorkingDirectory=/opt/site/app
+Environment=PORT=80
+Environment=NODE_ENV=production
+Environment=HOME=/opt/site
+ExecStart=$START
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+UNIT
+
+systemctl daemon-reload
+systemctl enable --now site
