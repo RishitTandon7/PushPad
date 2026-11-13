@@ -87,3 +87,47 @@ resource "aws_iam_instance_profile" "site" {
   name_prefix = "${local.name}-"
   role        = aws_iam_role.site.name
 }
+
+# The server for one deployment: it downloads the zip, runs it as a non-root user on port 80, and terminates itself when time is up.
+resource "aws_instance" "site" {
+  ami                         = data.aws_ssm_parameter.al2023.value
+  instance_type               = var.instance_type
+  vpc_security_group_ids      = [aws_security_group.site.id]
+  iam_instance_profile        = aws_iam_instance_profile.site.name
+  associate_public_ip_address = true
+
+  # Safety net: a shutdown inside the instance terminates it, even if the cleanup job is down.
+  instance_initiated_shutdown_behavior = "terminate"
+
+  # IMDSv2 only, hop limit 1: stops user code reaching instance credentials through proxies or containers.
+  metadata_options {
+    http_endpoint               = "enabled"
+    http_tokens                 = "required"
+    http_put_response_hop_limit = 1
+  }
+
+  root_block_device {
+    volume_size = 8
+    volume_type = "gp3"
+    encrypted   = true
+  }
+
+  user_data = templatefile("${path.module}/user_data.sh.tftpl", {
+    artifact_url     = var.artifact_url
+    app_type         = var.app_type
+    shutdown_minutes = var.ttl_minutes + 10
+  })
+
+  tags = {
+    Name      = local.name
+    DeployId  = var.deploy_id
+    ExpiresAt = timeadd(timestamp(), "${var.ttl_minutes}m")
+    AppType   = var.app_type
+    ManagedBy = "pushpad-deploy"
+  }
+
+  lifecycle {
+    # ExpiresAt is fixed at creation; timestamp() would otherwise change it on every run.
+    ignore_changes = [tags["ExpiresAt"]]
+  }
+}
