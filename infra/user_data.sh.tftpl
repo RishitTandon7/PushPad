@@ -17,6 +17,9 @@ After=network-online.target
 
 [Service]
 Environment=PORT=80
+Environment=PUSHPAD_MODE=${pushpad_mode}
+Environment=DEPLOYMENTS_TABLE=${deployments_table}
+Environment=AWS_REGION=${region}
 WorkingDirectory=/opt/app/app
 ExecStart=/usr/bin/node server.js
 Restart=always
