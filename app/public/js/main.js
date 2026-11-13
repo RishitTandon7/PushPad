@@ -8,6 +8,10 @@ import { initGridLines } from './gridlines.js';
 import { initScramble } from './scramble.js';
 import { initCardFx } from './card-fx.js';
 import { initScrollProgress } from './scroll-progress.js';
+import { initDeploy } from './deploy.js';
+import { initTilt } from './tilt.js';
+import { initParallax } from './parallax.js';
+import { initLight } from './light.js';
 import { initPreloader } from './preloader.js';
 import { initHeroAnim } from './hero-anim.js';
 
@@ -21,6 +25,10 @@ initGridLines();
 initScramble();
 initCardFx();
 initScrollProgress();
+initDeploy();
+initTilt();
+initParallax();
+initLight();
 initPreloader();
 
 // Footer year (set when the footer exists).
