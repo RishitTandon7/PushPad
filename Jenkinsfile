@@ -75,5 +75,18 @@ pipeline {
         '''
       }
     }
+
+    // 6. Terraform Init: connect to remote state, then select (or create) this branch workspace.
+    stage('Terraform Init') {
+      steps {
+        dir('infra') {
+          sh '''
+            . ../scripts/aws-env.sh
+            terraform init -input=false -backend-config="bucket=$STATE_BUCKET"
+            terraform workspace select -or-create "$WS"
+          '''
+        }
+      }
+    }
   }
 }
