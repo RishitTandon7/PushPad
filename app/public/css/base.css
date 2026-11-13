@@ -16,7 +16,7 @@ h1, h2, h3, p, ul, ol, dl, dd { margin: 0; padding: 0; }
 ul, ol { list-style: none; }
 
 /* Giant blocky display type: Orbitron 900 thickened with a stroke */
-.display { font-family: var(--font-display); font-weight: 900; text-transform: uppercase; letter-spacing: .01em; line-height: .95; -webkit-text-stroke: .03em currentColor; }
+.display { font-family: var(--font-display); font-weight: 900; text-transform: uppercase; letter-spacing: -.012em; line-height: .94; -webkit-text-stroke: .024em currentColor; }
 
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; box-shadow: 0 0 0 5px var(--orange); }
 .skip { position: absolute; left: -999px; top: 0; background: var(--ink); color: #fff; padding: 8px 16px; z-index: 200; }
