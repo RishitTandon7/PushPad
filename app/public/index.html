@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="css/live-build.css">
   <link rel="stylesheet" href="css/carousel.css">
   <link rel="stylesheet" href="css/compare.css">
+  <link rel="stylesheet" href="css/faq.css">
   <link rel="stylesheet" href="css/animations.css">
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -171,6 +172,17 @@
             <tr><th scope="row">Survives laptop off</th><td class="us"><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td><td><span class="no">No</span></td></tr>
             <tr><th scope="row">Rollback</th><td class="us"><span class="yes">Automatic</span></td><td><span class="part">By hand</span></td><td><span class="no">No</span></td></tr>
           </tbody></table></div>
+      </section>
+      <section class="band" id="faq" aria-labelledby="faq-h">
+        <div class="band-head"><span class="label">06 / FAQ</span><h2 class="display reveal" id="faq-h">Questions</h2></div>
+        <div class="faq">
+          <div class="faq-item"><h3><button class="faq-q" id="q1" aria-expanded="true" aria-controls="a1"><span class="qn">01</span><span class="qt">What is PushPad?</span><span class="qi" aria-hidden="true"></span></button></h3><div class="faq-a" id="a1" role="region" aria-labelledby="q1"><div><p>A self-hosted mini Vercel. Pushing a Git branch makes Jenkins build it and Terraform create a real EC2 server with its own URL.</p></div></div></div>
+          <div class="faq-item"><h3><button class="faq-q" id="q2" aria-expanded="false" aria-controls="a2"><span class="qn">02</span><span class="qt">How is it different from ngrok?</span><span class="qi" aria-hidden="true"></span></button></h3><div class="faq-a" id="a2" role="region" aria-labelledby="q2"><div><p>ngrok tunnels your laptop to the internet. PushPad builds real cloud servers that keep running without your laptop.</p></div></div></div>
+          <div class="faq-item"><h3><button class="faq-q" id="q3" aria-expanded="false" aria-controls="a3"><span class="qn">03</span><span class="qt">How are previews destroyed?</span><span class="qi" aria-hidden="true"></span></button></h3><div class="faq-a" id="a3" role="region" aria-labelledby="q3"><div><p>A cleanup job runs every 5 minutes, compares Terraform workspaces with the branches on GitHub, and destroys any workspace whose branch is gone.</p></div></div></div>
+          <div class="faq-item"><h3><button class="faq-q" id="q4" aria-expanded="false" aria-controls="a4"><span class="qn">04</span><span class="qt">What does it cost?</span><span class="qi" aria-hidden="true"></span></button></h3><div class="faq-a" id="a4" role="region" aria-labelledby="q4"><div><p>Almost nothing: one EC2 for Jenkins, one for prod, and previews that live minutes. Previews older than 24 hours are removed automatically.</p></div></div></div>
+          <div class="faq-item"><h3><button class="faq-q" id="q5" aria-expanded="false" aria-controls="a5"><span class="qn">05</span><span class="qt">How does rollback work?</span><span class="qi" aria-hidden="true"></span></button></h3><div class="faq-a" id="a5" role="region" aria-labelledby="q5"><div><p>Before each prod deploy the last good build is saved. If the new build fails its health check, Terraform re-applies the saved build and the pipeline fails loudly.</p></div></div></div>
+          <div class="faq-item"><h3><button class="faq-q" id="q6" aria-expanded="false" aria-controls="a6"><span class="qn">06</span><span class="qt">Can it deploy non-website apps?</span><span class="qi" aria-hidden="true"></span></button></h3><div class="faq-a" id="a6" role="region" aria-labelledby="q6"><div><p>Yes. Anything that runs on Linux and can be zipped can be started by the same systemd service, for example an API or a worker.</p></div></div></div>
+        </div>
       </section>
     </main>
   </div>

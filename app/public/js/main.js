@@ -6,6 +6,7 @@ import { initCounters } from './counters.js';
 import { initPipeline } from './pipeline.js';
 import { initCursorGlow } from './cursor-glow.js';
 import { initCarousel } from './carousel.js';
+import { initFaq } from './faq.js';
 
 initReveal();
 initNavbar();
@@ -14,5 +15,6 @@ initCounters();
 initPipeline();
 initCursorGlow();
 initCarousel();
+initFaq();
 
 // Footer year (set when the footer exists).
