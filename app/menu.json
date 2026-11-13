@@ -1,11 +1,11 @@
 [
-  { "id": 1, "name": "Salmon Nigiri", "price": 6.5, "veg": false, "image": "salmon" },
-  { "id": 2, "name": "Tuna Maki", "price": 7.0, "veg": false, "image": "tuna" },
-  { "id": 3, "name": "Avocado Roll", "price": 5.5, "veg": true, "image": "avocado" },
-  { "id": 4, "name": "Cucumber Maki", "price": 4.5, "veg": true, "image": "cucumber" },
-  { "id": 5, "name": "Dragon Roll", "price": 12.0, "veg": false, "image": "dragon" },
-  { "id": 6, "name": "Veggie Tempura Roll", "price": 8.5, "veg": true, "image": "tempura" },
-  { "id": 7, "name": "Ebi Nigiri", "price": 6.0, "veg": false, "image": "ebi" },
-  { "id": 8, "name": "Inari Sushi", "price": 5.0, "veg": true, "image": "inari" },
-  { "id": 9, "name": "Spicy Tuna Roll", "price": 9.0, "veg": false, "image": "spicy" }
+  { "id": 1, "name": "Salmon Nigiri", "price": 520, "veg": false, "image": "salmon" },
+  { "id": 2, "name": "Tuna Maki", "price": 560, "veg": false, "image": "tuna" },
+  { "id": 3, "name": "Avocado Roll", "price": 440, "veg": true, "image": "avocado" },
+  { "id": 4, "name": "Cucumber Maki", "price": 360, "veg": true, "image": "cucumber" },
+  { "id": 5, "name": "Dragon Roll", "price": 960, "veg": false, "image": "dragon" },
+  { "id": 6, "name": "Veggie Tempura Roll", "price": 680, "veg": true, "image": "tempura" },
+  { "id": 7, "name": "Ebi Nigiri", "price": 480, "veg": false, "image": "ebi" },
+  { "id": 8, "name": "Inari Sushi", "price": 400, "veg": true, "image": "inari" },
+  { "id": 9, "name": "Spicy Tuna Roll", "price": 720, "veg": false, "image": "spicy" }
 ]
