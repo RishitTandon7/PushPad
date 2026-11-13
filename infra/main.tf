@@ -86,3 +86,33 @@ resource "aws_iam_instance_profile" "app" {
   name_prefix = "${local.name}-"
   role        = aws_iam_role.app.name
 }
+
+# The server itself: boots from user_data, so changing the build replaces the instance (immutable infra).
+resource "aws_instance" "app" {
+  ami                         = data.aws_ssm_parameter.al2023.value
+  instance_type               = var.instance_type
+  vpc_security_group_ids      = [aws_security_group.app.id]
+  iam_instance_profile        = aws_iam_instance_profile.app.name
+  associate_public_ip_address = true
+
+  user_data = templatefile("${path.module}/user_data.sh.tftpl", {
+    artifacts_bucket = var.artifacts_bucket
+    app_version      = var.app_version
+  })
+  user_data_replace_on_change = true
+
+  tags = {
+    Name      = local.name
+    Branch    = var.branch
+    Env       = var.env
+    Version   = var.app_version
+    CreatedAt = timestamp()
+    ManagedBy = "pushpad"
+  }
+
+  lifecycle {
+    create_before_destroy = true
+    # CreatedAt must stay the original creation time, not change on every apply.
+    ignore_changes = [tags["CreatedAt"]]
+  }
+}
