@@ -1,38 +1,18 @@
-// PushPad sample app: static site + 3 small JSON endpoints.
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
+// PushPad control plane: static site + deployment API (see lib/ and routes/).
+const { createDefaultApp } = require('./lib/compose');
 
-const app = express();
-
-// Read version.json (written by the pipeline); fall back to local dev values.
-function readVersion() {
-  try {
-    return JSON.parse(fs.readFileSync(path.join(__dirname, 'version.json'), 'utf8'));
-  } catch {
-    return { branch: 'local', build: 0, commit: 'dev', deployedAt: new Date().toISOString(), env: 'local' };
-  }
-}
-
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Health endpoint used by the pipeline health check.
-app.get('/health', (req, res) => res.json({ status: 'ok' }));
-
-// Version endpoint: everything the pipeline knows about this deploy.
-app.get('/version', (req, res) => {
-  const { branch, build, commit, deployedAt, env } = readVersion();
-  res.json({ branch, build, commit, deployedAt, env });
-});
-
-// Menu endpoint: re-read on each request so the data is always what shipped.
-app.get('/api/menu', (req, res) => {
-  res.json(JSON.parse(fs.readFileSync(path.join(__dirname, 'menu.json'), 'utf8')));
-});
+const { app, service, config, store } = createDefaultApp();
 
 if (require.main === module) {
   const port = process.env.PORT || 3000;
-  app.listen(port, () => console.log(`PushPad app listening on ${port}`));
+  app.listen(port, () => {
+    console.log(`PushPad listening on ${port} (${config.mock ? 'MOCK mode' : 'AWS mode'}, store: ${store.kind})`);
+    if (config.mock && config.requireAccessCode && !process.env.ACCESS_CODE) {
+      console.log('Mock mode: set ACCESS_CODE to choose the access code (default for local demos: "demo")');
+    }
+  });
+  // Mark deployments expired even when nobody is watching.
+  setInterval(() => service.sweep().catch(() => {}), 30 * 1000).unref();
 }
 
 module.exports = app;
