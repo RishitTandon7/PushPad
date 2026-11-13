@@ -1,5 +1,5 @@
 /* How it works: one horizontal row of six steps; an orange marker travels the line (vertical on mobile) */
-.flow { position: relative; display: grid; grid-template-columns: repeat(6, 1fr); background: var(--panel); }
+.flow { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); background: var(--panel); }
 .flow-line { position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--line); z-index: 3; }
 .flow-fill { position: absolute; inset: 0; background: var(--orange); transform: scaleX(var(--p, 0)); transform-origin: left; transition: transform .5s cubic-bezier(.7, 0, .2, 1); }
 .flow-dot { position: absolute; left: 0; top: -6px; width: 15px; height: 15px; background: var(--orange); border: 2px solid var(--ink); transition: transform .5s cubic-bezier(.7, 0, .2, 1); }
