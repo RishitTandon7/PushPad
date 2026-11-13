@@ -82,3 +82,7 @@ Safety model:
 - **Cost**: self-terminating instance (`shutdown` after the TTL plus a margin), the cleanup job, and the budget alarm.
 - **Hygiene**: users never see secrets or internal errors; all repo-derived text is escaped in the UI.
 
+## Cloud providers are isolated
+
+The Jenkins pipeline and the API only know four generic inputs (`deploy_id`, `artifact_url`, `app_type`, `ttl_minutes`) and two outputs (`url`, `instance_id`). All AWS-specific code lives in `infra/deployment/`. To add Oracle Cloud later, write `infra/deployment-oracle/` with the same variables and outputs and set `DEPLOY_TF_DIR=infra/deployment-oracle`; the pipeline and API do not change.
+
