@@ -144,3 +144,13 @@ aws ssm put-parameter --region ap-south-1 --name /pushpad/public-base-url  --typ
 ## 16. Let the prod server reach Jenkins
 The control plane calls Jenkins on port 8080 from the prod instance. In the Jenkins security group add an inbound rule: TCP 8080 from `<prod-elastic-ip>/32`. (Callbacks go the other way, from Jenkins to prod port 80, which is already open.)
 
+## 17. Create the two parameterized jobs
+Both are Pipeline jobs, definition "Pipeline script from SCM", Git, your repo, branch `main`:
+
+| Job name | Script path | Parameters (declared in the file) |
+|---|---|---|
+| `pushpad-deploy` | `Jenkinsfile.deploy` | `DEPLOY_ID`, `REPO_URL`, `BRANCH`, `SUBDIR` |
+| `pushpad-destroy` | `Jenkinsfile.destroy` | `DEPLOY_ID` |
+
+Run each job once by hand (it will fail on the empty parameters, which is fine) so Jenkins registers the parameters; after that the REST API can start them. Jenkins needs `git`, `zip`, `jq`, `terraform` and the AWS CLI, which `scripts/bootstrap-jenkins.sh` already installs.
+
