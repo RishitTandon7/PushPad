@@ -1,0 +1,111 @@
+// PushPad deploy job: clones a public GitHub repo, packages its SOURCE, and creates one small EC2 for it.
+// Triggered by the control plane through the Jenkins REST API. Every stage reports to the control plane.
+// Repo code is never run on this server: it is only cloned, inspected and zipped.
+
+// Report a stage as running, run the body, then report done or failed (with a user-safe message from the scripts).
+def runStage(String name, Closure body) {
+  sh "scripts/deploy/report.sh ${name} running"
+  try {
+    body()
+  } catch (err) {
+    def msg = fileExists('.deploy/error.txt') ? readFile('.deploy/error.txt').trim() : 'This stage failed.'
+    withEnv(["STAGE_NAME=${name}", "STAGE_MSG=${msg}"]) {
+      sh 'scripts/deploy/report.sh "$STAGE_NAME" failed "$STAGE_MSG"'
+    }
+    throw err
+  }
+  sh "scripts/deploy/report.sh ${name} done"
+}
+
+pipeline {
+  agent any
+
+  parameters {
+    string(name: 'DEPLOY_ID', defaultValue: '', description: 'Deployment id (10 hex characters)')
+    string(name: 'REPO_URL', defaultValue: '', description: 'Public https://github.com/<owner>/<repo> URL')
+    string(name: 'BRANCH', defaultValue: 'main', description: 'Branch to deploy')
+    string(name: 'SUBDIR', defaultValue: '', description: 'Optional folder inside the repo')
+  }
+
+  options {
+    timeout(time: 25, unit: 'MINUTES')
+    buildDiscarder(logRotator(numToKeepStr: '30'))
+  }
+
+  environment {
+    AWS_DEFAULT_REGION = 'ap-south-1'
+    TF_IN_AUTOMATION   = '1'
+  }
+
+  stages {
+    // 1. Clone: shallow clone of a public HTTPS GitHub repo, with strict input validation.
+    stage('Clone') {
+      steps {
+        script {
+          currentBuild.displayName = "#${env.BUILD_NUMBER} ${params.DEPLOY_ID}"
+          checkout scm
+          sh 'rm -rf .deploy && mkdir -p .deploy'
+          runStage('clone') { sh 'scripts/deploy/clone.sh' }
+        }
+      }
+    }
+
+    // 2. Detect: static (index.html) or node (package.json with a start script); anything else fails clearly.
+    stage('Detect') {
+      steps {
+        script { runStage('detect') { sh 'scripts/deploy/detect.sh' } }
+      }
+    }
+
+    // 3. Package: zip the source only; no npm install and no repo code runs here.
+    stage('Package') {
+      steps {
+        script { runStage('package') { sh 'scripts/deploy/package.sh' } }
+      }
+    }
+
+    // 4. Upload: store the zip under deployments/<id>/ in the artifacts bucket.
+    stage('Upload to S3') {
+      steps {
+        script { runStage('upload') { sh 'scripts/deploy/upload.sh' } }
+      }
+    }
+
+    // 5. Terraform apply: one small EC2 in its own workspace d-<id>.
+    stage('Terraform apply') {
+      steps {
+        script { runStage('apply') { sh 'scripts/deploy/apply.sh' } }
+      }
+    }
+
+    // 6. Health check: wait for the new site to answer on port 80.
+    stage('Health check') {
+      steps {
+        script { runStage('health') { sh 'scripts/deploy/health.sh' } }
+      }
+    }
+
+    // 7. Report URL: send the live URL to the control plane, which starts the 30-minute countdown.
+    stage('Report URL') {
+      steps {
+        sh '''
+          scripts/deploy/report.sh - live "" "$(cat .deploy/url.txt)" "$(cat .deploy/instance-id.txt)"
+        '''
+        script {
+          currentBuild.description = readFile('.deploy/url.txt').trim()
+        }
+      }
+    }
+  }
+
+  post {
+    failure {
+      // Report a failure that happened outside a stage, then remove anything half-created.
+      sh 'scripts/deploy/report.sh - failed "The deployment failed." || true'
+      sh 'scripts/deploy/destroy.sh || true'
+    }
+    cleanup {
+      deleteDir()
+    }
+  }
+}
