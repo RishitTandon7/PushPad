@@ -115,3 +115,12 @@ Add one statement to the `pushpad-jenkins` policy from step 2, so the pipeline c
 
 Everything else the deployment pipeline needs is already covered: EC2, security groups and IAM roles named `pushpad-*` (deployments are named `pushpad-d-<id>`), S3 on `pushpad-*` buckets, and `ec2:Describe*` for the cleanup job. The prod instance gets DynamoDB and `/pushpad/*` read access from Terraform (`aws_iam_role_policy.control_plane` in `infra/main.tf`); you do not add that by hand.
 
+## 13. Create the DynamoDB table
+The table is part of `infra/bootstrap`, so apply it again:
+
+```bash
+cd infra/bootstrap && terraform apply     # adds table "pushpad-deployments" (on-demand, TTL on "ttl")
+```
+
+Then deploy `main` once more (Jenkins `pushpad` job, approve the prod step) so the prod instance picks up the new role policy and environment (`PUSHPAD_MODE=aws`, `DEPLOYMENTS_TABLE`).
+
