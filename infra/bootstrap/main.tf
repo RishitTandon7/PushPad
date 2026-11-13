@@ -55,3 +55,25 @@ resource "aws_s3_bucket_public_access_block" "state" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
+
+# Bucket that holds the build zips the EC2 instances download at boot.
+resource "aws_s3_bucket" "artifacts" {
+  bucket = local.artifacts_bucket
+}
+
+# Versioning keeps history of build artifacts.
+resource "aws_s3_bucket_versioning" "artifacts" {
+  bucket = aws_s3_bucket.artifacts.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+# Artifacts are private too; instances read them through their IAM role.
+resource "aws_s3_bucket_public_access_block" "artifacts" {
+  bucket                  = aws_s3_bucket.artifacts.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
