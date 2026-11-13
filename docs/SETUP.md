@@ -127,3 +127,17 @@ Then deploy `main` once more (Jenkins `pushpad` job, approve the prod step) so t
 ## 14. Create a Jenkins API token
 Jenkins > your user (top right) > Configure > API Token > Add new Token. Copy it once. The control plane uses it to start the deploy and destroy jobs through the REST API.
 
+## 15. Store the settings in SSM Parameter Store
+Run these on any machine with AWS access (replace the values in angle brackets; never commit them):
+
+```bash
+aws ssm put-parameter --region ap-south-1 --name /pushpad/jenkins-url      --type String       --overwrite --value "http://<jenkins-ip>:8080"
+aws ssm put-parameter --region ap-south-1 --name /pushpad/jenkins-user     --type String       --overwrite --value "<your-jenkins-user>"
+aws ssm put-parameter --region ap-south-1 --name /pushpad/jenkins-token    --type SecureString --overwrite --value "<api-token-from-step-14>"
+aws ssm put-parameter --region ap-south-1 --name /pushpad/callback-secret  --type SecureString --overwrite --value "$(openssl rand -hex 24)"
+aws ssm put-parameter --region ap-south-1 --name /pushpad/access-code      --type SecureString --overwrite --value "<a-code-you-share-with-testers>"
+aws ssm put-parameter --region ap-south-1 --name /pushpad/public-base-url  --type String       --overwrite --value "http://<prod-elastic-ip>"
+```
+
+`public-base-url` is the prod URL printed by the pipeline; Jenkins posts its progress callbacks there. To turn the access code off, set `REQUIRE_ACCESS_CODE=false` for the app (the limits then are the only gate).
+
