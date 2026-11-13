@@ -55,3 +55,25 @@ docs/             SETUP.md (do first), DEMO.md (live demo script)
 ```
 
 Run locally: `cd app && npm ci && npm start` then open http://localhost:3000.
+
+## Cost notes
+- Always on: one Jenkins EC2 and one prod EC2 (plus the Elastic IP, which is free while attached). Instance type is the Terraform variable `instance_type` (default `t3.micro`; **`t2.micro` may be the free-tier type on older accounts**, pass `-var instance_type=t2.micro`).
+- Previews live minutes, and the cost guard destroys any preview older than 24 hours.
+- S3 usage is a few MB. Set the budget alarm first (see `docs/SETUP.md`).
+- After the review run `scripts/destroy-all.sh`, then stop the Jenkins EC2.
+
+## Moving off AWS later
+The pipeline only needs "give me a Linux server that downloads a zip and runs it". To move: swap `infra/main.tf` for another Terraform provider (Azure VM, DigitalOcean droplet, Hetzner), keep the S3-style artifact step by using that provider's object storage, and keep Jenkinsfile, scripts and app unchanged apart from `aws s3 cp` calls and the AMI lookup.
+
+## Interview talking points
+- **Workspaces**: one state per branch from the same code; the workspace name is the sanitized branch name, so `main` is `prod` and previews cannot touch prod.
+- **Remote state and locking**: state lives in a versioned, encrypted S3 bucket; `use_lockfile` stops two pipelines applying to the same state at once (no DynamoDB needed on Terraform 1.10+).
+- **Immutable infrastructure**: a new build means `user_data` changes, so Terraform replaces the instance (create-before-destroy) rather than patching it.
+- **IAM roles instead of keys**: Jenkins and every app server use instance roles; servers can only `s3:GetObject` the artifacts bucket. No secrets in Git.
+- **Cleanup and cost control**: scheduled job reconciles workspaces with live branches, plus a 24 h age limit and a budget alarm.
+- **Rollback**: before each prod apply the last healthy zip key is copied to `prod/previous.txt`; a failed health check re-applies it and fails the build.
+- **Fail early**: lint and tests gate everything, so bad data like a negative price never reaches AWS.
+
+## Known limits
+- Two branches that sanitize to the same name (`feature/x` and `feature-x`) would share a workspace.
+- Prod deploys replace the instance, so there is a short gap while the Elastic IP moves.
