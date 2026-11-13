@@ -20,4 +20,4 @@ elif [ "$size_bytes" -lt $((1024 * 1024)) ]; then pretty="$(awk -v b="$size_byte
 else pretty="$(awk -v b="$size_bytes" 'BEGIN { printf "%.1f MB", b / 1048576 }')"; fi
 files="$(unzip -Z1 "$WORK/app.zip" | grep -vc '/$' || true)"
 [ "${files:-0}" -gt 0 ] || fail "The project folder has no files to deploy."
-say "Package size ${pretty} (${size_bytes} bytes), ${files} files"
+if [ "$size_bytes" -lt 1024 ]; then say "Package size ${pretty}, ${files} files"; else say "Package size ${pretty} (${size_bytes} bytes), ${files} files"; fi
