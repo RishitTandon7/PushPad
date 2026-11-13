@@ -1,0 +1,9 @@
+/* What it is: three boxed cells (problem / solution / result) and a one-line summary */
+.what-grid { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--panel); }
+.what-cell { position: relative; padding: 46px var(--rail) 32px; border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
+.what-cell:last-child { border-right: 0; }
+.what-cell img { width: 40px; height: 40px; margin-bottom: 4px; }
+.what-cell h3 { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.05rem, 1.8vw, 1.45rem); text-transform: uppercase; }
+.what-cell p { max-width: 34ch; font-size: var(--fs-lg); line-height: 1.5; }
+.what-line { padding: 16px var(--rail); border-top: 1px solid var(--line); }
+.what-line .label { text-transform: none; letter-spacing: .01em; font-size: var(--fs-base); }
