@@ -98,3 +98,10 @@ Push `main`. Jenkins builds, waits at **Deploy build N to PROD?**, click Deploy.
 cd infra/bootstrap && terraform destroy   # only after emptying/deleting versioned objects in both buckets
 ```
 Then terminate the Jenkins EC2 and release its Elastic IP. Buckets are versioned, so empty all versions in the console first if `terraform destroy` complains.
+
+---
+
+# Part 2: Quick Share (paste a repo, get a 30-minute link)
+
+Do this after Part 1 works (Jenkins, buckets, the multibranch job and prod). It adds the control plane settings, two Jenkins jobs, and a few permissions.
+
