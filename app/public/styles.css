@@ -77,3 +77,15 @@ code { font-family: var(--mono); color: var(--accent-2); }
   .menu.open { display: flex; }
 }
 
+/* §2 hero */
+.hero { min-height: 88vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 4rem 1.25rem; }
+.hero h1 { font-size: clamp(2.4rem, 9vw, 7.5rem); line-height: .98; letter-spacing: -.02em; margin: 1.5rem 0; font-weight: 900; text-transform: uppercase; }
+.accent { color: var(--accent-2); text-shadow: 0 0 40px rgba(139, 92, 246, .6); }
+.tagline { max-width: 640px; color: var(--muted); font-size: clamp(1rem, 2vw, 1.2rem); margin: 0 0 2rem; }
+.cta { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+.pill { display: inline-flex; align-items: center; gap: .6rem; padding: .4rem 1rem; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.04); font-family: var(--mono); font-size: .85rem; margin: 0; }
+.pill .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--muted); }
+.pill.live .dot { background: var(--green); box-shadow: 0 0 10px var(--green); animation: pulse 1.6s infinite; }
+.pill.offline .dot { background: var(--red); }
+@keyframes pulse { 50% { opacity: .35; } }
+

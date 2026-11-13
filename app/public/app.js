@@ -48,3 +48,17 @@ window.PushPad = {
   });
 })();
 
+/* §2 hero: live status pill from /version */
+(async function statusPill() {
+  const pill = document.getElementById('status-pill');
+  const text = document.getElementById('status-text');
+  try {
+    const v = await window.PushPad.getJSON('/version');
+    pill.classList.add('live');
+    text.textContent = `LIVE · branch ${v.branch} · build #${v.build} · ${String(v.env).toUpperCase()}`;
+  } catch {
+    pill.classList.add('offline');
+    text.textContent = 'OFFLINE · cannot reach /version';
+  }
+})();
+
