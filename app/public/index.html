@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="css/depth.css">
   <link rel="stylesheet" href="css/pipeline.css">
   <link rel="stylesheet" href="css/deployments.css">
+  <link rel="stylesheet" href="css/plans.css">
   <link rel="stylesheet" href="css/faq.css">
   <link rel="stylesheet" href="css/footer.css">
   <link rel="stylesheet" href="css/preloader.css">
@@ -155,6 +156,35 @@
       <section class="band" id="deployments" aria-labelledby="dep-h">
         <div class="band-head"><span class="label" data-scramble>02 / Deployments</span><h2 class="display" id="dep-h">Recent deployments</h2></div>
         <div class="dep-strip" id="dep-strip" aria-live="polite"><p class="dep-empty">Loading...</p></div>
+      </section>
+      <section class="band" id="plans" aria-labelledby="plans-h">
+        <div class="band-head"><span class="label" data-scramble>03 / Plans</span><h2 class="display" id="plans-h">Plans</h2></div>
+        <div class="plans">
+          <article class="plan raised" data-tilt>
+            <span class="tag orange">Available now</span>
+            <h3>Quick Share</h3>
+            <p class="lead">Free &middot; 30 minutes</p>
+            <ul>
+              <li>Public GitHub repos</li>
+              <li>Static sites and Node apps</li>
+              <li>No env vars, no setup</li>
+              <li>Deleted automatically</li>
+            </ul>
+            <a class="btn" href="#top" data-focus-deploy>Deploy now</a>
+          </article>
+          <article class="plan soon">
+            <span class="soon-badge">Coming soon</span>
+            <h3>Pro</h3>
+            <p class="lead">For longer-lived previews</p>
+            <ul>
+              <li>Longer deployments</li>
+              <li>Environment variables</li>
+              <li>Private repos via GitHub login</li>
+              <li>Custom subdomain</li>
+            </ul>
+            <button class="btn" type="button" disabled aria-disabled="true">Coming soon</button>
+          </article>
+        </div>
       </section>
       <section class="band" id="faq" aria-labelledby="faq-h">
         <div class="band-head"><span class="label" data-scramble>06 / FAQ</span><h2 class="display" id="faq-h">Questions</h2></div>
