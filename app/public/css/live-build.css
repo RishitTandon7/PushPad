@@ -19,3 +19,10 @@
 .log .cur::after { content: "_"; color: var(--orange); }
 .term-foot { grid-column: 1 / -1; font-size: var(--fs-xs); color: #a8a8a8; margin: 0; }
 .term.offline .live-data dd { color: #ff8b8b; }
+
+/* Side-by-side layout: terminal on the left, live menu on the right */
+.live-split { display: grid; grid-template-columns: 1fr 1fr; }
+.live-split .live-wrap { padding: var(--sp-3) var(--rail); border-right: 1px solid var(--line); }
+.term { grid-template-columns: 1fr; gap: var(--sp-2); padding: var(--sp-3); }
+.log { min-height: 232px; }
+.menu-wrap { min-width: 0; display: flex; flex-direction: column; }
