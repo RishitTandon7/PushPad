@@ -18,7 +18,7 @@ function readVersion() {
 function coreRoutes({ service, config }) {
   const router = express.Router();
 
-  router.get('/health', (req, res) => res.status(process.env.NODE_ENV === 'test' ? 200 : 503).json({ status: 'ok' }));
+  router.get('/health', (req, res) => res.json({ status: 'ok' }));
 
   router.get('/version', (req, res) => {
     const { branch, build, commit, deployedAt, env } = readVersion();
