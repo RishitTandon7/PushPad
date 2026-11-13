@@ -12,3 +12,29 @@
   .js .reveal { opacity: 1; transform: none; }
   .marquee { overflow-x: auto; }
 }
+
+/* Hero entrance: letters slide up out of a clip, underscore wipes in, corner squares blink in */
+.js .ch { display: inline-block; overflow: hidden; vertical-align: top; padding: .08em .03em; margin: -.08em -.03em; }
+.js .ci { display: inline-block; transform: translateY(115%); }
+.js .hero-title .us { transform: scaleX(0); transform-origin: left; }
+.js .hero .sq { opacity: 0; }
+.hero-in .ci { animation: chIn .6s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--i) * 45ms); }
+.hero-in .hero-title .us { animation: usIn .45s cubic-bezier(.7, 0, .2, 1) .45s both; }
+.hero-in .hero .sq { animation: sqIn .7s steps(1) .6s both; }
+@keyframes chIn { from { transform: translateY(115%); } to { transform: none; } }
+@keyframes usIn { to { transform: scaleX(1); } }
+@keyframes sqIn { 0% { opacity: 0; } 20% { opacity: 1; } 40% { opacity: 0; } 60% { opacity: 1; } 80% { opacity: 0; } 100% { opacity: 1; } }
+
+/* Hero illustration idle: the core pulses, rings fade, a packet climbs the stack */
+.core { transform-box: fill-box; transform-origin: 50% 60%; animation: corePulse 2.4s ease-in-out infinite; }
+.ring { animation: ringPulse 2.4s ease-in-out infinite; }
+.ring.r2 { animation-delay: .6s; }
+.packet { animation: packet 3.4s cubic-bezier(.65, 0, .35, 1) infinite; }
+@keyframes corePulse { 50% { transform: scale(1.07); } }
+@keyframes ringPulse { 50% { opacity: .25; } }
+@keyframes packet { 0% { opacity: 0; transform: translateY(0); } 12% { opacity: 1; } 80% { opacity: 1; transform: translateY(-255px); } 100% { opacity: 0; transform: translateY(-265px); } }
+@media (prefers-reduced-motion: reduce) {
+  .js .ci, .js .hero-title .us { transform: none !important; }
+  .js .hero .sq { opacity: 1 !important; }
+  .packet { opacity: 0; }
+}
