@@ -16,9 +16,6 @@
 /* Corner marker squares and bracket frames */
 .sq { position: absolute; width: 10px; height: 10px; background: var(--orange); }
 .brackets { position: relative; }
-.brackets::before, .brackets::after { content: ""; position: absolute; width: 16px; height: 16px; border: 2px solid currentColor; pointer-events: none; }
-.brackets::before { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
-.brackets::after { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
 
 /* Square icon button (x, arrows, social) */
 .icon-btn { width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid var(--line-strong); background: var(--panel); transition: background .15s, color .15s; text-decoration: none; }
@@ -38,3 +35,11 @@
 .tag { position: absolute; top: -1px; left: -1px; padding: 2px 10px; font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .06em; background: var(--panel); border: 1px solid var(--line-strong); z-index: 2; }
 .tag.dark { background: var(--ink); color: #fff; }
 .tag.orange { background: var(--orange); border-color: var(--orange); }
+
+/* Four corner brackets drawn as line segments; colour comes from --bk */
+.brackets::before { content: ""; position: absolute; inset: 10px; pointer-events: none; --c: var(--bk, currentColor);
+  background:
+    linear-gradient(var(--c), var(--c)) top left / 16px 2px no-repeat, linear-gradient(var(--c), var(--c)) top left / 2px 16px no-repeat,
+    linear-gradient(var(--c), var(--c)) top right / 16px 2px no-repeat, linear-gradient(var(--c), var(--c)) top right / 2px 16px no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom left / 16px 2px no-repeat, linear-gradient(var(--c), var(--c)) bottom left / 2px 16px no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom right / 16px 2px no-repeat, linear-gradient(var(--c), var(--c)) bottom right / 2px 16px no-repeat; }
