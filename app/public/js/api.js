@@ -1,29 +1,37 @@
-// API helpers: fetch /version and /api/menu with a timeout; failures resolve to null so the UI can show "offline".
-async function getJSON(url) {
+// API helpers. Every call resolves to { ok, status, data }; network failures resolve to { ok: false, status: 0 } so the UI can show "offline".
+async function call(method, url, { body, headers } = {}) {
   const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), 5000);
+  const timer = setTimeout(() => ctrl.abort(), 8000);
   try {
-    const res = await fetch(url, { cache: 'no-store', signal: ctrl.signal });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    return await res.json();
+    const res = await fetch(url, {
+      method,
+      cache: 'no-store',
+      signal: ctrl.signal,
+      headers: { ...(body ? { 'Content-Type': 'application/json' } : {}), ...headers },
+      body: body ? JSON.stringify(body) : undefined,
+    });
+    let data = null;
+    try { data = await res.json(); } catch { data = null; }
+    return { ok: res.ok, status: res.status, data };
   } catch {
-    return null;
+    return { ok: false, status: 0, data: null };
   } finally {
     clearTimeout(timer);
   }
 }
 
-// Share one in-flight/recent /version request between all modules.
+// Share one in-flight/recent /version request between modules (the preloader waits on it too).
 let cached = null;
 let cachedAt = 0;
 export async function getVersion() {
   if (cached && Date.now() - cachedAt < 3000) return cached;
-  cached = getJSON('/version');
   cachedAt = Date.now();
+  cached = call('GET', '/version').then((r) => (r.ok ? r.data : null));
   return cached;
 }
 
-export const getMenu = () => getJSON('/api/menu');
-
-// Indian number formatting for rupee prices, e.g. 1040 -> ₹1,040.
-export const rupees = (n) => '₹' + Number(n).toLocaleString('en-IN');
+export const getPlatform = () => call('GET', '/api/platform');
+export const createDeployment = (payload) => call('POST', '/api/deployments', { body: payload });
+export const getDeployment = (id) => call('GET', '/api/deployments/' + encodeURIComponent(id));
+export const listDeployments = () => call('GET', '/api/deployments');
+export const deleteDeployment = (id, token) => call('DELETE', '/api/deployments/' + encodeURIComponent(id), { headers: { Authorization: 'Bearer ' + token } });
