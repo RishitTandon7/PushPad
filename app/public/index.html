@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="css/hero.css">
   <link rel="stylesheet" href="css/marquee.css">
   <link rel="stylesheet" href="css/stats.css">
+  <link rel="stylesheet" href="css/pipeline.css">
   <link rel="stylesheet" href="css/animations.css">
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -110,6 +111,18 @@
         <div class="stat reveal"><div class="num mono-num">~<span data-count="2">0</span><small>min</small></div><div class="lbl">From push to live URL</div></div>
         <div class="stat reveal"><div class="num mono-num"><span data-count="0">0</span></div><div class="lbl">Manual steps for previews</div></div>
         <div class="stat reveal"><div class="num mono-num"><span data-count="24">0</span><small>h</small></div><div class="lbl">Auto-cleanup of previews</div></div>
+      </section>
+      <section class="band" id="pipeline" aria-labelledby="pipe-h">
+        <div class="band-head"><span class="label">01 / Pipeline</span><h2 class="display reveal" id="pipe-h">How it works</h2><p class="reveal">Six steps from <code>git push</code> to a URL you can share.</p></div>
+        <ol class="steps">
+          <span class="pipe-fill" aria-hidden="true"></span>
+          <li class="step"><div class="step-num"><span class="n">01</span><img src="assets/icons/branch.svg" alt=""></div><div class="step-body"><h3>Push</h3><p>You push a branch to GitHub.</p></div><div class="step-tag"><span class="chip">Git</span></div></li>
+          <li class="step"><div class="step-num"><span class="n">02</span><img src="assets/icons/rocket.svg" alt=""></div><div class="step-body"><h3>Webhook</h3><p>GitHub pings Jenkins, which starts a build for that branch.</p></div><div class="step-tag"><span class="chip">GitHub</span></div></li>
+          <li class="step"><div class="step-num"><span class="n">03</span><img src="assets/icons/shield.svg" alt=""></div><div class="step-body"><h3>Test</h3><p>Lint and unit tests must pass or the build stops.</p></div><div class="step-tag"><span class="chip">Jenkins</span></div></li>
+          <li class="step"><div class="step-num"><span class="n">04</span><img src="assets/icons/lock.svg" alt=""></div><div class="step-body"><h3>Package to S3</h3><p>The app is zipped with its dependencies and uploaded.</p></div><div class="step-tag"><span class="chip">AWS S3</span></div></li>
+          <li class="step"><div class="step-num"><span class="n">05</span><img src="assets/icons/server.svg" alt=""></div><div class="step-body"><h3>Terraform Apply</h3><p>A fresh EC2 boots from the zip in its own workspace.</p></div><div class="step-tag"><span class="chip">Terraform</span></div></li>
+          <li class="step"><div class="step-num"><span class="n">06</span><img src="assets/icons/terminal.svg" alt=""></div><div class="step-body"><h3>Health Check</h3><p>Jenkins checks /health and /version, then shares the URL.</p></div><div class="step-tag"><span class="chip">Jenkins</span></div></li>
+        </ol>
       </section>
     </main>
   </div>
