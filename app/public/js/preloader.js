@@ -20,7 +20,7 @@ function done(el) {
 
 export async function initPreloader() {
   const el = document.getElementById('preloader');
-  if (!root.classList.contains('preload') || !el) { openHero(); return; }
+  if (!root.classList.contains('preload') || !el) { if (el) el.remove(); openHero(); return; }
   try { sessionStorage.setItem('pp-seen', '1'); } catch { /* storage blocked: fine */ }
 
   // Real readiness: fonts decoded and /version answered (null on failure still counts as answered).
