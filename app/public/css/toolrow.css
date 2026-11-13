@@ -1,0 +1,5 @@
+/* Tool row: one thin line of bordered cells under the hero */
+.toolrow { display: grid; grid-template-columns: 1.2fr repeat(5, 1fr); border-top: 1px solid var(--line); background: var(--panel); }
+.toolrow li { padding: 14px var(--rail); border-right: 1px solid var(--line); font-family: var(--font-display); font-weight: 700; font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: .06em; display: flex; align-items: center; }
+.toolrow li:last-child { border-right: 0; }
+.toolrow li.label { font-family: var(--font-mono); font-weight: 400; background: var(--bg); }
