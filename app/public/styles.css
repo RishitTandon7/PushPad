@@ -97,3 +97,12 @@ code { font-family: var(--mono); color: var(--accent-2); }
 .tool-row li:hover { color: var(--text); transform: translateY(-2px); }
 .tool-row svg { width: 26px; height: 26px; stroke: var(--accent-2); fill: var(--accent-2); stroke-width: 1.6; }
 
+/* §4 numbered cards (also used by features) */
+.cards { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; text-align: left; counter-reset: none; }
+.card { position: relative; background: linear-gradient(160deg, rgba(139, 92, 246, .08), rgba(15, 15, 24, .9)); border: 1px solid var(--line); border-radius: 18px; padding: 1.6rem; transition: transform .25s, box-shadow .25s, border-color .25s; }
+.card:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: var(--glow); }
+.num { font-family: var(--mono); font-size: 2.2rem; font-weight: 800; color: var(--accent-2); opacity: .9; }
+.card h3 { margin: .3rem 0 .4rem; font-size: 1.2rem; }
+.card p { margin: 0 0 1rem; color: var(--muted); }
+.tag { display: inline-block; font-family: var(--mono); font-size: .75rem; padding: .2rem .7rem; border: 1px solid var(--accent); border-radius: 999px; color: var(--accent-2); }
+

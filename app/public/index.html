@@ -56,6 +56,20 @@
     </ul>
   </section>
 
+  <!-- §4 -->
+  <section class="section" id="pipeline">
+    <h2 class="reveal">How it works</h2>
+    <p class="sub reveal">Six steps from <code>git push</code> to a URL you can share.</p>
+    <ol class="cards">
+      <li class="card reveal"><span class="num">01</span><h3>Push</h3><p>You push a branch to GitHub.</p><span class="tag">Git</span></li>
+      <li class="card reveal"><span class="num">02</span><h3>Webhook</h3><p>GitHub pings Jenkins, which starts a build.</p><span class="tag">GitHub</span></li>
+      <li class="card reveal"><span class="num">03</span><h3>Test</h3><p>Lint and unit tests must pass or the build stops.</p><span class="tag">Jenkins</span></li>
+      <li class="card reveal"><span class="num">04</span><h3>Package to S3</h3><p>The app is zipped with its dependencies and uploaded.</p><span class="tag">AWS S3</span></li>
+      <li class="card reveal"><span class="num">05</span><h3>Terraform Apply</h3><p>A fresh EC2 boots from the zip in its own workspace.</p><span class="tag">Terraform</span></li>
+      <li class="card reveal"><span class="num">06</span><h3>Health Check</h3><p>Jenkins checks /health and /version, then shares the URL.</p><span class="tag">Jenkins</span></li>
+    </ol>
+  </section>
+
   </main>
   <!-- §END -->
   <script src="app.js"></script>
