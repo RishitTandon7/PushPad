@@ -5,6 +5,7 @@ import { initLiveBuild } from './live-build.js';
 import { initCounters } from './counters.js';
 import { initPipeline } from './pipeline.js';
 import { initCursorGlow } from './cursor-glow.js';
+import { initCarousel } from './carousel.js';
 
 initReveal();
 initNavbar();
@@ -12,5 +13,6 @@ initLiveBuild();
 initCounters();
 initPipeline();
 initCursorGlow();
+initCarousel();
 
 // Footer year (set when the footer exists).

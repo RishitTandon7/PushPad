@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="css/pipeline.css">
   <link rel="stylesheet" href="css/cards.css">
   <link rel="stylesheet" href="css/live-build.css">
+  <link rel="stylesheet" href="css/carousel.css">
   <link rel="stylesheet" href="css/animations.css">
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -152,6 +153,11 @@
             <p class="term-foot" id="lv-foot">Waiting for first response...</p>
           </div>
         </div>
+      </section>
+      <section class="band" id="menu-section" aria-labelledby="menu-h">
+        <div class="band-head"><span class="label">04 / Live content</span><h2 class="display reveal" id="menu-h">Live content</h2><p class="reveal">Served from <code>menu.json</code>. Change a price, push, and it shows up here after the deploy.</p></div>
+        <div class="car-head"><span class="label">Menu</span><div class="car-ctrl"><button class="icon-btn" id="car-prev" type="button" aria-label="Previous dishes"><img src="assets/icons/arrow-left.svg" alt=""></button><button class="icon-btn" id="car-next" type="button" aria-label="Next dishes"><img src="assets/icons/arrow.svg" alt=""></button></div></div>
+        <ul class="track" id="track" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Menu items. Use left and right arrow keys to scroll."><li class="car-msg">Loading menu...</li></ul>
       </section>
     </main>
   </div>
