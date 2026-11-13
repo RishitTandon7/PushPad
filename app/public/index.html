@@ -84,6 +84,22 @@
     </ul>
   </section>
 
+  <!-- §6 -->
+  <section class="section" id="live">
+    <h2 class="reveal">Live build</h2>
+    <p class="sub reveal">This page reads <code>/version</code> from the server it is running on. Refreshes every 10 seconds.</p>
+    <div class="terminal reveal" id="terminal" aria-live="polite">
+      <div class="term-bar"><span></span><span></span><span></span><b>pushpad@live ~ /version</b><em id="env-badge" class="badge">…</em></div>
+      <dl class="term-body">
+        <div><dt>branch</dt><dd id="lv-branch">-</dd></div>
+        <div><dt>build</dt><dd id="lv-build">-</dd></div>
+        <div><dt>commit</dt><dd id="lv-commit">-</dd></div>
+        <div><dt>deployed</dt><dd id="lv-deployed">-</dd></div>
+      </dl>
+      <p class="term-foot" id="lv-foot">Waiting for first response…</p>
+    </div>
+  </section>
+
   </main>
   <!-- §END -->
   <script src="app.js"></script>

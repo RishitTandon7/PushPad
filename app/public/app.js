@@ -62,3 +62,41 @@ window.PushPad = {
   }
 })();
 
+/* §6 live build panel: poll /version every 10 seconds */
+(function liveBuild() {
+  const $ = (id) => document.getElementById(id);
+  const term = $('terminal');
+  const badge = $('env-badge');
+
+  // "5 minutes ago" style text for the deploy time.
+  function ago(iso) {
+    const s = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 1000));
+    if (Number.isNaN(s)) return 'unknown';
+    if (s < 60) return s + 's ago';
+    if (s < 3600) return Math.floor(s / 60) + 'm ago';
+    if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+    return Math.floor(s / 86400) + 'd ago';
+  }
+
+  async function poll() {
+    try {
+      const v = await window.PushPad.getJSON('/version');
+      term.classList.remove('offline');
+      $('lv-branch').textContent = v.branch;
+      $('lv-build').textContent = '#' + v.build;
+      $('lv-commit').textContent = String(v.commit).slice(0, 7);
+      $('lv-deployed').textContent = ago(v.deployedAt);
+      badge.textContent = String(v.env).toUpperCase();
+      badge.className = 'badge ' + (v.env === 'prod' ? 'prod' : v.env === 'preview' ? 'preview' : '');
+      $('lv-foot').textContent = 'Last checked ' + new Date().toLocaleTimeString();
+    } catch {
+      term.classList.add('offline');
+      badge.textContent = 'OFFLINE';
+      badge.className = 'badge offline';
+      $('lv-foot').textContent = 'Server unreachable. Retrying in 10s…';
+    }
+  }
+  poll();
+  setInterval(poll, 10000);
+})();
+

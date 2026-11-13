@@ -109,3 +109,20 @@ code { font-family: var(--mono); color: var(--accent-2); }
 /* §5 features: reuse cards, a little extra spacing at the end */
 #features .card p { margin-bottom: 0; }
 
+/* §6 live build terminal */
+.terminal { max-width: 720px; margin: 0 auto; text-align: left; background: #05050a; border: 1px solid var(--accent); border-radius: 16px; box-shadow: var(--glow); overflow: hidden; font-family: var(--mono); }
+.term-bar { display: flex; align-items: center; gap: .5rem; padding: .8rem 1rem; background: #0d0d18; border-bottom: 1px solid var(--line); }
+.term-bar span { width: 11px; height: 11px; border-radius: 50%; background: #3a3a55; }
+.term-bar b { margin-left: .6rem; font-weight: 500; color: var(--muted); font-size: .85rem; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.badge { font-style: normal; font-weight: 700; font-size: .75rem; padding: .2rem .7rem; border-radius: 999px; background: #2a2a40; color: var(--muted); }
+.badge.preview { background: rgba(251, 191, 36, .15); color: var(--yellow); border: 1px solid var(--yellow); }
+.badge.prod { background: rgba(52, 211, 153, .15); color: var(--green); border: 1px solid var(--green); }
+.badge.offline { background: rgba(248, 113, 113, .15); color: var(--red); border: 1px solid var(--red); }
+.term-body { margin: 0; padding: 1.4rem 1.4rem .6rem; }
+.term-body div { display: flex; gap: 1rem; padding: .35rem 0; font-size: clamp(1rem, 3.5vw, 1.4rem); }
+.term-body dt { width: 7.5rem; color: var(--muted); flex-shrink: 0; }
+.term-body dt::before { content: "$ "; color: var(--accent-2); }
+.term-body dd { margin: 0; color: var(--green); font-weight: 700; word-break: break-all; }
+.term-foot { margin: 0; padding: .8rem 1.4rem 1.2rem; color: var(--muted); font-size: .8rem; }
+.terminal.offline .term-body dd { color: var(--red); }
+
