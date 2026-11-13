@@ -160,3 +160,7 @@ Nothing new to create: the existing `pushpad-cleanup` job now has a third stage 
 ## 19. Try it
 Open the prod URL, paste `https://github.com/<you>/pushpad`, open Options, set the folder to `examples/static-site`, enter the access code, and press Deploy. After about two minutes you get a link. Press Delete now, then check in the EC2 console that the instance is gone.
 
+## Troubleshooting
+- **Deploy returns "build system is not reachable"**: check the three `/pushpad/jenkins-*` parameters, the Jenkins security group rule from step 16, and that the job names match (`pushpad-deploy`, `pushpad-destroy`).
+- **Stages never move past Clone**: the callbacks are failing; check `/pushpad/public-base-url` and `/pushpad/callback-secret`, and look at the `report:` lines in the Jenkins console.
+- **"All free slots are in use"**: three deployments are active; wait, or delete one, or run the cleanup job.
