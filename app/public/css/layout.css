@@ -1,5 +1,5 @@
 /* Layout: the blueprint shell, 1:2:1 column guide lines, and ruled sections */
-.shell { position: relative; max-width: var(--shell); margin: 0 auto; border-left: 1px solid var(--line); border-right: 1px solid var(--line); background: var(--bg); min-height: 100vh; }
+.shell { position: relative; max-width: var(--shell); margin: 0 auto; border-left: 1px solid var(--line); border-right: 1px solid var(--line); min-height: 100vh; }
 /* Vertical guide lines at 25% and 75% run the full height of the page */
 .shell::before, .shell::after { content: ""; position: absolute; top: 0; bottom: 0; width: 1px; background: var(--line); pointer-events: none; z-index: 0; }
 .shell::before { left: 25%; }
@@ -8,7 +8,7 @@
 
 /* Every section is a ruled band */
 .band { border-bottom: 1px solid var(--line); }
-.band-head { padding: var(--sp-3) var(--rail); border-bottom: 1px solid var(--line); background: var(--bg); }
+.band-head { padding: var(--sp-3) var(--rail); border-bottom: 1px solid var(--line); }
 .band-head h2 { font-size: var(--fs-h2); margin-top: 10px; }
 .band-head p { max-width: 62ch; margin-top: 10px; color: var(--muted); }
 .panel { background: var(--panel); }
