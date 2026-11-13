@@ -148,7 +148,7 @@ describe('expiry', () => {
     const env = makeEnv();
     const { deployment } = await env.service.create({ repoUrl: REPO, ip: '1.1.1.1' });
     await goLive(env.service, deployment.id);
-    env.clock.t += 29 * MIN;
+    env.clock.t += 9 * MIN;
     expect((await env.service.get(deployment.id)).status).toBe('live');
     env.clock.t += 2 * MIN;
     const d = await env.service.get(deployment.id);
