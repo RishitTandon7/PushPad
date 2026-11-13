@@ -1,0 +1,33 @@
+/* Design tokens: blueprint-light theme with one orange accent */
+:root {
+  --bg: #e4e4e4;
+  --panel: #f4f4f4;
+  --ink: #161616;
+  --muted: #595959;
+  --line: #bdbdbd;
+  --line-strong: #161616;
+  --orange: #ff6a1a;
+  --green: #0f8a4f;
+  --amber: #ffb020;
+  --red: #d63030;
+
+  --font-display: "Orbitron", "Arial Black", system-ui, sans-serif;
+  --font-mono: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --fs-xs: .7rem;
+  --fs-sm: .8rem;
+  --fs-base: .92rem;
+  --fs-lg: 1.15rem;
+  --fs-num: clamp(1.6rem, 3vw, 2.4rem);
+  --fs-h2: clamp(2.2rem, 6.5vw, 6rem);
+
+  --sp-1: 8px;
+  --sp-2: 16px;
+  --sp-3: 24px;
+  --sp-4: 40px;
+  --sp-5: 72px;
+
+  --cut: 12px;           /* size of the chamfered corner */
+  --shell: 1440px;       /* max page width */
+  --rail: 32px;          /* page side padding inside the shell */
+}
