@@ -13,6 +13,7 @@ import { initTilt } from './tilt.js';
 import { initParallax } from './parallax.js';
 import { initLight } from './light.js';
 import { initDeployments } from './deployments.js';
+import { initFooterVersion } from './footer-version.js';
 import { initPreloader } from './preloader.js';
 import { initHeroAnim } from './hero-anim.js';
 
@@ -31,6 +32,7 @@ initTilt();
 initParallax();
 initLight();
 initDeployments();
+initFooterVersion();
 initPreloader();
 
 // Footer year (set when the footer exists).
