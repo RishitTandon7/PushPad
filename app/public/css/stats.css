@@ -1,0 +1,7 @@
+/* Stats strip: four ruled cells with big mono numbers */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); background: var(--panel); }
+.stat { padding: var(--sp-4) var(--rail); border-right: 1px solid var(--line); position: relative; }
+.stat:last-child { border-right: 0; }
+.stat .num { font-size: clamp(2rem, 4.4vw, 4rem); font-weight: 700; line-height: 1; }
+.stat .num small { font-size: .45em; margin-left: 4px; }
+.stat .lbl { margin-top: 10px; font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
