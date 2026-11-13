@@ -11,6 +11,8 @@ const mock = env.MOCK_MODE !== undefined
 
 module.exports = {
   ...limits,
+  // Lab accounts cap total instances, so the platform-wide limit can be lowered from the environment.
+  maxActive: Number(env.MAX_ACTIVE) || limits.maxActive,
   // The free-tier gate: when on, deploying needs the access code (from SSM, or ACCESS_CODE locally).
   requireAccessCode: asBool(env.REQUIRE_ACCESS_CODE, limits.requireAccessCode),
   mock,

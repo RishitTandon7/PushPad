@@ -58,3 +58,9 @@ variable "existing_instance_profile" {
   type    = string
   default = "LabInstanceProfile"
 }
+
+# Platform-wide cap on live Quick Share deployments. The lab allows 9 instances in total, so only one slot is free next to Jenkins, prod and other courses.
+variable "max_active_deployments" {
+  type    = number
+  default = 1
+}
