@@ -1,0 +1,9 @@
+{
+  "name": "pushpad-example-node-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tiny Node app for PushPad demos: needs npm start and answers on PORT",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
