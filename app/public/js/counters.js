@@ -16,6 +16,17 @@ function animate(el, target) {
 }
 
 export function initCounters() {
+  // Wait for the preloader to open so the numbers count up where people can see them.
+  if (document.documentElement.classList.contains('preload')) {
+    document.addEventListener('pp:hero', () => start(), { once: true });
+    setTimeout(start, 6000);
+  } else start();
+}
+
+let started = false;
+function start() {
+  if (started) return;
+  started = true;
   const els = document.querySelectorAll('[data-count]');
   const io = new IntersectionObserver((entries) => {
     entries.forEach(async (e) => {
