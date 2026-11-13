@@ -47,3 +47,16 @@ The control plane is the existing Express app (`app/`). It serves the website an
 
 Every stage reports to `POST /api/internal/jenkins/callback`, and the UI shows those real updates (polled every 2 seconds). `Jenkinsfile.destroy` removes a deployment early; the cleanup job removes expired ones.
 
+## API
+
+| Route | Purpose |
+|---|---|
+| `POST /api/deployments` | `{repoUrl, branch, subdir?, accessCode?}`: validates, creates a record, starts Jenkins, returns the deployment plus a one-time manage token |
+| `GET /api/deployments/:id` | Status, stage timings, URL (only while live), last log lines, `expiresAt` |
+| `GET /api/deployments` | Recent deployments, public fields only (no URL, no secrets) |
+| `DELETE /api/deployments/:id` | Early destroy, needs `Authorization: Bearer <manage token>` |
+| `POST /api/internal/jenkins/callback` | Jenkins progress, protected by the `X-PushPad-Secret` header (fails closed if no secret is set) |
+| `GET /api/platform` | Limits and whether an access code is required |
+
+Only a SHA-256 hash of the manage token is stored. Client IPs are stored only as hashes.
+
