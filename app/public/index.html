@@ -5,136 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PushPad: a server for every branch</title>
   <meta name="description" content="Every Git branch gets its own live AWS environment, built by Terraform, triggered by Jenkins, destroyed on merge.">
-  <meta name="theme-color" content="#07070c">
+  <meta name="theme-color" content="#e4e4e4">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="preload" href="assets/fonts/orbitron-latin-900-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/animations.css">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
-  <!-- Animated background: gradient blobs plus a faint grid (pure CSS) -->
-  <div class="bg" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="grid"></span></div>
-
-  <!-- §1 -->
-  <header class="nav">
-    <div class="nav-inner">
-      <a class="wordmark" href="#top" aria-label="PushPad home">PUSH<span>PAD</span></a>
-      <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false" aria-controls="menu">
-        <span></span><span></span><span></span>
-      </button>
-      <nav id="menu" class="menu" aria-label="Primary">
-        <a href="#pipeline">Pipeline</a>
-        <a href="#features">Features</a>
-        <a href="#live">Live Build</a>
-        <a href="#faq">FAQ</a>
-        <a class="btn btn-ghost btn-sm" href="https://github.com/RishitTandon7/pushpad" rel="noopener">View on GitHub</a>
-      </nav>
-    </div>
-  </header>
-
-  <main id="main">
-  <!-- §2 -->
-  <section class="hero" id="top">
-    <p class="pill" id="status-pill" role="status"><span class="dot"></span><span id="status-text">Connecting…</span></p>
-    <h1>PUSH A BRANCH.<br><span class="accent">GET A SERVER.</span></h1>
-    <p class="tagline">Every Git branch gets its own live AWS environment, built by Terraform, triggered by Jenkins, destroyed on merge.</p>
-    <div class="cta">
-      <a class="btn btn-primary" href="#live">See the live build</a>
-      <a class="btn btn-ghost" href="#pipeline">How it works</a>
-    </div>
-  </section>
-
-  <!-- §3 -->
-  <section class="tools reveal" aria-label="Tools">
-    <p class="eyebrow">Powered by</p>
-    <ul class="tool-row">
-      <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="5" r="2.2"/><circle cx="6" cy="19" r="2.2"/><circle cx="18" cy="9" r="2.2"/><path d="M6 7v10M6 12c0-3 12 0 12-1.8" fill="none"/></svg>Git</li>
-      <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none"/><path d="M8 14c2 3 6 3 8 0M9 10h.01M15 10h.01" fill="none"/></svg>GitHub</li>
-      <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="4" fill="none"/><circle cx="12" cy="10" r="3"/><path d="M8 17h8" fill="none"/></svg>Jenkins</li>
-      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4l7 4v8l-7-4zM11 8l7-4v8l-7 4zM11 16l7-4 3 2v6l-3-2z"/></svg>Terraform</li>
-      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15c0-3 2-4 4-4 0-3 3-5 6-4 2 1 3 2 3 4 2 0 3 2 3 3s-1 3-3 3H7c-2 0-3-1-3-2z" fill="none"/></svg>AWS</li>
-    </ul>
-  </section>
-
-  <!-- §4 -->
-  <section class="section" id="pipeline">
-    <h2 class="reveal">How it works</h2>
-    <p class="sub reveal">Six steps from <code>git push</code> to a URL you can share.</p>
-    <ol class="cards">
-      <li class="card reveal"><span class="num">01</span><h3>Push</h3><p>You push a branch to GitHub.</p><span class="tag">Git</span></li>
-      <li class="card reveal"><span class="num">02</span><h3>Webhook</h3><p>GitHub pings Jenkins, which starts a build.</p><span class="tag">GitHub</span></li>
-      <li class="card reveal"><span class="num">03</span><h3>Test</h3><p>Lint and unit tests must pass or the build stops.</p><span class="tag">Jenkins</span></li>
-      <li class="card reveal"><span class="num">04</span><h3>Package to S3</h3><p>The app is zipped with its dependencies and uploaded.</p><span class="tag">AWS S3</span></li>
-      <li class="card reveal"><span class="num">05</span><h3>Terraform Apply</h3><p>A fresh EC2 boots from the zip in its own workspace.</p><span class="tag">Terraform</span></li>
-      <li class="card reveal"><span class="num">06</span><h3>Health Check</h3><p>Jenkins checks /health and /version, then shares the URL.</p><span class="tag">Jenkins</span></li>
-    </ol>
-  </section>
-
-  <!-- §5 -->
-  <section class="section" id="features">
-    <h2 class="reveal">Features</h2>
-    <p class="sub reveal">Everything a real platform does, small enough to explain.</p>
-    <ul class="cards">
-      <li class="card reveal"><span class="num">01</span><h3>Branch previews</h3><p>One temporary EC2 and URL per branch.</p></li>
-      <li class="card reveal"><span class="num">02</span><h3>Auto-destroy on merge</h3><p>Delete the branch and its server disappears within minutes.</p></li>
-      <li class="card reveal"><span class="num">03</span><h3>Prod approval gate</h3><p>Main waits for a human click before touching prod.</p></li>
-      <li class="card reveal"><span class="num">04</span><h3>Auto rollback</h3><p>A failed health check re-deploys the last good build.</p></li>
-      <li class="card reveal"><span class="num">05</span><h3>Remote state with locking</h3><p>Terraform state lives in S3 and cannot be applied twice at once.</p></li>
-      <li class="card reveal"><span class="num">06</span><h3>Cost guard</h3><p>Previews older than 24 hours are destroyed automatically.</p></li>
-    </ul>
-  </section>
-
-  <!-- §6 -->
-  <section class="section" id="live">
-    <h2 class="reveal">Live build</h2>
-    <p class="sub reveal">This page reads <code>/version</code> from the server it is running on. Refreshes every 10 seconds.</p>
-    <div class="terminal reveal" id="terminal" aria-live="polite">
-      <div class="term-bar"><span></span><span></span><span></span><b>pushpad@live ~ /version</b><em id="env-badge" class="badge">…</em></div>
-      <dl class="term-body">
-        <div><dt>branch</dt><dd id="lv-branch">-</dd></div>
-        <div><dt>build</dt><dd id="lv-build">-</dd></div>
-        <div><dt>commit</dt><dd id="lv-commit">-</dd></div>
-        <div><dt>deployed</dt><dd id="lv-deployed">-</dd></div>
-      </dl>
-      <p class="term-foot" id="lv-foot">Waiting for first response…</p>
-    </div>
-  </section>
-
-  <!-- §7 -->
-  <section class="section" id="menu-section">
-    <h2 class="reveal">Live content</h2>
-    <p class="sub reveal">Served from <code>menu.json</code>. Change a price, push, and it shows up here after the deploy.</p>
-    <div class="carousel reveal">
-      <button class="car-btn" id="car-prev" aria-label="Previous dishes">&#8249;</button>
-      <ul class="track" id="track" tabindex="0" aria-label="Menu carousel"><li class="muted">Loading menu…</li></ul>
-      <button class="car-btn" id="car-next" aria-label="Next dishes">&#8250;</button>
-    </div>
-  </section>
-
-  <!-- §8 -->
-  <section class="section narrow" id="faq">
-    <h2 class="reveal">FAQ</h2>
-    <div class="faq reveal">
-      <details open><summary>What is PushPad?</summary><p>A self-hosted mini Vercel. Pushing a Git branch makes Jenkins build it and Terraform create a real EC2 server with its own URL.</p></details>
-      <details><summary>How is it different from ngrok?</summary><p>ngrok tunnels your laptop to the internet. PushPad builds real cloud servers that keep running without your laptop.</p></details>
-      <details><summary>How are previews destroyed?</summary><p>A cleanup job runs every 5 minutes, compares Terraform workspaces with the branches on GitHub, and destroys any workspace whose branch is gone.</p></details>
-      <details><summary>What does it cost?</summary><p>Almost nothing: one EC2 for Jenkins, one for prod, and previews that live minutes. Previews older than 24 hours are removed automatically.</p></details>
-      <details><summary>How does rollback work?</summary><p>Before each prod deploy the last good build is saved. If the new build fails its health check, Terraform re-applies the saved build and the pipeline fails loudly.</p></details>
-      <details><summary>Can it deploy non-website apps?</summary><p>Yes. Anything that runs on Linux and can be zipped can be started by the same systemd service, for example an API or a worker.</p></details>
-    </div>
-  </section>
-
-  <!-- §9 -->
-  </main>
-  <footer class="footer">
-    <div class="footer-inner">
-      <a class="wordmark" href="#top">PUSH<span>PAD</span></a>
-      <nav aria-label="Footer"><a href="#pipeline">Pipeline</a><a href="#features">Features</a><a href="#live">Live Build</a><a href="#faq">FAQ</a></nav>
-      <p>Built for a DevOps course project · <span id="year"></span></p>
-    </div>
-  </footer>
-
-  <!-- §END -->
-  <script src="app.js"></script>
+  <div class="shell">
+  </div>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>

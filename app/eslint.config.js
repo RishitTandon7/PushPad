@@ -9,7 +9,7 @@ module.exports = [
   },
   {
     files: ['public/**/*.js'],
-    languageOptions: { sourceType: 'script', globals: globals.browser },
+    languageOptions: { sourceType: 'module', globals: globals.browser },
   },
   {
     files: ['tests/**/*.js'],
