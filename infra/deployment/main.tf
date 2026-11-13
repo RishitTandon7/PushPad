@@ -81,3 +81,9 @@ resource "aws_iam_role_policy" "read_own_prefix" {
     }]
   })
 }
+
+# Attaches the role to the instance.
+resource "aws_iam_instance_profile" "site" {
+  name_prefix = "${local.name}-"
+  role        = aws_iam_role.site.name
+}
