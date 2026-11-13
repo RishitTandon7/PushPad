@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/navbar.css">
   <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/toolrow.css">
   <link rel="stylesheet" href="css/pipeline.css">
   <link rel="stylesheet" href="css/cards.css">
   <link rel="stylesheet" href="css/live-build.css">
@@ -73,20 +74,17 @@
     <main id="main">
       <section class="hero band" id="top" aria-labelledby="hero-title">
         <h1 class="hero-title display" id="hero-title">PUSH<span class="us">_</span>BRANCH</h1>
-        <div class="hero-labels"><span class="label">Push a branch</span><span class="label">Get a server</span></div>
+        <p class="hero-lede">PushPad gives every Git branch its own live server on AWS. Push a branch, get a URL in about 2 minutes. Merge it, and the server is deleted.</p>
         <div class="hero-grid">
-        <div class="rail-btns" aria-label="Quick links">
-          <a class="icon-btn" href="#pipeline" aria-label="Pipeline"><img src="assets/icons/branch.svg" alt=""></a>
-          <a class="icon-btn" href="#live" aria-label="Live build"><img src="assets/icons/terminal.svg" alt=""></a>
-          <a class="icon-btn" href="#features" aria-label="Features"><img src="assets/icons/rocket.svg" alt=""></a>
-          <a class="icon-btn" href="#faq" aria-label="FAQ"><img src="assets/icons/shield.svg" alt=""></a>
-        </div>
           <div class="hero-copy">
-            <p>Every Git branch gets its own live AWS environment, built by Terraform, triggered by Jenkins, destroyed on merge.</p>
-            <div><a class="btn" href="#live">See the live build</a></div>
+            <div class="hero-btns">
+              <a class="btn" href="#deploy">Deploy your project</a>
+              <a class="btn btn-ghost" href="#live">See it live</a>
+            </div>
+            <ul class="chips" aria-label="Built with"><li class="chip">Git</li><li class="chip">Jenkins</li><li class="chip">Terraform</li><li class="chip">AWS</li></ul>
           </div>
           <div class="hero-art" aria-hidden="true">
-            <i class="sq" style="top:18px;left:18px"></i><i class="sq" style="top:18px;right:18px"></i>
+            <i class="sq" style="top:18px;left:18px"></i><i class="sq" style="top:18px;right:18px"></i><i class="sq" style="bottom:18px;left:18px"></i><i class="sq" style="bottom:18px;right:18px"></i>
             <svg viewBox="0 0 400 400" fill="none" stroke="#161616" stroke-width="2" stroke-linejoin="round">
               <path d="M200 0v70" stroke-dasharray="4 6"/>
               <g><!-- bottom slab -->
@@ -102,10 +100,10 @@
                 <polygon points="200,240 290,200 290,234 200,274" fill="#bcbcbc"/>
                 <path d="M122 213l20 9M122 221l20 9" stroke-width="1.5"/>
                 <rect x="262" y="212" width="8" height="8" fill="#ff6a1a" stroke="none"/>
-                <polygon points="200,176 256,200 200,224 144,200" stroke="#ff6a1a" stroke-opacity=".9"/>
-                <polygon points="200,164 270,200 200,236 130,200" stroke="#ff6a1a" stroke-opacity=".4"/>
+                <polygon class="ring" points="200,176 256,200 200,224 144,200" stroke="#ff6a1a" stroke-opacity=".9"/>
+                <polygon class="ring r2" points="200,164 270,200 200,236 130,200" stroke="#ff6a1a" stroke-opacity=".4"/>
               </g>
-              <g><!-- glowing orange core -->
+              <g class="core"><!-- glowing orange core -->
                 <polygon points="200,149 230,166 200,183 170,166" fill="#ffb27d"/>
                 <polygon points="170,166 200,183 200,217 170,200" fill="#ff6a1a"/>
                 <polygon points="200,183 230,166 230,200 200,217" fill="#d94e00"/>
@@ -117,6 +115,7 @@
                 <path d="M122 123l20 9M122 131l20 9" stroke-width="1.5"/>
                 <rect x="262" y="122" width="8" height="8" fill="#ff6a1a" stroke="none"/>
               </g>
+              <rect class="packet" x="195" y="338" width="10" height="10" fill="#ff6a1a"/><!-- a deploy packet travelling up the stack -->
               <path d="M30 40h26M30 40v26M370 360h-26M370 360v-26"/>
             </svg>
           </div>
@@ -125,9 +124,16 @@
               <div class="row"><i class="dot"></i><span id="status-text">Connecting</span></div>
               <b id="status-detail">Reading /version...</b>
             </div>
-            <div class="hero-tile brackets"><span class="big">1:1</span><small>One server per branch</small></div>
+            <dl class="hero-stats">
+              <div><dt class="mono-num"><span aria-hidden="true">#</span><span data-count="0" data-source="build">0</span></dt><dd>Current build</dd></div>
+              <div><dt class="mono-num">~<span data-count="2">0</span> min</dt><dd>Push to live URL</dd></div>
+              <div><dt class="mono-num"><span data-count="24">0</span> h</dt><dd>Until a preview is deleted</dd></div>
+            </dl>
           </div>
         </div>
+        <ul class="toolrow" aria-label="Tools used">
+          <li class="label">Built with</li><li>Git</li><li>GitHub</li><li>Jenkins</li><li>Terraform</li><li>AWS</li>
+        </ul>
       </section>
       <section class="band" id="pipeline" aria-labelledby="pipe-h">
         <div class="band-head"><span class="label">01 / Pipeline</span><h2 class="display reveal" id="pipe-h">How it works</h2><p class="reveal">Six steps from <code>git push</code> to a URL you can share.</p></div>

@@ -8,6 +8,7 @@ import { initCursorGlow } from './cursor-glow.js';
 import { initCarousel } from './carousel.js';
 import { initFaq } from './faq.js';
 import { initPreloader } from './preloader.js';
+import { initHeroAnim } from './hero-anim.js';
 
 initReveal();
 initNavbar();
@@ -17,6 +18,7 @@ initPipeline();
 initCursorGlow();
 initCarousel();
 initFaq();
+initHeroAnim();
 initPreloader();
 
 // Footer year (set when the footer exists).
