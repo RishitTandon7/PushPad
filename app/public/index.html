@@ -17,7 +17,6 @@
   <link rel="stylesheet" href="css/pipeline.css">
   <link rel="stylesheet" href="css/cards.css">
   <link rel="stylesheet" href="css/faq.css">
-  <link rel="stylesheet" href="css/cta.css">
   <link rel="stylesheet" href="css/footer.css">
   <link rel="stylesheet" href="css/preloader.css">
   <link rel="stylesheet" href="css/animations.css">
@@ -154,10 +153,6 @@
           <div class="faq-item"><h3><button class="faq-q" id="q3" aria-expanded="false" aria-controls="a3"><span class="qn">03</span><span class="qt">How does rollback work?</span><span class="qi" aria-hidden="true"></span></button></h3><div class="faq-a" id="a3" role="region" aria-labelledby="q3"><div><p>Before each prod deploy the last good build is saved. If the new build fails its health check, Terraform re-applies the saved build and the pipeline fails loudly.</p></div></div></div>
           <div class="faq-item"><h3><button class="faq-q" id="q4" aria-expanded="false" aria-controls="a4"><span class="qn">04</span><span class="qt">Can it deploy non-website apps?</span><span class="qi" aria-hidden="true"></span></button></h3><div class="faq-a" id="a4" role="region" aria-labelledby="q4"><div><p>Yes. Anything that runs on Linux and can be zipped can be started by the same systemd service, for example an API or a worker.</p></div></div></div>
         </div>
-      </section>
-      <section class="band cta" aria-labelledby="cta-h">
-        <div class="cta-text"><span class="label">Ready to deploy?</span><h2 id="cta-h">Ship your<br><mark>next branch.</mark></h2></div>
-        <div class="cta-btns"><a class="btn" href="https://github.com/RishitTandon7/pushpad" rel="noopener">View on GitHub</a><a class="btn btn-ghost" href="#pipeline">How it works</a></div>
       </section>
     </main>
     <footer class="footer">

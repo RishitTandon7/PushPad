@@ -1,6 +1,0 @@
-/* CTA band: mono headline with a black highlight and two stacked chamfered buttons */
-.cta { display: grid; grid-template-columns: 3fr 1fr; background: var(--panel); }
-.cta-text { padding: var(--sp-4) var(--rail); }
-.cta-text h2 { font-family: var(--font-display); font-weight: 900; text-transform: uppercase; font-size: clamp(1.8rem, 4.6vw, 4rem); line-height: 1.05; margin-top: 10px; }
-.cta-text h2 mark { background: var(--ink); color: #fff; padding: 0 .2em; }
-.cta-btns { display: flex; flex-direction: column; justify-content: center; gap: var(--sp-2); padding: var(--sp-3) var(--rail); }
