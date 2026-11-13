@@ -33,3 +33,17 @@ flowchart LR
 
 The control plane is the existing Express app (`app/`). It serves the website and the API, and keeps all state in DynamoDB because prod instances are replaced on every deploy.
 
+## The Quick Share pipeline (`Jenkinsfile.deploy`)
+
+| # | Stage | What happens |
+|---|---|---|
+| 1 | Clone | Shallow clone of a public `https://github.com/<owner>/<repo>`; symlinks removed; no credentials ever |
+| 2 | Detect | `package.json` with a `start` script = node; `index.html` = static; anything else fails with a clear message |
+| 3 | Package | Zip the source only. No `npm install`, no build, no repo code runs on Jenkins |
+| 4 | Upload to S3 | `deployments/<id>/app.zip` |
+| 5 | Terraform apply | Workspace `d-<id>`: one small EC2, IAM role limited to its own S3 folder |
+| 6 | Health check | Waits for the site to answer on port 80 |
+| 7 | Report URL | Control plane starts the 30-minute countdown |
+
+Every stage reports to `POST /api/internal/jenkins/callback`, and the UI shows those real updates (polled every 2 seconds). `Jenkinsfile.destroy` removes a deployment early; the cleanup job removes expired ones.
+
