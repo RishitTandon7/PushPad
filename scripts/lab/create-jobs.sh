@@ -17,6 +17,9 @@ put_job() {  # name, xml file
   fi
 }
 
+# Optional: BRANCH_REGEX limits which branches get a preview (the lab allows only 9 instances in total).
+BRANCH_FILTER=""
+[ -n "${BRANCH_REGEX:-}" ] && BRANCH_FILTER="<jenkins.scm.impl.trait.RegexSCMHeadFilterTrait><regex>$BRANCH_REGEX</regex></jenkins.scm.impl.trait.RegexSCMHeadFilterTrait>"
 X1="$(mktemp)"; X2="$(mktemp)"
 cat > "$X1" <<XML
 <?xml version='1.1' encoding='UTF-8'?>
@@ -33,6 +36,7 @@ cat > "$X1" <<XML
           <repositoryUrl>https://github.com/$OWNER/$REPO</repositoryUrl>
           <traits>
             <org.jenkinsci.plugins.github__branch__source.BranchDiscoveryTrait><strategyId>1</strategyId></org.jenkinsci.plugins.github__branch__source.BranchDiscoveryTrait>
+            $BRANCH_FILTER
           </traits>
         </source>
         <strategy class="jenkins.branch.DefaultBranchPropertyStrategy"><properties class="empty-list"/></strategy>
@@ -68,4 +72,7 @@ put_job pushpad "$X1"
 scm_job pushpad-cleanup Jenkinsfile.cleanup "Destroys orphaned previews and expired deployments every 5 minutes"
 scm_job pushpad-deploy Jenkinsfile.deploy "Quick Share: deploys a pasted public repo (started by the control plane)"
 scm_job pushpad-destroy Jenkinsfile.destroy "Quick Share: destroys one deployment early"
+# Rewriting a job config forgets the parameters that a first run registered, so run both parameterized jobs once (they fail on empty input, which is expected).
+for j in pushpad-deploy pushpad-destroy; do curl -sS "${AUTH[@]}" -H "$CRUMB" -X POST "$JENKINS_URL/job/$j/build" >/dev/null || true; done
+echo "started one registration run each for pushpad-deploy and pushpad-destroy"
 rm -f "$X1" "$X2"
