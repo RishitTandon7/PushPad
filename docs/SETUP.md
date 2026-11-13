@@ -66,3 +66,35 @@ The pipeline finds these names itself from your account ID, so there is nothing 
 
 ## 6. Jenkins plugins
 Manage Jenkins > Plugins > install: **Pipeline**, **Git**, **GitHub**, **Pipeline: Multibranch** (all in "suggested"), plus **JUnit** and **Credentials Binding** (usually preinstalled). Nothing else is required.
+
+## 7. Multibranch pipeline job
+New Item > name `pushpad` > **Multibranch Pipeline**.
+- Branch Sources > Git (or GitHub) > repo URL `https://github.com/RishitTandon7/pushpad.git` (add a credential if the repo is private).
+- Build Configuration: by Jenkinsfile, script path `Jenkinsfile`.
+- Scan Multibranch Pipeline Triggers: periodically, 1 minute (works even without a webhook).
+- Save. Every branch now appears as its own job.
+
+## 8. GitHub webhook
+GitHub repo > Settings > Webhooks > Add webhook:
+- Payload URL: `http://<jenkins-ip>:8080/github-webhook/`
+- Content type `application/json`, event: **Just the push event**.
+- The Jenkins security group must allow port 8080 from GitHub's webhook IPs (or temporarily `0.0.0.0/0` during the demo). If you skip this, the 1-minute scan from step 7 still picks up pushes and deleted branches.
+
+## 9. Cleanup job
+New Item > `pushpad-cleanup` > **Pipeline** > Definition "Pipeline script from SCM" > Git, same repo, script path `Jenkinsfile.cleanup`, branch `main`. Run it once manually; its cron then runs every 5 minutes.
+
+## 10. Optional: Telegram notifications
+Create a bot with @BotFather, then in Jenkins > Credentials > Global add two **Secret text** credentials:
+- ID `telegram-token`: the bot token
+- ID `telegram-chat-id`: your chat ID
+If either is missing the Notify stage skips Telegram silently.
+
+## 11. First run
+Push `main`. Jenkins builds, waits at **Deploy build N to PROD?**, click Deploy. Open the printed URL.
+
+## After the review: clean up AWS
+```bash
+./scripts/destroy-all.sh          # destroys all previews and prod
+cd infra/bootstrap && terraform destroy   # only after emptying/deleting versioned objects in both buckets
+```
+Then terminate the Jenkins EC2 and release its Elastic IP. Buckets are versioned, so empty all versions in the console first if `terraform destroy` complains.
