@@ -152,5 +152,27 @@ pipeline {
         }
       }
     }
+
+    // 10. Notify: show the URL, put it on the build, and message Telegram if its credentials exist.
+    stage('Notify') {
+      steps {
+        script {
+          echo "=============================================\n  LIVE: ${env.APP_URL}\n  branch=${env.BRANCH_NAME} build=#${env.BUILD_NUMBER} env=${env.ENV_TYPE}\n============================================="
+          currentBuild.description = "<a href=\"${env.APP_URL}\">${env.APP_URL}</a>"
+          try {
+            withCredentials([string(credentialsId: 'telegram-token', variable: 'TG_TOKEN'),
+                             string(credentialsId: 'telegram-chat-id', variable: 'TG_CHAT')]) {
+              sh '''
+                curl -fsS "https://api.telegram.org/bot${TG_TOKEN}/sendMessage" \
+                  --data-urlencode "chat_id=${TG_CHAT}" \
+                  --data-urlencode "text=PushPad: ${BRANCH_NAME} build #${BUILD_NUMBER} (${ENV_TYPE}) is live: ${APP_URL}" > /dev/null
+              '''
+            }
+          } catch (ignored) {
+            echo 'Telegram not configured, skipping.'
+          }
+        }
+      }
+    }
   }
 }
