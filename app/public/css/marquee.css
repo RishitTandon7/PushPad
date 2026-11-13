@@ -1,0 +1,7 @@
+/* Marquee: scrolling strip of bordered tool cells */
+.marquee { overflow: hidden; background: var(--panel); }
+.marquee-track { display: flex; width: max-content; animation: marquee 32s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee-cell { width: clamp(180px, 22vw, 320px); height: 120px; display: grid; place-items: center; border-right: 1px solid var(--line); font-family: var(--font-display); font-weight: 700; font-size: clamp(1.1rem, 2vw, 1.7rem); letter-spacing: .04em; text-transform: uppercase; }
+.marquee-cell span::before { content: ""; display: inline-block; width: 9px; height: 9px; background: var(--orange); margin-right: 14px; }
+.marquee-label { padding: 14px var(--rail); border-bottom: 1px solid var(--line); background: var(--bg); }
