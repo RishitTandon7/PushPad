@@ -1,0 +1,60 @@
+/* §0 base: design tokens, background, buttons, reveal */
+:root {
+  --bg: #07070c;
+  --panel: #0f0f18;
+  --line: #23233a;
+  --text: #ececf6;
+  --muted: #a4a4bd;
+  --accent: #8b5cf6;
+  --accent-2: #a78bfa;
+  --green: #34d399;
+  --yellow: #fbbf24;
+  --red: #f87171;
+  --glow: 0 0 0 1px rgba(139, 92, 246, .35), 0 8px 40px rgba(139, 92, 246, .25);
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font); line-height: 1.6; overflow-x: hidden; }
+a { color: inherit; }
+code { font-family: var(--mono); color: var(--accent-2); }
+:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 3px; border-radius: 6px; }
+.skip { position: absolute; left: -999px; top: 0; background: var(--accent); color: #fff; padding: .5rem 1rem; z-index: 100; }
+.skip:focus { left: 8px; top: 8px; }
+.muted { color: var(--muted); }
+
+/* Animated background (CSS only) */
+.bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
+.blob { position: absolute; width: 50vmax; height: 50vmax; border-radius: 50%; filter: blur(90px); opacity: .35; animation: drift 24s ease-in-out infinite alternate; }
+.b1 { background: #6d28d9; top: -20vmax; left: -10vmax; }
+.b2 { background: #4f46e5; bottom: -25vmax; right: -15vmax; animation-delay: -8s; }
+.b3 { background: #c026d3; top: 35%; left: 45%; width: 28vmax; height: 28vmax; opacity: .18; animation-delay: -15s; }
+.grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 56px 56px; mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%); }
+@keyframes drift { to { transform: translate(8vmax, 6vmax) scale(1.15); } }
+
+/* Buttons */
+.btn { display: inline-block; padding: .85rem 1.6rem; border-radius: 999px; font-weight: 700; text-decoration: none; letter-spacing: .02em; transition: transform .2s, box-shadow .2s, background .2s; }
+.btn-primary { background: var(--accent); color: #fff; box-shadow: var(--glow); }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 0 0 1px var(--accent-2), 0 12px 50px rgba(139, 92, 246, .55); }
+.btn-ghost { border: 1px solid var(--line); background: rgba(255,255,255,.03); }
+.btn-ghost:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: var(--glow); }
+.btn-sm { padding: .5rem 1.1rem; font-size: .9rem; }
+
+/* Scroll reveal (only hidden when JS is running) */
+.js .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+.js .reveal.in { opacity: 1; transform: none; }
+
+/* Shared section layout */
+.section { max-width: 1100px; margin: 0 auto; padding: 5rem 1.25rem; text-align: center; }
+.section.narrow { max-width: 760px; }
+.section h2 { font-size: clamp(2rem, 5vw, 3.2rem); text-transform: uppercase; letter-spacing: .02em; margin: 0 0 .5rem; }
+.sub { color: var(--muted); max-width: 620px; margin: 0 auto 2.5rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .blob { animation: none; }
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  .js .reveal { opacity: 1; transform: none; }
+}
+
