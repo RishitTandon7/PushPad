@@ -86,3 +86,11 @@ Safety model:
 
 The Jenkins pipeline and the API only know four generic inputs (`deploy_id`, `artifact_url`, `app_type`, `ttl_minutes`) and two outputs (`url`, `instance_id`). All AWS-specific code lives in `infra/deployment/`. To add Oracle Cloud later, write `infra/deployment-oracle/` with the same variables and outputs and set `DEPLOY_TF_DIR=infra/deployment-oracle`; the pipeline and API do not change.
 
+## Run it locally (mock mode, no Jenkins or AWS)
+
+```bash
+cd app && npm ci && npm start     # http://localhost:3000 , access code "demo"
+```
+
+Mock mode simulates a full deployment through every stage, so the whole UI works. A repo whose name contains `fail` fails at the Detect stage, to show the error state. Useful variables: `MOCK_STEP_MS` (speed), `ACCESS_CODE`, `REQUIRE_ACCESS_CODE=false`, `PORT`.
+
