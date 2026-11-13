@@ -7,3 +7,5 @@
 .footer nav a:hover { text-decoration: underline; text-decoration-color: var(--orange); text-underline-offset: 4px; }
 .footer p { color: var(--muted); font-size: var(--fs-sm); }
 .footer-bar { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding: 12px var(--rail); background: var(--ink); color: #f0f0f0; font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .06em; }
+.foot-link { background: none; border: 0; padding: 0; font: inherit; cursor: pointer; }
+.foot-link:hover { text-decoration: underline; text-decoration-color: var(--orange); text-underline-offset: 4px; }
